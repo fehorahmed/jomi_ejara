@@ -1,33 +1,47 @@
-{{ Form::open(array('url' => 'web_signup', 'method' => 'post', 'value' => 'PATCH', 'id' => 'web_signup')) }}
-{{ Form::hidden('role_id', 8, ['required']) }}
-<div class="form-group secti-margin1">
-    {{ Form::label('name', '  নাম  ', array('class' => 'title cmmone-class')) }}
-    {{ Form::text('name', NULL, ['required', 'class' => 'form-control', 'placeholder' => 'নাম  লিখুন ']) }}
-</div>
- <div class="form-group secti-margin1">
-    {{ Form::label('email', 'ইমেইল', array('class' => 'sub_title cmmone-class')) }}
-    {{ Form::text('email', NULL, ['class' => 'form-control', 'placeholder' => ' ইমেইল  লিখুন ']) }}
-</div>
-<div class="form-group secti-margin1">
-    {{ Form::label('nid', 'NID', array('class' => 'sub_title cmmone-class')) }}
-    {{ Form::text('nid', NULL, ['class' => 'form-control', 'placeholder' => ' NID Number ']) }}
-</div>
-<div class="form-group secti-margin1">
-    {{ Form::label('phone', 'মোবাইল নম্বর', array('class' => 'sub_title cmmone-class')) }}
-    <div class="input-group">
-        <span class="input-group-addon">+88</span>
-        {{ Form::text('phone', NULL, ['class' => 'form-control cmmone-class', 'placeholder' => 'মোবাইল নম্বর লিখুন ']) }}
+<form action="{{ route('user.registration') }}" method="POST" id="web_signup">
+    @csrf
+    <div class="form-group secti-margin1">
+
+        <label for="name" class="title cmmone-class">নাম</label>
+        <input type="text" class="form-control" required name="name" id="name" value="{{ old('name') }}"
+            placeholder="নাম লিখুন">
     </div>
-</div>
-<div class="form-group secti-margin1">
-    {{ Form::label('password', ' পাসওয়ার্ড ', array('class' => 'sub_title cmmone-class')) }}
-    {{ Form::password('password', ['class' => 'form-control', 'placeholder' => 'পাসওয়ার্ড']) }}
-</div>
-<div class="form-group secti-margin1">
-    {{ Form::label('password_confirmation', 'পাসওয়ার্ড  পুনরায়  দিন ', array('class' => 'sub_title cmmone-class')) }}
-    {{ Form::password('password_confirmation', ['class' => 'form-control', 'placeholder' => 'পাসওয়ার্ড']) }}
-</div>
-<div class="form-group secti-margin1">
-    {{ Form::submit('সাইন আপ', ['class' => 'btn btn-success']) }}
-</div>
-{{ Form::close() }}
+    <div class="form-group secti-margin1">
+
+        <label for="email" class="sub_title cmmone-class">ইমেইল</label>
+        <input type="email" class="form-control" required name="email" id="email" value="{{ old('email') }}"
+            placeholder="ইমেইল  লিখুন">
+    </div>
+    <div class="form-group secti-margin1">
+        <label for="nid" class="sub_title cmmone-class">NID</label>
+        <input type="text" class="form-control" name="nid" id="nid" value="{{ old('nid') }}"
+            placeholder="NID Number">
+
+    </div>
+    <div class="form-group secti-margin1">
+        <label for="phone" class="sub_title cmmone-class">মোবাইল নম্বর</label>
+
+        <div class="input-group">
+            <span class="input-group-addon">+88</span>
+            <input type="text" class="form-control cmmone-class" name="phone" id="phone"
+                value="{{ old('phone') }}" placeholder="মোবাইল নম্বর লিখুন">
+
+        </div>
+    </div>
+    <div class="form-group secti-margin1">
+        <label for="password" class="sub_title cmmone-class">পাসওয়ার্ড</label>
+        <input type="password" class="form-control" name="password" id="password" placeholder="পাসওয়ার্ড">
+
+
+    </div>
+    <div class="form-group secti-margin1">
+        <label for="password_confirmation" class="sub_title cmmone-class">পাসওয়ার্ড পুনরায় দিন </label>
+        <input type="password" class="form-control" name="password_confirmation" id="password_confirmation"
+            placeholder="পাসওয়ার্ড">
+
+    </div>
+    <div class="form-group secti-margin1">
+        <input type="submit" value="সাইন আপ" class="btn btn-success">
+
+    </div>
+</form>

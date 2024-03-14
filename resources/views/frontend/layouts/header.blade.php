@@ -12,7 +12,7 @@
                             </a>
 
                             <?php } else { ?>
-                            <a target="_blank" href="http://www.zpfaridpur.org/" >
+                            <a target="_blank" href="http://www.zpfaridpur.org/">
 
                                 <!--উপ পরিচালকের কার্যালয়-->
                                 জেলা পরিষদ, ফরিদপুর ।
@@ -64,46 +64,46 @@
                                 <li>
 
                                     <?php
-
+                                    
                                     $d = date('D F j, Y');
                                     // $d = en2bnSomeCommonString($d);
                                     // $d = bn2enNumber($d);
-
+                                    
                                     echo $d;
-
+                                    
                                     ?>
 
                                 </li>
                                 @if (url()->current() != 'http://freelanceritbd.com/shariatpur')
-                                @if (Auth::check())
-                                <li>
-                                    <a href="{{ url('my_account') }}">
-                                        আমার ড্যাশবোর্ড
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="{{ url('logout') }}">
-                                        সাইন আউট
-                                    </a>
-                                </li>
-                                @else
-                                <li>
-                                    <a href="{{ url('login_form') }}">
-                                        লগইন
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="{{ url('register_form') }}">
-                                        রেজিস্টার
-                                    </a>
-                                </li>
-                                {{--
+                                    @if (Auth::check())
+                                        <li>
+                                            <a href="{{ url('my_account') }}">
+                                                আমার ড্যাশবোর্ড
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ url('logout') }}">
+                                                সাইন আউট
+                                            </a>
+                                        </li>
+                                    @else
+                                        <li>
+                                            <a href="{{ route('user.login') }}">
+                                                লগইন
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ route('user.registration') }}">
+                                                রেজিস্টার
+                                            </a>
+                                        </li>
+                                        {{--
                                         <li>
                                             <a href="{{ url('login-register') }}">
                                 সাইন ইন / সাইন আপ
                                 </a>
                                 </li> --}}
-                                @endif
+                                    @endif
                                 @endif
                             </ul>
                         </div>

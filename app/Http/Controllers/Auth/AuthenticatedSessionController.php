@@ -20,6 +20,8 @@ class AuthenticatedSessionController extends Controller
         return view('auth.login');
     }
 
+
+
     /**
      * Handle an incoming authentication request.
      */
@@ -29,12 +31,11 @@ class AuthenticatedSessionController extends Controller
         $request->authenticate();
 
         $request->session()->regenerate();
-        if(auth()->user()->is_admin==1){
+        if (auth()->user()->is_admin == 1) {
             return redirect()->intended('/admin/dashboard');
-        }else{
+        } else {
             return redirect()->intended(RouteServiceProvider::HOME);
         }
-
     }
 
     /**
@@ -49,5 +50,16 @@ class AuthenticatedSessionController extends Controller
         $request->session()->regenerateToken();
 
         return redirect('/');
+    }
+
+
+    public function userLoginCreate(): View
+    {
+        return view('frontend.pages.login_form');
+    }
+
+    public function userRegisterCreate(): View
+    {
+        return view('frontend.pages.register_form');
     }
 }

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\DagListController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\frontend\HomeController;
@@ -27,7 +28,12 @@ use Illuminate\Support\Facades\Route;
 // Route::get('/', function () {
 //     return view('welcome');
 // });
-Route::get('/', [HomeController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/', [HomeController::class, 'index'])->name('dashboard');
+Route::get('/login_form', [AuthenticatedSessionController::class, 'userLoginCreate'])->name('user.login');
+Route::post('/login_form', [AuthenticatedSessionController::class, 'userLoginCreate']);
+Route::get('/register_form', [AuthenticatedSessionController::class, 'userRegisterCreate'])->name('user.registration');
+Route::post('/register_form', [AuthenticatedSessionController::class, 'userRegisterCreate']);
+Route::get('/', [HomeController::class, 'index'])->name('dashboard');
 Route::get('/admin/dashboard', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 
 
