@@ -64,13 +64,13 @@
                                 <li>
 
                                     <?php
-                                    
+
                                     $d = date('D F j, Y');
                                     // $d = en2bnSomeCommonString($d);
                                     // $d = bn2enNumber($d);
-                                    
+
                                     echo $d;
-                                    
+
                                     ?>
 
                                 </li>
@@ -82,7 +82,7 @@
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="{{ url('logout') }}">
+                                            <a href="{{ route('user.logout') }}">
                                                 সাইন আউট
                                             </a>
                                         </li>

@@ -43,11 +43,11 @@
                         </p>
                         <ul class="list-unstyled">
                             <li>সামাজিক যোগাযোগ</li>
-                            <li><a href="#"><img src="{{ URL::asset('public/frontend/img/socile/1.png') }}" alt=""></a>
+                            <li><a href="#"><img src="{{ asset('frontend/img/socile/1.png') }}" alt=""></a>
                             </li>
-                            <li><a href="#"><img src="{{ URL::asset('public/frontend/img/socile/2.png') }}" alt=""></a>
+                            <li><a href="#"><img src="{{ asset('frontend/img/socile/2.png') }}" alt=""></a>
                             </li>
-                            <li><a href="#"><img src="{{ URL::asset('public/frontend/img/socile/3.png') }}" alt=""></a>
+                            <li><a href="#"><img src="{{ asset('frontend/img/socile/3.png') }}" alt=""></a>
                             </li>
                         </ul>
 
@@ -61,10 +61,10 @@
 <div class="outer-socile">
     <div class="souter-socile-list">
         <ul class="list-unstyled">
-            <li><a href="#"><img src="{{ URL::asset('public/frontend/img/socile/facebook.jpg') }}" alt=""></a></li>
-            <li><a href="#"><img src="{{ URL::asset('public/frontend/img/socile/twitter.jpg') }}" alt=""></a></li>
-            <li><a href="#"><img src="{{ URL::asset('public/frontend/img/socile/youtube.jpg') }}" alt=""></a></li>
-            <li><a href="#"><img src="{{ URL::asset('public/frontend/img/socile/gmail.jpg') }}" alt=""></a></li>
+            <li><a href="#"><img src="{{ asset('frontend/img/socile/facebook.jpg') }}" alt=""></a></li>
+            <li><a href="#"><img src="{{ asset('frontend/img/socile/twitter.jpg') }}" alt=""></a></li>
+            <li><a href="#"><img src="{{ asset('frontend/img/socile/youtube.jpg') }}" alt=""></a></li>
+            <li><a href="#"><img src="{{ asset('frontend/img/socile/gmail.jpg') }}" alt=""></a></li>
         </ul>
     </div>
 </div>

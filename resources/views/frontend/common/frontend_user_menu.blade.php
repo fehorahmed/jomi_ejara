@@ -9,13 +9,13 @@
                     </a>
                 </li>
                 @if (Auth::user())
-                <li>
-                    <a href="{{ url('my_account') }}">
-                        আমার ড্যাশবোর্ড
-                    </a>
-                </li>
+                    <li>
+                        <a href="{{ url('my_account') }}">
+                            আমার ড্যাশবোর্ড
+                        </a>
+                    </li>
                 @endif
-                @if (Auth::user()->isDigitalCenter())
+                {{-- @if (Auth::user()->isDigitalCenter())
                 <li>
                     <a href="{{ url('/pending_payment') }}">
                         @php
@@ -31,10 +31,10 @@
                         অপেক্ষারত পেমেন্ট <span class="text-danger notice_icon">{{($pending_payment)}}</span>
                     </a>
                 </li>
-                @endif
+                @endif --}}
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                       aria-expanded="true">
+                        aria-expanded="true">
                         প্রোফাইল সম্পাদনা <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu" style="text-align: left;">
@@ -118,15 +118,15 @@
                             <i class="fa fa-cog"></i> এডমিন ড্যাশবোর্ড
                         </a>
                     @else
-                        {{--<a href="{{ url('#') }}">--}}
-                        {{--<i class="fa fa-unlock-alt"></i> পাসওয়ার্ড পরিবর্তন--}}
-                        {{--</a>--}}
-                        {{--<a href="{{ url('/profile_update') }}">--}}
-                        {{--<i class="fa fa-user"></i> প্রোফাইল হালনাগাদ--}}
-                        {{--</a>--}}
-                        {{--<a href="{{ url('/my_account') }}">--}}
-                        {{--<i class="fa fa-list"></i> মাই একাউন্ট--}}
-                        {{--</a>--}}
+                        {{-- <a href="{{ url('#') }}"> --}}
+                        {{-- <i class="fa fa-unlock-alt"></i> পাসওয়ার্ড পরিবর্তন --}}
+                        {{-- </a> --}}
+                        {{-- <a href="{{ url('/profile_update') }}"> --}}
+                        {{-- <i class="fa fa-user"></i> প্রোফাইল হালনাগাদ --}}
+                        {{-- </a> --}}
+                        {{-- <a href="{{ url('/my_account') }}"> --}}
+                        {{-- <i class="fa fa-list"></i> মাই একাউন্ট --}}
+                        {{-- </a> --}}
                         <a href="{{ url('/logout') }}">
                             <i class="fa fa-sign-out"></i> লগ আউট
                         </a>
@@ -139,7 +139,7 @@
 
 </div>
 
-@if(Auth::user()->isDigitalCenter() || Auth::user()->isAdmin())
+@if (Auth::user()->isDigitalCenter() || Auth::user()->isAdmin())
     <div class="row">
         <div class="col-md-12">
             @if (Auth::user()->isDigitalCenter())
@@ -149,18 +149,18 @@
                     ও পরিবর্ধন করতে পারবেন।
                 </p>
             @elseif(Auth::user()->isAdmin())
-            <p>
-                ধন্যবাদ, {{ Auth::user()->name }} ।
-            </p>
-{{--                <p>--}}
-{{--                    ধন্যবাদ, {{ Auth::user()->name }} । আপনি একজন <b> প্রশাসক।</b>--}}
-{{--                    আপনি চাইলে যে কারোর প্রোফাইল তৈরি করতে পারবেন, যা পরবতীতে সকল প্রোফাইল তালিকা থেকে পরিবর্তন--}}
-{{--                    ও পরিবর্ধন করতে পারবেন।--}}
-{{--                </p>--}}
+                <p>
+                    ধন্যবাদ, {{ Auth::user()->name }} ।
+                </p>
+                {{--                <p> --}}
+                {{--                    ধন্যবাদ, {{ Auth::user()->name }} । আপনি একজন <b> প্রশাসক।</b> --}}
+                {{--                    আপনি চাইলে যে কারোর প্রোফাইল তৈরি করতে পারবেন, যা পরবতীতে সকল প্রোফাইল তালিকা থেকে পরিবর্তন --}}
+                {{--                    ও পরিবর্ধন করতে পারবেন। --}}
+                {{--                </p> --}}
             @else
-            <p>
-                ধন্যবাদ, {{ Auth::user()->name }} । আপনি একজন <b> সাধারণ ব্যবহারকারী</b>
-            </p>
+                <p>
+                    ধন্যবাদ, {{ Auth::user()->name }} । আপনি একজন <b> সাধারণ ব্যবহারকারী</b>
+                </p>
             @endif
         </div>
     </div>
@@ -175,38 +175,44 @@
                 </div>
                 <div class="panel-body">
 
-                    {{ Form::open(array('url' => '/search_users_on_frontend', 'method' => 'post', 'value' => 'PATCH', 'id' => '')) }}
-                    <div class="row">
-                        <div class="col-xs-2">
-                            <select name="column" required class="form-control select2" style="width: 100%;">
-                                <option value="Name" {{ (Request::post('column') == 'name') ? 'selected="selected"' : 'selected="selected"' }}>
-                                    নাম
-                                </option>
-                                <option value="nidno" {{ (Request::post('column') == 'nidno') ? 'selected="selected"' : '' }}>
-                                    ন্যাশনাল আইডি
-                                </option>
-                                <option value="passportno" {{ (Request::post('column') == 'passportno') ? 'selected="selected"' : '' }}>
-                                    পাসপোর্ট নং
-                                </option>
-                                <option value="birthcertificateno" {{ (Request::post('column') == 'birthcertificateno') ? 'selected="selected"' : '' }}>
-                                    বার্থ সার্টিফিকেট
-                                </option>
-                                <option value="email" {{ (Request::post('column') == 'email') ? 'selected="selected"' : '' }}>
-                                    ইমেইল
-                                </option>
-                                <option value="phone" {{ (Request::post('column') == 'phone') ? 'selected="selected"' : '' }}>
-                                    ফোন
-                                </option>
-                            </select>
+                    <form action="">
+                        <div class="row">
+                            <div class="col-xs-2">
+                                <select name="column" required class="form-control select2" style="width: 100%;">
+                                    <option value="Name"
+                                        {{ Request::post('column') == 'name' ? 'selected="selected"' : 'selected="selected"' }}>
+                                        নাম
+                                    </option>
+                                    <option value="nidno"
+                                        {{ Request::post('column') == 'nidno' ? 'selected="selected"' : '' }}>
+                                        ন্যাশনাল আইডি
+                                    </option>
+                                    <option value="passportno"
+                                        {{ Request::post('column') == 'passportno' ? 'selected="selected"' : '' }}>
+                                        পাসপোর্ট নং
+                                    </option>
+                                    <option value="birthcertificateno"
+                                        {{ Request::post('column') == 'birthcertificateno' ? 'selected="selected"' : '' }}>
+                                        বার্থ সার্টিফিকেট
+                                    </option>
+                                    <option value="email"
+                                        {{ Request::post('column') == 'email' ? 'selected="selected"' : '' }}>
+                                        ইমেইল
+                                    </option>
+                                    <option value="phone"
+                                        {{ Request::post('column') == 'phone' ? 'selected="selected"' : '' }}>
+                                        ফোন
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="col-xs-4">
+                                <input type="text" class="form-control" placeholder="সার্চ  বিষয়  লিখুন (ইংরেজিতে)" name="search_key" id="search_key">
+                            </div>
+                            <div class="col-xs-1">
+                                <input type="submit" class="btn btn-success" value="খুঁজুন">
+                            </div>
                         </div>
-                        <div class="col-xs-4">
-                            {{ Form::text('search_key', Request::post('search_key'), ['required', 'class' => 'form-control', 'placeholder' => '  সার্চ  বিষয়  লিখুন (ইংরেজিতে) ']) }}
-                        </div>
-                        <div class="col-xs-1">
-                            {{ Form::submit(' খুঁজুন ', ['class' => 'btn btn-success']) }}
-                        </div>
-                    </div>
-                    {{ Form::close() }}
+                    </form>
 
                 </div>
             </div>

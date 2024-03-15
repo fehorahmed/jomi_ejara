@@ -205,17 +205,17 @@
                     </a>
                 </li>
             </ul>
-            {{-- <div class="pcoded-navigation-label">People Configuration</div>
+
             <ul class="pcoded-item pcoded-left-item">
-                <li class="{{ Route::is('admin.political-party.*') ? 'active' : '' }}">
-                    <a href="{{ route('admin.political-party.index') }}" class="waves-effect waves-dark">
+                <li class="{{ Route::is('admin.ejara-rate.*') ? 'active' : '' }}">
+                    <a href="{{ route('admin.ejara-rate.index') }}" class="waves-effect waves-dark">
                         <span class="pcoded-micon">
                             <i class="feather icon-box"></i>
                         </span>
-                        <span class="pcoded-mtext">Political Party</span>
+                        <span class="pcoded-mtext">Ejara Rate</span>
                     </a>
                 </li>
-            </ul> --}}
+            </ul>
         </div>
     </div>
 </nav>

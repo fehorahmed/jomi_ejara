@@ -74,13 +74,13 @@
     </div>
     <div class="jumbotron">
         <?php
-                    if ($auth->landless == 1) {
-                        $services = \App\Service::where('is_active', 1)->orderBy('position', 'asc')->get();
-                    } else {
-                        $services = \App\Service::where('is_active', 1)->orderBy('position', 'asc')->get();
-                    }
+                    // if ($auth->landless == 1) {
+                    //     $services = \App\Service::where('is_active', 1)->orderBy('position', 'asc')->get();
+                    // } else {
+                    //     $services = \App\Service::where('is_active', 1)->orderBy('position', 'asc')->get();
+                    // }
 
-                    $payment_by_user = \App\Payment::where('user_id', $user->id)->orderBy('id', 'desc')->get()->first();
+                    // $payment_by_user = \App\Payment::where('user_id', $user->id)->orderBy('id', 'desc')->get()->first();
                     //dd($payment_by_user);
                     if (!empty($payment_by_user) && $payment_by_user->which_time) {
                         $which_time = $payment_by_user->which_time;
@@ -195,7 +195,7 @@
         </div>
     </div>
 
-    @elseif(Auth::user()->isDigitalCenter())
+    {{-- @elseif(Auth::user()->isDigitalCenter())
     <div class="jumbotron">
         <div class="row w-100">
             <div class="col-md-4">
@@ -207,7 +207,7 @@
                     </div>
                     <div class="text-info text-center mt-2">
                         <h1>
-                            <?php $today_new_regi = \App\User::where('created_at', '>=', date('Y-m-d') . ' 00:00:00')->where('created_by', Auth::user()->id)->get()->count(); ?>
+                            <?php $today_new_regi = \App\Models\User::where('created_at', '>=', date('Y-m-d') . ' 00:00:00')->where('created_by', Auth::user()->id)->get()->count(); ?>
                             {{ $today_new_regi }}
                         </h1>
                     </div>
@@ -222,7 +222,7 @@
                     </div>
                     <div class="text-warning text-center mt-2">
                         <h1>
-                            <?php $total_regi = \App\User::where('created_by', Auth::user()->id)->get()->count(); ?>
+                            <?php $total_regi = \App\Models\User::where('created_by', Auth::user()->id)->get()->count(); ?>
                             {{ $total_regi }}
                         </h1>
                     </div>
@@ -292,7 +292,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
     @elseif(Auth::user()->isAdmin())
     <div class="jumbotron">
         <div class="row w-100">
@@ -305,7 +305,7 @@
                     </div>
                     <div class="text-info text-center mt-2">
                         <h1>
-                            <?php $today_new_regi = \App\User::where('created_at', '>=', date('Y-m-d') . ' 00:00:00')->count(); ?>
+                            <?php $today_new_regi = \App\Models\User::where('created_at', '>=', date('Y-m-d') . ' 00:00:00')->count(); ?>
                             {{ $today_new_regi }}
                         </h1>
                     </div>
@@ -320,7 +320,7 @@
                     </div>
                     <div class="text-warning text-center mt-2">
                         <h1>
-                            <?php $total_regi = \App\User::get()->count(); ?>
+                            <?php $total_regi = \App\Models\User::get()->count(); ?>
                             {{ $total_regi }}
                         </h1>
                     </div>
@@ -335,8 +335,8 @@
                     </div>
                     <div class="text-danger text-center mt-2">
                         <h1>
-                            <?php $total_today = \App\Rent::where('updated_at', '>=', date('Y-m-d') . ' 00:00:00')->get()->sum('total'); ?>
-                            {{ $total_today }}
+                            {{-- <?php $total_today = \App\Rent::where('updated_at', '>=', date('Y-m-d') . ' 00:00:00')->get()->sum('total'); ?>
+                            {{ $total_today }} --}}
                         </h1>
                     </div>
                 </div>
@@ -353,8 +353,8 @@
                     </div>
                     <div class="text-success text-center mt-2">
                         <h1>
-                            <?php $total_all = \App\Rent::where('rent_status', 'yes')->get()->sum('total'); ?>
-                            {{ $total_all }}
+                            {{-- <?php $total_all = \App\Rent::where('rent_status', 'yes')->get()->sum('total'); ?>
+                            {{ $total_all }} --}}
                         </h1>
                     </div>
                 </div>
@@ -368,8 +368,8 @@
                     </div>
                     <div class="text-danger text-center mt-2">
                         <h1>
-                            <?php $total_all = \App\Payment::where('created_at', '>=', date('Y-m-d') . ' 00:00:00')->whereRaw('to_uni IS NOT NULL')->get()->sum('to_digi'); ?>
-                            {{ $total_all }}
+                            {{-- <?php $total_all = \App\Payment::where('created_at', '>=', date('Y-m-d') . ' 00:00:00')->whereRaw('to_uni IS NOT NULL')->get()->sum('to_digi'); ?>
+                            {{ $total_all }} --}}
                         </h1>
                     </div>
                 </div>
@@ -383,8 +383,8 @@
                     </div>
                     <div class="text-danger text-center mt-2">
                         <h1>
-                            <?php $total_all = \App\Payment::whereRaw('to_uni IS NOT NULL')->get()->sum('to_digi'); ?>
-                            {{ $total_all }}
+                            {{-- <?php $total_all = \App\Payment::whereRaw('to_uni IS NOT NULL')->get()->sum('to_digi'); ?>
+                            {{ $total_all }} --}}
                         </h1>
                     </div>
                 </div>

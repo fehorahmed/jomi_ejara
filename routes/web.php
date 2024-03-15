@@ -3,6 +3,8 @@
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\DagListController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\EjaraRateController;
+use App\Http\Controllers\frontend\CommonController;
 use App\Http\Controllers\frontend\HomeController;
 use App\Http\Controllers\KhatianListController;
 use App\Http\Controllers\KhatianTypeController;
@@ -28,19 +30,17 @@ use Illuminate\Support\Facades\Route;
 // Route::get('/', function () {
 //     return view('welcome');
 // });
-Route::get('/', [HomeController::class, 'index'])->name('dashboard');
+Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/login_form', [AuthenticatedSessionController::class, 'userLoginCreate'])->name('user.login');
-Route::post('/login_form', [AuthenticatedSessionController::class, 'userLoginCreate']);
+Route::post('/login_form', [AuthenticatedSessionController::class, 'userLoginPost']);
+Route::get('/user_logout', [AuthenticatedSessionController::class, 'userLogout'])->name('user.logout');
 Route::get('/register_form', [AuthenticatedSessionController::class, 'userRegisterCreate'])->name('user.registration');
-Route::post('/register_form', [AuthenticatedSessionController::class, 'userRegisterCreate']);
-Route::get('/', [HomeController::class, 'index'])->name('dashboard');
-Route::get('/admin/dashboard', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
+Route::post('/register_form', [AuthenticatedSessionController::class, 'userRegisterPost']);
 
-
+Route::get('/admin/dashboard', [DashboardController::class, 'index'])->middleware(['auth', 'verified','isAdmin'])->name('dashboard');
 Route::group(['prefix' => 'admin'], function () {
 
-    Route::middleware('auth')->group(function () {
-
+    Route::middleware(['auth','isAdmin'])->group(function () {
         Route::group(['prefix' => 'admin'], function () {
             Route::get('/', [UserController::class, 'index'])->name('admin.admin.index');
             Route::get('/create', [UserController::class, 'create'])->name('admin.admin.create');
@@ -50,7 +50,6 @@ Route::group(['prefix' => 'admin'], function () {
             // Route::get('/export', [UserController::class, 'export'])->name('admin.admin.export');
             // Route::get('/change-status', [UserController::class, 'changeStatus'])->name('admin.admin.change-status');
         });
-
         Route::group(['prefix' => 'user'], function () {
             Route::get('/', [UserController::class, 'userIndex'])->name('admin.user.index');
             Route::get('/create', [UserController::class, 'userCreate'])->name('admin.user.create');
@@ -58,7 +57,6 @@ Route::group(['prefix' => 'admin'], function () {
             Route::get('/edit/{id}', [UserController::class, 'userEdit'])->name('admin.user.edit');
             Route::post('/edit/{id}', [UserController::class, 'userUpdate'])->name('admin.user.update');
         });
-
         Route::group(['prefix' => 'khatian-type'], function () {
             Route::get('/', [KhatianTypeController::class, 'index'])->name('admin.khatian-type.index');
             Route::get('/create', [KhatianTypeController::class, 'create'])->name('admin.khatian-type.create');
@@ -107,6 +105,13 @@ Route::group(['prefix' => 'admin'], function () {
             Route::post('/', [SettingController::class, 'update'])->name('admin.setting.update');
         });
 
+        Route::group(['prefix' => 'ejara-rate'], function () {
+            Route::get('/', [EjaraRateController::class, 'index'])->name('admin.ejara-rate.index');
+            Route::get('/create', [EjaraRateController::class, 'create'])->name('admin.ejara-rate.create');
+            Route::post('/create', [EjaraRateController::class, 'store'])->name('admin.ejara-rate.store');
+            Route::get('/edit/{id}', [EjaraRateController::class, 'edit'])->name('admin.ejara-rate.edit');
+            Route::post('/edit/{id}', [EjaraRateController::class, 'update'])->name('admin.ejara-rate.update');
+        });
 
         Route::group(['prefix' => 'political-party'], function () {
             Route::get('/', [PoliticalPartyController::class, 'index'])->name('admin.political-party.index');
@@ -123,9 +128,7 @@ Route::group(['prefix' => 'admin'], function () {
             Route::get('/edit/{id}', [PeopleController::class, 'edit'])->name('admin.people.edit');
             Route::post('/edit/{id}', [PeopleController::class, 'update'])->name('admin.people.update');
         });
-
         Route::get('/kendro/report', [KendroController::class, 'report'])->name('admin.report.kendro');
-
         Route::get('get-district', [DistrictController::class, 'getDistrictByDivision'])->name('get.district');
         Route::get('get-sub-district', [UpazilaController::class, 'getSubDistrictByDistrict'])->name('get.sub_district');
         Route::get('get-unions', [UnionPourashavaController::class, 'getUnionBySubDistrict'])->name('get.unions');
@@ -140,6 +143,21 @@ Route::group(['prefix' => 'admin'], function () {
         Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     });
 });
+
+Route::middleware(['auth'])->group(function () {
+
+        Route::get('/my_account', [CommonController::class, 'my_account'])->name('user.my_account');
+
+
+
+});
+
+
+
+
+
+
+
 Route::get('/clear', function () {
     Artisan::call('cache:clear');
     Artisan::call('optimize:clear');
