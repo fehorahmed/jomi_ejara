@@ -1,5 +1,5 @@
 @extends('admin.layout.master')
-@section('title', 'Admin List')
+@section('title', 'User List')
 
 @section('content')
     <div class="page-header card">
@@ -8,8 +8,8 @@
                 <div class="page-header-title">
                     <i class="feather icon-home bg-c-blue"></i>
                     <div class="d-inline">
-                        <h5>Admin List</h5>
-                        <span>Here is the list of admins.</span>
+                        <h5>User List</h5>
+                        <span>Here is the list of User.</span>
                     </div>
                 </div>
             </div>
@@ -19,11 +19,9 @@
                         <li class="breadcrumb-item">
                             <a href="{{ route('dashboard') }}s"><i class="feather icon-home"></i></a>
                         </li>
-                        <li class="breadcrumb-item"><a href="{{ route('admin.admin.index') }}">Admin</a>
+                        <li class="breadcrumb-item"><a href="#">User List </a>
                         </li>
-                        <li class="breadcrumb-item">
-                            <a href="{{ route('admin.admin.index') }}">Admin List</a>
-                        </li>
+
                     </ul>
                 </div>
             </div>
@@ -77,7 +75,7 @@
                                                             @if (\Illuminate\Support\Facades\Auth::id() == $data->id)
                                                                 <span class="btn btn-warning">Self</span>
                                                             @else
-                                                                <a href="{{ route('admin.admin.edit', $data->id) }}"
+                                                                <a href="{{ route('admin.user.edit', $data->id) }}"
                                                                     class="btn btn-primary">Edit</a>
                                                                 {{-- <button data-id="{{ $data->id }}"
                                                                     class="btn btn-primary btn-status-change">

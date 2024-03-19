@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\DagList;
+use App\Models\EjaraRate;
 use App\Models\KhatianType;
 use App\Models\Mouza;
 use App\Models\Upazila;
@@ -230,10 +231,11 @@ class DagListController extends Controller
     public function create()
     {
         $upazilas = Upazila::where('status', 1)->get();
+        $ejara_rates = EjaraRate::where('status', 1)->get();
         $khatianTypes = KhatianType::where('status', 1)->get();
 
 
-        return view('admin.dag_list.create', compact('upazilas', 'khatianTypes'));
+        return view('admin.dag_list.create', compact('upazilas', 'khatianTypes', 'ejara_rates'));
     }
 
     /**
@@ -248,6 +250,7 @@ class DagListController extends Controller
             "khatian_type" => 'required|numeric',
             "mouza" => 'required|numeric',
             "khatian_no" => 'required|numeric',
+            "ejara_rate" => 'required|numeric',
             "bn_name" => 'required|string|max:255',
             "land_amount" => 'required|numeric',
             "land_amount_type" => 'required|numeric',
@@ -274,6 +277,7 @@ class DagListController extends Controller
         $data->khatian_type_id = $request->khatian_type;
         $data->mouza_id = $request->mouza;
         $data->khatian_list_id = $request->khatian_no;
+        $data->ejara_rate_id = $request->ejara_rate;
         $data->status = 1;
         $data->save();
         return redirect()->route('admin.dag-list.index')->with('success', 'Dag no successfully added');
@@ -294,18 +298,54 @@ class DagListController extends Controller
     {
         $upazilas = Upazila::where('status', 1)->get();
         $khatianTypes = KhatianType::where('status', 1)->get();
-
+        $ejara_rates = EjaraRate::all();
         $dagList = DagList::findOrFail($id);
 
-        return view('admin.dag_list.edit', compact('upazilas', 'khatianTypes', 'dagList'));
+        return view('admin.dag_list.edit', compact('upazilas', 'khatianTypes', 'ejara_rates', 'dagList'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, DagList $dagList)
+    public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            "upazila" => 'required|numeric',
+            "union_pourashava" => 'required|numeric',
+            "khatian_type" => 'required|numeric',
+            "mouza" => 'required|numeric',
+            "khatian_no" => 'required|numeric',
+            "ejara_rate" => 'required|numeric',
+            "bn_name" => 'required|string|max:255',
+            "land_amount" => 'required|numeric',
+            "land_amount_type" => 'required|numeric',
+            "owner_hisar_part" => 'required|numeric',
+            "occupied_land" => 'required|numeric',
+            "unoccupied_land" => 'required|numeric',
+            "land_condition" => 'required|string|max:255',
+            "remarks" => 'required|string|max:255',
+        ]);
+        // dd($request->all());
+
+        $data =  DagList::find($id);
+        $data->en_name = $request->en_name;
+        $data->bn_name = $request->bn_name;
+        $data->owner_hisar_part = $request->owner_hisar_part;
+        $data->occupied_land = $request->occupied_land;
+        $data->unoccupied_land = $request->unoccupied_land;
+        $data->land_condition = $request->land_condition;
+        $data->remarks = $request->remarks;
+        $data->land_amount = $request->land_amount;
+        $data->land_amount_type = $request->land_amount_type;
+        $data->upazila_id = $request->upazila;
+        $data->union_pourashava_id = $request->union_pourashava;
+        $data->khatian_type_id = $request->khatian_type;
+        $data->mouza_id = $request->mouza;
+        $data->khatian_list_id = $request->khatian_no;
+        $data->ejara_rate_id = $request->ejara_rate;
+        $data->status = 1;
+        $data->save();
+        return redirect()->route('admin.dag-list.index')->with('success', 'Dag no successfully updated');
     }
 
     /**

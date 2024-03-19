@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\DagListController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DistrictController;
 use App\Http\Controllers\EjaraRateController;
 use App\Http\Controllers\frontend\CommonController;
 use App\Http\Controllers\frontend\HomeController;
@@ -37,10 +38,9 @@ Route::get('/user_logout', [AuthenticatedSessionController::class, 'userLogout']
 Route::get('/register_form', [AuthenticatedSessionController::class, 'userRegisterCreate'])->name('user.registration');
 Route::post('/register_form', [AuthenticatedSessionController::class, 'userRegisterPost']);
 
-Route::get('/admin/dashboard', [DashboardController::class, 'index'])->middleware(['auth', 'verified','isAdmin'])->name('dashboard');
+Route::get('/admin/dashboard', [DashboardController::class, 'index'])->middleware(['auth', 'verified', 'isAdmin'])->name('dashboard');
 Route::group(['prefix' => 'admin'], function () {
-
-    Route::middleware(['auth','isAdmin'])->group(function () {
+    Route::middleware(['auth', 'isAdmin'])->group(function () {
         Route::group(['prefix' => 'admin'], function () {
             Route::get('/', [UserController::class, 'index'])->name('admin.admin.index');
             Route::get('/create', [UserController::class, 'create'])->name('admin.admin.create');
@@ -113,24 +113,7 @@ Route::group(['prefix' => 'admin'], function () {
             Route::post('/edit/{id}', [EjaraRateController::class, 'update'])->name('admin.ejara-rate.update');
         });
 
-        Route::group(['prefix' => 'political-party'], function () {
-            Route::get('/', [PoliticalPartyController::class, 'index'])->name('admin.political-party.index');
-            Route::get('/create', [PoliticalPartyController::class, 'create'])->name('admin.political-party.create');
-            Route::post('/create', [PoliticalPartyController::class, 'store'])->name('admin.political-party.store');
-            Route::get('/edit/{id}', [PoliticalPartyController::class, 'edit'])->name('admin.political-party.edit');
-            Route::post('/edit/{id}', [PoliticalPartyController::class, 'update'])->name('admin.political-party.update');
-        });
-
-        Route::group(['prefix' => 'people'], function () {
-            Route::get('/', [PeopleController::class, 'index'])->name('admin.people.index');
-            Route::get('/create', [PeopleController::class, 'create'])->name('admin.people.create');
-            Route::post('/create', [PeopleController::class, 'store'])->name('admin.people.store');
-            Route::get('/edit/{id}', [PeopleController::class, 'edit'])->name('admin.people.edit');
-            Route::post('/edit/{id}', [PeopleController::class, 'update'])->name('admin.people.update');
-        });
         Route::get('/kendro/report', [KendroController::class, 'report'])->name('admin.report.kendro');
-        Route::get('get-district', [DistrictController::class, 'getDistrictByDivision'])->name('get.district');
-        Route::get('get-sub-district', [UpazilaController::class, 'getSubDistrictByDistrict'])->name('get.sub_district');
         Route::get('get-unions', [UnionPourashavaController::class, 'getUnionBySubDistrict'])->name('get.unions');
         Route::get('get-mouza-by-khatiyan_type', [MouzaController::class, 'getMouzaByKhatianType'])->name('get.mouza.by.khatiyan_type');
         Route::get('get-khatian_no-by-mouza', [KhatianListController::class, 'getKhatiyanNoByMouza'])->name('get.khatian_no.by.mouza');
@@ -146,10 +129,16 @@ Route::group(['prefix' => 'admin'], function () {
 
 Route::middleware(['auth'])->group(function () {
 
-        Route::get('/my_account', [CommonController::class, 'my_account'])->name('user.my_account');
+    Route::get('/my_account', [CommonController::class, 'my_account'])->name('user.my_account');
+    Route::get('/profile_edit', [CommonController::class, 'profile_edit'])->name('user.profile_edit');
+    Route::post('/profile_edit_update', [CommonController::class, 'profile_edit_update'])->name('user.profile_edit_update');
 
 
 
+
+    //Common
+    Route::get('get-district', [DistrictController::class, 'getDistrictByDivision'])->name('get.district');
+    Route::get('get-sub-district', [UpazilaController::class, 'getSubDistrictByDistrict'])->name('get.sub_district');
 });
 
 

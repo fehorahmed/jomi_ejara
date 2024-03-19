@@ -84,7 +84,7 @@ class AuthenticatedSessionController extends Controller
     {
 
         $request->validate([
-            'name'=>'required|string',
+            'name' => 'required|string',
             "email" => "required|email|unique:users,email",
             "nid" => "required|string|unique:users,email",
             "phone" => "required|string|unique:users,email",
@@ -92,17 +92,18 @@ class AuthenticatedSessionController extends Controller
 
         ]);
 
-        $user= new User();
-        $user->name= $request->name;
-        $user->email= $request->email;
-        $user->phone= $request->phone;
-        $user->nidno= $request->nid;
-        $user->password= Hash::make($request->password);
-        $user->status= 1;
+        $user = new User();
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->phone = $request->phone;
+        $user->nidno = $request->nid;
+        $user->password = Hash::make($request->password);
+        $user->status = 1;
         $user->save();
-        return redirect()->route('user.login')->with('success','Registration successfull. Please Login.');
+        return redirect()->route('user.login')->with('success', 'Registration successfull. Please Login.');
     }
-    public function userLogout(){
+    public function userLogout()
+    {
         Auth::logout();
         return redirect('/');
     }

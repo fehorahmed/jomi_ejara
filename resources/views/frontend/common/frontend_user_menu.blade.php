@@ -15,23 +15,25 @@
                         </a>
                     </li>
                 @endif
-                {{-- @if (Auth::user()->isDigitalCenter())
-                <li>
-                    <a href="{{ url('/pending_payment') }}">
-                        @php
-                            $pending_payment = App\Payment::Where(['is_active' => 0])->get()->count();
-                            if($pending_payment > 0 && $pending_payment < 10){
-                                $pending_payment = $pending_payment;
-                            }elseif($pending_payment > 9){
-                             $pending_payment = '9+';
-                            }else{
-                            $pending_payment = '';
-                            }
-                        @endphp
-                        অপেক্ষারত পেমেন্ট <span class="text-danger notice_icon">{{($pending_payment)}}</span>
-                    </a>
-                </li>
-                @endif --}}
+                @if (Auth::user()->isDigitalCenter())
+                    <li>
+                        <a href="{{ url('/pending_payment') }}">
+                            @php
+                                $pending_payment = App\Payment::Where(['is_active' => 0])
+                                    ->get()
+                                    ->count();
+                                if ($pending_payment > 0 && $pending_payment < 10) {
+                                    $pending_payment = $pending_payment;
+                                } elseif ($pending_payment > 9) {
+                                    $pending_payment = '9+';
+                                } else {
+                                    $pending_payment = '';
+                                }
+                            @endphp
+                            অপেক্ষারত পেমেন্ট <span class="text-danger notice_icon">{{ $pending_payment }}</span>
+                        </a>
+                    </li>
+                @endif
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                         aria-expanded="true">
@@ -102,12 +104,12 @@
                             <li>
                                 <a href="{{ url('profile_edit') }}">প্রোফাইল</a>
                             </li>
-                            <li>
+                            {{-- <li>
                                 <a href="{{ url('warish') }}">ওয়ারিশ</a>
                             </li>
                             <li>
                                 <a href="{{ url('business') }}">ব্যবসা</a>
-                            </li>
+                            </li> --}}
                         @endif
                     </ul>
                 </li>
@@ -206,7 +208,8 @@
                                 </select>
                             </div>
                             <div class="col-xs-4">
-                                <input type="text" class="form-control" placeholder="সার্চ  বিষয়  লিখুন (ইংরেজিতে)" name="search_key" id="search_key">
+                                <input type="text" class="form-control" placeholder="সার্চ  বিষয়  লিখুন (ইংরেজিতে)"
+                                    name="search_key" id="search_key">
                             </div>
                             <div class="col-xs-1">
                                 <input type="submit" class="btn btn-success" value="খুঁজুন">

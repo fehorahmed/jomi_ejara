@@ -124,6 +124,24 @@
                                                 @enderror
                                             </div>
                                         </div>
+                                        <div class="row mb-3">
+                                            <label for="ejara_rate" class="col-12 col-md-3 col-form-label">Ejara
+                                                Rate</label>
+                                            <div class="col-12 col-md-9">
+                                                <select name="ejara_rate" id="ejara_rate"
+                                                    class="form-control form-control-inverse fill">
+                                                    <option value="">Select Ejara Rate</option>
+                                                    @foreach ($ejara_rates as $ejara_rate)
+                                                        <option value="{{ $ejara_rate->id }}"
+                                                            {{ old('ejara_rate') == $ejara_rate->id ? 'selected' : '' }}>
+                                                            {{ $ejara_rate->bn_name }}</option>
+                                                    @endforeach
+                                                </select>
+                                                @error('ejara_rate')
+                                                    <div class="help-block text-danger">{{ $message }} </div>
+                                                @enderror
+                                            </div>
+                                        </div>
 
                                         <div class="row mb-3">
                                             <label for="bn_name" class="col-12 col-md-3 col-form-label">Dag
@@ -142,7 +160,8 @@
                                             </label>
                                             <div class="col-8 col-md-4">
                                                 <input type="number" name="land_amount" value="{{ old('land_amount') }}"
-                                                    id="land_amount" class="form-control" placeholder="Enter Land Amount ">
+                                                    id="land_amount" class="form-control"
+                                                    placeholder="Enter Land Amount ">
                                                 @error('land_amount')
                                                     <div class="help-block text-danger">{{ $message }} </div>
                                                 @enderror

@@ -1,5 +1,5 @@
 @extends('admin.layout.master')
-@section('title', 'Admin Create')
+@section('title', 'User Create')
 
 @section('content')
     {{-- @include('admin.master.flash') --}}
@@ -10,8 +10,8 @@
                 <div class="page-header-title">
                     <i class="feather icon-home bg-c-blue"></i>
                     <div class="d-inline">
-                        <h5>Admin Create</h5>
-                        <span>Here is the admin create form.</span>
+                        <h5>User Create</h5>
+                        <span>Here is the User create form.</span>
                     </div>
                 </div>
             </div>
@@ -21,10 +21,10 @@
                         <li class="breadcrumb-item">
                             <a href="{{ route('dashboard') }}s"><i class="feather icon-home"></i></a>
                         </li>
-                        <li class="breadcrumb-item"><a href="{{ route('admin.admin.index') }}">Admin</a>
+                        <li class="breadcrumb-item"><a href="{{ route('admin.user.index') }}">User</a>
                         </li>
                         <li class="breadcrumb-item">
-                            <a href="{{ route('admin.admin.index') }}">Admin Create</a>
+                            <a href="#">User Create</a>
                         </li>
                     </ul>
                 </div>
@@ -41,20 +41,20 @@
                         <div class="col-md-8 m-auto">
                             <div class="card">
                                 <div class="card-header bg-info">
-                                    <h5 class="text-white"> Admin Create Form</h5>
+                                    <h5 class="text-white"> User Create Form</h5>
                                     <span>Add class of <code>.form-control</code> with
                                         <code>&lt;input&gt;</code> tag</span>
                                 </div>
                                 <div class="card-block">
                                     <form id="campaign-form" class="form-horizontal" method="post"
-                                        action="{{ route('admin.admin.store') }}" enctype="multipart/form-data">
+                                        action="{{ route('admin.user.store') }}" enctype="multipart/form-data">
                                         @csrf
                                         <div class="row mb-3">
-                                            <label for="name" class="col-12 col-md-3 col-form-label">Admin Name</label>
+                                            <label for="name" class="col-12 col-md-3 col-form-label">User Name</label>
                                             <div class="col-12 col-md-9">
                                                 <input type="text" name="name" id="name"
                                                     value="{{ old('name') }}" class="form-control"
-                                                    placeholder="Admin name">
+                                                    placeholder="User name">
                                                 @error('name')
                                                     <div class="help-block text-danger">{{ $message }} </div>
                                                 @enderror
@@ -66,7 +66,7 @@
                                             <label for="email" class="col-12 col-md-3 col-form-label">Email</label>
                                             <div class="col-12 col-md-9">
                                                 <input type="email" name="email" value="{{ old('email') }}"
-                                                    id="email" class="form-control" placeholder="Admin email">
+                                                    id="email" class="form-control" placeholder="User email">
                                                 @error('email')
                                                     <div class="help-block text-danger">{{ $message }} </div>
                                                 @enderror
@@ -78,7 +78,7 @@
                                                 class="col-12 col-md-3 col-form-label">Password</label>
                                             <div class="col-12 col-md-9">
                                                 <input type="password" name="password" value="" id="password"
-                                                    class="form-control" placeholder="Admin password">
+                                                    class="form-control" placeholder="User password">
                                                 @error('password')
                                                     <div class="help-block text-danger">{{ $message }} </div>
                                                 @enderror
@@ -100,12 +100,12 @@
 
                                         </div>
                                         <div class="row mb-3">
-                                            <label for="example-select" class="col-12 col-md-3 col-form-label">Admin
+                                            <label for="example-select" class="col-12 col-md-3 col-form-label">User
                                                 Phone</label>
                                             <div class="col-12 col-md-9">
                                                 <input type="number" name="phone" id="phone"
                                                     value="{{ old('phone') }}" class="form-control"
-                                                    placeholder="Admin phone number">
+                                                    placeholder="User phone number">
                                                 @error('phone')
                                                     <div class="help-block text-danger">{{ $message }} </div>
                                                 @enderror
@@ -196,8 +196,8 @@
 
 
                                         <div class="text-center mb-3">
-                                            <a href="{{ route('admin.admin.index') }}" class="btn btn-danger">Back</a>
-                                            <input type="submit" class="btn btn-primary  " value="Add Admin">
+                                            <a href="{{ route('admin.user.index') }}" class="btn btn-danger">Back</a>
+                                            <input type="submit" class="btn btn-primary  " value="Add User">
                                         </div>
                                     </form>
                                 </div>

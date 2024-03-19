@@ -13,9 +13,12 @@ return new class extends Migration
     {
         Schema::create('upazilas', function (Blueprint $table) {
             $table->id();
-            $table->string('en_name')->nullable();
-            $table->string('bn_name');
-            $table->boolean('status')->default(1);
+            $table->string('name');
+            $table->string('bn_name')->nullable();
+            $table->string('url')->nullable();
+            $table->integer('district_id');
+            $table->foreign('district_id')->on('districts')->references('id');
+            // $table->boolean('status')->default(1);
             $table->timestamps();
         });
     }

@@ -1,5 +1,5 @@
 @extends('admin.layout.master')
-@section('title', 'Admin Edit')
+@section('title', 'User Edit')
 @section('content')
     {{-- @include('admin.master.flash') --}}
 
@@ -9,8 +9,8 @@
                 <div class="page-header-title">
                     <i class="feather icon-home bg-c-blue"></i>
                     <div class="d-inline">
-                        <h5>Admin Update</h5>
-                        <span>Here is the admin create form.</span>
+                        <h5>User Update</h5>
+                        <span>Here is the User create form.</span>
                     </div>
                 </div>
             </div>
@@ -20,10 +20,10 @@
                         <li class="breadcrumb-item">
                             <a href="{{ route('dashboard') }}s"><i class="feather icon-home"></i></a>
                         </li>
-                        <li class="breadcrumb-item"><a href="{{ route('admin.admin.index') }}">Admin</a>
+                        <li class="breadcrumb-item"><a href="{{ route('admin.user.index') }}">User</a>
                         </li>
                         <li class="breadcrumb-item">
-                            <a href="{{ route('admin.admin.index') }}">Admin Create</a>
+                            <a href="#">User Update</a>
                         </li>
                     </ul>
                 </div>
@@ -40,7 +40,7 @@
                         <div class="col-md-8 m-auto">
                             <div class="card">
                                 <div class="card-header bg-info">
-                                    <h5 class="text-white"> Admin Update Form</h5>
+                                    <h5 class="text-white"> User Update Form</h5>
                                     <span>Add class of <code>.form-control</code> with
                                         <code>&lt;input&gt;</code> tag</span>
                                 </div>
@@ -78,7 +78,7 @@
                                                 class="col-12 col-md-3 col-form-label">Password</label>
                                             <div class="col-12 col-md-9">
                                                 <input type="password" name="password" value="" id="password"
-                                                    class="form-control" placeholder="password">
+                                                    class="form-control" placeholder="User password">
                                                 @error('password')
                                                     <div class="help-block text-danger">{{ $message }} </div>
                                                 @enderror
@@ -157,8 +157,8 @@
                             </div> --}}
 
                                         <div class="text-center mb-3">
-                                            <a href="{{ route('admin.admin.index') }}" class="btn btn-danger">Back</a>
-                                            <input type="submit" class="btn btn-primary  " value="Update Admin">
+                                            <a href="{{ route('admin.user.index') }}" class="btn btn-danger">Back</a>
+                                            <input type="submit" class="btn btn-primary  " value="Update User">
                                         </div>
                                     </form>
                                 </div>

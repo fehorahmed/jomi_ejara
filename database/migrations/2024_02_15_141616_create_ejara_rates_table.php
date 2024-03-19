@@ -15,7 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('bn_name');
             $table->string('en_name')->nullable();
-            $table->unsignedFloat('amount',8,2);
+            $table->unsignedFloat('amount', 8, 2);
+            $table->unsignedTinyInteger('land_amount_type')->comment('1= borgofoot, 2 = satak');
             $table->boolean('status')->comment('1=active, 0=inactive');
             $table->timestamps();
         });

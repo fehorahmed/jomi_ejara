@@ -44,13 +44,13 @@
                                             </h5>
 
                                         </div>
-                                        {{-- <div class="col-xl-3 col-md-6">
-                                            <h6>Total People</h6>
-                                            <h5 class="m-b-30 f-w-700">111
+                                        <div class="col-xl-3 col-md-6">
+                                            <h6>Total User</h6>
+                                            <h5 class="m-b-30 f-w-700">{{ $total_user }}
                                             </h5>
 
                                         </div>
-                                        <div class="col-xl-3 col-md-6">
+                                        {{--   <div class="col-xl-3 col-md-6">
                                             <h6>Total Kendro</h6>
                                             <h5 class="m-b-30 f-w-700">111
                                             </h5>

@@ -46,17 +46,15 @@ class User extends Authenticatable
 
     public function isAdmin()
     {
-        return Auth::check() && Auth::user()->is_admin==1;
-
+        return Auth::check() && Auth::user()->is_admin == 1;
     }
 
     public function isDigitalCenter()
     {
-        return $this->where('role', 2)->first();
+        return Auth::check() && Auth::user()->role == 2;
     }
     public function isMember()
     {
-        return Auth::check() && Auth::user()->is_admin==null;
-
+        return Auth::check() && Auth::user()->is_admin == null;
     }
 }
