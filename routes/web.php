@@ -104,6 +104,10 @@ Route::group(['prefix' => 'admin'], function () {
             Route::get('/', [SettingController::class, 'index'])->name('admin.setting.index');
             Route::post('/', [SettingController::class, 'update'])->name('admin.setting.update');
         });
+        Route::group(['prefix' => 'home-setting'], function () {
+            Route::get('/', [SettingController::class, 'homeSettingIndex'])->name('admin.home-setting.person.index');
+            Route::post('/', [SettingController::class, 'update'])->name('admin.home-setting.update');
+        });
 
         Route::group(['prefix' => 'ejara-rate'], function () {
             Route::get('/', [EjaraRateController::class, 'index'])->name('admin.ejara-rate.index');

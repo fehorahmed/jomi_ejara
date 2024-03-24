@@ -230,7 +230,7 @@ class DagListController extends Controller
      */
     public function create()
     {
-        $upazilas = Upazila::where('status', 1)->get();
+        $upazilas = Upazila::all();
         $ejara_rates = EjaraRate::where('status', 1)->get();
         $khatianTypes = KhatianType::where('status', 1)->get();
 
@@ -296,7 +296,7 @@ class DagListController extends Controller
      */
     public function edit($id)
     {
-        $upazilas = Upazila::where('status', 1)->get();
+        $upazilas = Upazila::all();
         $khatianTypes = KhatianType::where('status', 1)->get();
         $ejara_rates = EjaraRate::all();
         $dagList = DagList::findOrFail($id);

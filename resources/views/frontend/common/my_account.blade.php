@@ -64,140 +64,74 @@
                     $auth = auth()->user();
                 @endphp
                 <div class="card ">
-                    <div class=""> <img src="{{ asset($auth->photo) }}" class="imag"> </div>
+                    <div class="">
+                        @if ($auth->photo)
+                            <img src="{{ asset('storage/' . $auth->photo) }}" class="imag" alt="Photo">
+                        @else
+                            <img src="{{ asset('frontend/img/avatar.jpg') }}" class="imag" alt="Photo">
+                        @endif
+
+                    </div>
                     <h5 class="mt-2 mb-0">{{ $auth->name }}</h5>
                     <h5 class="mt-2 mb-0">{{ $auth->phone }}</h5>
                     <h5 class="mt-2 mb-0">{{ $auth->email }}</h5>
                     <h5 class="mt-2 mb-0">{{ $auth->nid }}</h5>
                 </div>
-                <div class="jumbotron">
-                    <?php
-                    // if ($auth->landless == 1) {
-                    //     $services = \App\Service::where('is_active', 1)->orderBy('position', 'asc')->get();
-                    // } else {
-                    //     $services = \App\Service::where('is_active', 1)->orderBy('position', 'asc')->get();
-                    // }
-                    
-                    // $payment_by_user = \App\Payment::where('user_id', $user->id)->orderBy('id', 'desc')->get()->first();
-                    //dd($payment_by_user);
-                    if (!empty($payment_by_user) && $payment_by_user->which_time) {
-                        $which_time = $payment_by_user->which_time;
-                    } else {
-                        $which_time = null;
-                    }
-                    //dump(csrf_token());
-                    //http://103.218.26.178:2145/shariatpur/citizen_certificate_pdf?uid=13&token=m6uS5bY1URzLjnqp1Sd9uADK97vR62GrmrIrw6Fc
-                    ?>
-                    <div class="row">
-                        <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6">
-                            <div class="man-service_one">
-                                <div class="lang_enbn">
-                                    <a class="btn btn-xs Bn_lang" target="_blank"
-                                        href="{{ url('profile_pdf?uid=' . $user->id . '&token=' . csrf_token()) }}"
-                                        target="_blank">
-                                        বাংলা
-                                    </a>
+                {{-- <div class="jumbotron"> --}}
+                <div class="container user_panel">
 
-                                    <a class="btn btn-xs En_lang"
-                                        href="{{ url('profile_pdf?uid=' . $user->id . '&token=' . csrf_token()) }}">
-                                        EN
-                                    </a>
+
+                    @if (Route::has('login'))
+                        <br>
+
+                        <div>
+
+                            <!-- Nav tabs -->
+                            <ul class="nav nav-tabs p_nav_tabs" role="tablist">
+                                <li role="presentation" class="active">
+                                    <a href="#my_land" aria-controls="my_land" role="tab" data-toggle="tab">আমার
+                                        জমি</a>
+                                </li>
+
+                                <li role="presentation">
+                                    <a href="#all_application" aria-controls="all_application" role="tab"
+                                        data-toggle="tab">সব
+                                        আবেদন</a>
+                                </li>
+                                {{-- <li role="presentation"><a href="#shop_transaction" aria-controls="shop_transaction" role="tab" data-toggle="tab">লেনদেন</a></li> --}}
+                                <li role="presentation">
+                                    <a href="#tender_land" aria-controls="tender_land" role="tab" data-toggle="tab">জমির
+                                        দরপত্র</a>
+                                </li>
+                                <li role="presentation">
+                                    <a href="#new_land" aria-controls="new_land" role="tab" data-toggle="tab"> নতুন
+                                        আবেদন</a>
+                                </li>
+
+                            </ul>
+
+                            <!-- Tab panes -->
+                            <div class="tab-content">
+                                <div role="tabpanel" class="tab-pane active" id="my_land">
+                                    @include('frontend.service.land_lease.get_land')
                                 </div>
-                                <a target="_blank"
-                                    href="{{ url('profile_pdf?uid=' . $user->id . '&token=' . csrf_token()) }}"
-                                    target="_blank">
-                                    <img src="{{ url('public/icons/profile.png') }}">
-                                </a>
-                                <a target="_blank"
-                                    href="{{ url('profile_pdf?uid=' . $user->id . '&token=' . csrf_token()) }}">
-                                    <h1>
-                                        প্রোফাইল
-                                    </h1>
-                                </a>
-                            </div>
-                        </div>
-
-
-
-
-                        <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6">
-                            <div class="man-service_one">
-                                <div class="lang_enbn">
-                                    <a target="_blank" class="Bn_lang" href="{{ url('my_shop') }}" target="_blank">
-                                        বাংলা
-                                    </a>
-
-
-
-
-                                    <a target="_blank" class="En_lang" href="{{ url('my_shop') }}">
-                                        EN
-                                    </a>
+                                <div role="tabpanel" class="tab-pane" id="all_application">
+                                    @include('frontend.service.land_lease.all_application')
                                 </div>
-                                <a target="_blank" href="" target="_blank">
-
-                                    <img
-                                        src="http://192.168.0.101/pourashava/storage/uploads/fullsize/2019-07/marketshop.png">
-                                </a>
-                                <a target="_blank" href="" target="_blank">
-                                    <h1>
-                                        আমার দোকান
-                                    </h1>
-                                </a>
-                            </div>
-                        </div>
-
-
-
-                        <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6">
-                            <div class="man-service_one">
-                                <div class="lang_enbn">
-                                    <a target="_blank" class="Bn_lang" href="{{ url('my_land') }}" target="_blank">
-                                        বাংলা
-                                    </a>
-
-
-
-
-                                    <a target="_blank" class="En_lang" href="{{ url('my_land') }}">
-                                        EN
-                                    </a>
+                                <div role="tabpanel" class="tab-pane" id="tender_land">
+                                    @include('frontend.service.land_lease.tender_land')
                                 </div>
-                                <a target="_blank" href="" target="_blank">
 
-                                    <img src="{{ asset('/public/frontend/img/lease_land_icon.png') }}">
-                                </a>
-                                <a target="_blank" href="" target="_blank">
-                                    <h1>
-                                        জমি ইজারা
-                                    </h1>
-                                </a>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6">
-                            <div class="man-service_one">
-                                <div class="lang_enbn">
-                                    <a target="_blank" class="Bn_lang" href="{{ url('contractor') }}" target="_blank">
-                                        বাংলা
-                                    </a>
-
-                                    <a target="_blank" class="En_lang" href="{{ url('contractor') }}">
-                                        EN
-                                    </a>
+                                <div role="tabpanel" class="tab-pane" id="new_land">
+                                    @include('frontend.service.land_lease.new_land')
                                 </div>
-                                <a target="_blank" href="{{ url('contractor') }}" target="_blank">
 
-                                    <img src="{{ asset('/public/frontend/img/contactor.png') }}">
-                                </a>
-                                <a target="_blank" href="{{ url('contractor') }}" target="_blank">
-                                    <h1>
-                                        কন্টাক্টর
-                                    </h1>
-                                </a>
+
                             </div>
+
                         </div>
-                    </div>
+                    @endif
+                    {{-- </div> --}}
                 </div>
 
                 {{-- @elseif(Auth::user()->isDigitalCenter())

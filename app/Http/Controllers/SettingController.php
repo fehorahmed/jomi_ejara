@@ -12,7 +12,7 @@ class SettingController extends Controller
      */
     public function index()
     {
-        $setting= Setting::first();
+        $setting = Setting::first();
         return view('admin.setting', compact('setting'));
     }
 
@@ -64,16 +64,15 @@ class SettingController extends Controller
         ]);
 
         $setting = Setting::first();
-        if($setting){
+        if ($setting) {
             $setting->name = $request->name;
             $setting->phone = $request->phone;
             $setting->email = $request->email;
             $setting->address = $request->address;
             $setting->website = $request->website;
             $setting->save();
-
-        }else{
-            $setting =new Setting();
+        } else {
+            $setting = new Setting();
             $setting->name = $request->name;
             $setting->phone = $request->phone;
             $setting->email = $request->email;
@@ -82,13 +81,18 @@ class SettingController extends Controller
             $setting->save();
         }
 
-        return redirect()->back()->with('success','Setting update successfully.');
+        return redirect()->back()->with('success', 'Setting update successfully.');
     }
 
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(Setting $setting)
+    {
+        //
+    }
+
+    public function homeSettingIndex()
     {
         //
     }

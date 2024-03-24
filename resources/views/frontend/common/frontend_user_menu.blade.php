@@ -42,22 +42,22 @@
                     <ul class="dropdown-menu" style="text-align: left;">
                         @if (Auth::user()->isAdmin())
                             <li>
-                                <a href="{{ url('dashboard') }}">
+                                <a href="{{ route('dashboard') }}">
                                     ড্যাশবোর্ড
                                 </a>
                             </li>
-                            <li>
+                            {{-- <li>
                                 <a href="{{ url('income_statement') }}">
                                     আয়ের হিসাব
                                 </a>
-                            </li>
+                            </li> --}}
                         @endif
                         @if (Auth::user()->isDigitalCenter())
-                            <li>
+                            {{-- <li>
                                 <a href="{{ url('add_profile') }}">
                                     নতুন প্রোফাইল সংযোজন করুন
                                 </a>
-                            </li>
+                            </li> --}}
                             <li>
                                 <a href="{{ url('profile_list') }}">
                                     সকল প্রোফাইল
@@ -116,7 +116,7 @@
 
                 <li class="pull-right">
                     @if (Auth::user()->isAdmin())
-                        <a href="{{ url('/dashboard') }}">
+                        <a href="{{ route('dashboard') }}">
                             <i class="fa fa-cog"></i> এডমিন ড্যাশবোর্ড
                         </a>
                     @else
@@ -167,7 +167,7 @@
         </div>
     </div>
 
-    <div class="row">
+    {{-- <div class="row">
         <div class="col-md-12">
             <div class="panel panel-success">
                 <div class="panel-heading">
@@ -220,5 +220,5 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
 @endif
