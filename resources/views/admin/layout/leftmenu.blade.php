@@ -206,7 +206,7 @@
                 </li>
             </ul>
             <ul class="pcoded-item pcoded-left-item">
-                <li class="pcoded-hasmenu {{ Route::is('admin.admin.*') ? 'active pcoded-trigger' : '' }}">
+                <li class="pcoded-hasmenu {{ Route::is('admin.home-setting.*') ? 'active pcoded-trigger' : '' }}">
                     <a href="javascript:void(0)" class="waves-effect waves-dark">
                         <span class="pcoded-micon">
                             <i class="feather icon-layers"></i>
@@ -215,7 +215,7 @@
                         {{-- <span class="pcoded-badge label label-danger">100+</span> --}}
                     </a>
                     <ul class="pcoded-submenu">
-                        <li class="{{ Route::is('admin.home-setting.*') ? 'active' : '' }}">
+                        <li class="{{ Route::is('admin.home-setting.person.*') ? 'active' : '' }}">
                             <a href="{{ route('admin.home-setting.person.index') }}" class="waves-effect waves-dark">
                                 <span class="pcoded-mtext">Person List </span>
                             </a>

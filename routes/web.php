@@ -105,8 +105,11 @@ Route::group(['prefix' => 'admin'], function () {
             Route::post('/', [SettingController::class, 'update'])->name('admin.setting.update');
         });
         Route::group(['prefix' => 'home-setting'], function () {
-            Route::get('/', [SettingController::class, 'homeSettingIndex'])->name('admin.home-setting.person.index');
-            Route::post('/', [SettingController::class, 'update'])->name('admin.home-setting.update');
+            Route::get('/', [SettingController::class, 'homeSettingPersonIndex'])->name('admin.home-setting.person.index');
+            Route::get('/create', [SettingController::class, 'homeSettingPersonCreate'])->name('admin.home-setting.person.create');
+            Route::post('/create', [SettingController::class, 'homeSettingPersonStore']);
+            Route::get('/edit/{id}', [SettingController::class, 'homeSettingPersonEdit'])->name('admin.home-setting.person.edit');
+            Route::post('/edit/{id}', [SettingController::class, 'homeSettingPersonUpdate']);
         });
 
         Route::group(['prefix' => 'ejara-rate'], function () {
