@@ -40,19 +40,21 @@ class EjaraRateController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'bn_name'=>'required|string|max:255|unique:ejara_rates,bn_name',
-            'en_name'=>'nullable|string|max:255|unique:ejara_rates,en_name',
-            'amount'=>'required|numeric',
+            'bn_name' => 'required|string|max:255|unique:ejara_rates,bn_name',
+            'en_name' => 'nullable|string|max:255|unique:ejara_rates,en_name',
+            'land_amount_type' => 'required|numeric',
+            'amount' => 'required|numeric',
         ]);
 
-        $data= new EjaraRate();
-        $data->bn_name= $request->bn_name;
-        $data->en_name= $request->en_name;
-        $data->amount= $request->amount;
-        $data->status= 1;
+        $data = new EjaraRate();
+        $data->bn_name = $request->bn_name;
+        $data->en_name = $request->en_name;
+        $data->amount = $request->amount;
+        // 1= borgofoot, 2 = satak
+        $data->land_amount_type = $request->land_amount_type;
+        $data->status = 1;
         $data->save();
-        return redirect()->route('admin.ejara-rate.index')->with('success','Ejara Rate Successfully added.');
-
+        return redirect()->route('admin.ejara-rate.index')->with('success', 'Ejara Rate Successfully added.');
     }
 
     /**
@@ -68,8 +70,8 @@ class EjaraRateController extends Controller
      */
     public function edit($id)
     {
-        $ejara_rate=  EjaraRate::find($id);
-        return view('admin.ejara_rate.edit',compact('ejara_rate'));
+        $ejara_rate =  EjaraRate::find($id);
+        return view('admin.ejara_rate.edit', compact('ejara_rate'));
     }
 
     /**
@@ -78,18 +80,20 @@ class EjaraRateController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'bn_name'=>'required|string|max:255|unique:ejara_rates,bn_name,'.$id,
-            'en_name'=>'nullable|string|max:255|unique:ejara_rates,en_name',
-            'amount'=>'required|numeric',
+            'bn_name' => 'required|string|max:255|unique:ejara_rates,bn_name,' . $id,
+            'en_name' => 'nullable|string|max:255|unique:ejara_rates,en_name',
+            'land_amount_type' => 'required|numeric',
+            'amount' => 'required|numeric',
         ]);
 
-        $data= EjaraRate::find($id);
-        $data->bn_name= $request->bn_name;
-        $data->en_name= $request->en_name;
-        $data->amount= $request->amount;
-      //  $data->status= 1;
+        $data = EjaraRate::find($id);
+        $data->bn_name = $request->bn_name;
+        $data->en_name = $request->en_name;
+        $data->amount = $request->amount;
+        $data->land_amount_type = $request->land_amount_type;
+        //  $data->status= 1;
         $data->save();
-        return redirect()->route('admin.ejara-rate.index')->with('success','Ejara Rate Successfully added.');
+        return redirect()->route('admin.ejara-rate.index')->with('success', 'Ejara Rate Successfully added.');
     }
 
     /**

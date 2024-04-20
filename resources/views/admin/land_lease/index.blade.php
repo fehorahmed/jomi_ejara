@@ -1,5 +1,5 @@
 @extends('admin.layout.master')
-@section('title', 'Ejara Rate List')
+@section('title', 'Land Lease Order')
 
 @section('content')
     <div class="page-header card">
@@ -8,8 +8,8 @@
                 <div class="page-header-title">
                     <i class="feather icon-home bg-c-blue"></i>
                     <div class="d-inline">
-                        <h5>Ejara Rate List</h5>
-                        <span>Here is the list of Ejara Rate.</span>
+                        <h5>Land Lease Order List</h5>
+                        <span>Here is the list of Land Lease.</span>
                     </div>
                 </div>
             </div>
@@ -22,7 +22,8 @@
                         <li class="breadcrumb-item"><a href="{{route('admin.admin.index')}}">Admin</a>
                         </li> --}}
                         <li class="breadcrumb-item">
-                            <a class="btn btn-primary" href="{{ route('admin.ejara-rate.create') }}">Ejara Rate Create</a>
+                            <a class="btn btn-primary" href="{{ route('admin.land-lease.create') }}">Land Lease Order
+                                Create</a>
                         </li>
                     </ul>
                 </div>
@@ -67,8 +68,8 @@
                                             <thead>
                                                 <tr>
                                                     <th>SL</th>
-                                                    <th> Name</th>
-                                                    <th> Amount</th>
+                                                    <th> Dag No</th>
+                                                    <th> End Date</th>
 
                                                     <th>Status</th>
                                                     <th>Action</th>
@@ -78,19 +79,29 @@
                                                 @foreach ($datas as $data)
                                                     <tr>
                                                         <td>{{ $loop->iteration }}</td>
-                                                        <td>{{ $data->bn_name }}</td>
-                                                        <td>{{ $data->amount }}/-
-                                                            {{ $data->land_amount_type == 1 ? 'বর্গফুট' : 'শতাংশ' }}</td>
+                                                        <td>{{ $data->dagList->bn_name }},{{ $data->dagList->upazila->bn_name }},
+                                                            {{ $data->dagList->unionPourashava->bn_name }},
+                                                            {{ $data->dagList->khatianType->bn_name }},
+                                                            {{ $data->dagList->mouza->bn_name }},
+                                                            {{ $data->dagList->khatianNo->bn_name }}</td>
                                                         <td>
-                                                            @if ($data->status == 1)
-                                                                <span class="label label-md label-success">Active</span>
-                                                            @else
-                                                                <span class="label label-md label-danger">Inactive</span>
+                                                            {{ $data->application_end_date }}
+                                                        </td>
+                                                        <td>
+
+                                                            @if ($data->status == 'PUBLISHED')
+                                                                <span class="label label-md label-success">PUBLISHED</span>
+                                                            @elseif ($data->status == 'APPLIED')
+                                                                <span class="label label-md label-info">APPLIED</span>
+                                                            @elseif ($data->status == 'ACCEPT')
+                                                                <span class="label label-md label-secondary">ACCEPT</span>
+                                                            @elseif ($data->status == 'CANCEL')
+                                                                <span class="label label-md label-danger">CANCEL</span>
                                                             @endif
                                                         </td>
                                                         <td>
 
-                                                            <a href="{{ route('admin.ejara-rate.edit', $data->id) }}"
+                                                            <a href="{{ route('admin.land-lease.edit', $data->id) }}"
                                                                 class="btn btn-primary">Edit</a>
 
                                                         </td>

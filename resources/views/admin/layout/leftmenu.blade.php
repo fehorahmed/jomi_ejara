@@ -140,6 +140,31 @@
                     </ul>
                 </li>
             </ul>
+
+
+            <div class="pcoded-navigation-label">Operations</div>
+            <ul class="pcoded-item pcoded-left-item">
+
+
+                <li class="{{ Route::is('admin.land-lease.*') ? 'active' : '' }}">
+                    <a href="{{ route('admin.land-lease.index') }}" class="waves-effect waves-dark">
+                        <span class="pcoded-micon">
+                            <i class="feather icon-box"></i>
+                        </span>
+                        <span class="pcoded-mtext">Lease Order</span>
+                    </a>
+                </li>
+                {{-- <li class="{{ Route::is('admin.union-pourashava.*') ? 'active' : '' }}">
+                    <a href="{{ route('admin.union-pourashava.index') }}" class="waves-effect waves-dark">
+                        <span class="pcoded-micon">
+                            <i class="feather icon-box"></i>
+                        </span>
+                        <span class="pcoded-mtext">Union/Pourashava</span>
+                    </a>
+                </li> --}}
+
+            </ul>
+
             <div class="pcoded-navigation-label">Configuration</div>
             <ul class="pcoded-item pcoded-left-item">
 
@@ -190,6 +215,14 @@
                             <i class="feather icon-box"></i>
                         </span>
                         <span class="pcoded-mtext">Dag No List</span>
+                    </a>
+                </li>
+                <li class="{{ Route::is('admin.global-config.*') ? 'active' : '' }}">
+                    <a href="{{ route('admin.global-config.index') }}" class="waves-effect waves-dark">
+                        <span class="pcoded-micon">
+                            <i class="feather icon-box"></i>
+                        </span>
+                        <span class="pcoded-mtext">Global Config</span>
                     </a>
                 </li>
             </ul>

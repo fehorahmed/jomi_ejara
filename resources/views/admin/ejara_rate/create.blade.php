@@ -50,7 +50,8 @@
                                                 Name</label>
                                             <div class="col-12 col-md-9">
                                                 <input type="text" name="bn_name" value="{{ old('bn_name') }}"
-                                                    id="bn_name" class="form-control" placeholder="Ejara Rate bangla name">
+                                                    id="bn_name" class="form-control"
+                                                    placeholder="Ejara Rate bangla name">
                                                 @error('bn_name')
                                                     <div class="help-block text-danger">{{ $message }} </div>
                                                 @enderror
@@ -63,6 +64,23 @@
                                                 <input type="number" name="amount" value="{{ old('amount') }}"
                                                     id="amount" class="form-control" placeholder="Enter Amount">
                                                 @error('amount')
+                                                    <div class="help-block text-danger">{{ $message }} </div>
+                                                @enderror
+                                            </div>
+
+                                        </div>
+                                        <div class="row mb-3">
+                                            <label for="land_amount_type" class="col-12 col-md-3 col-form-label">Land Amount
+                                                Type
+                                            </label>
+                                            <div class="col-12 col-md-9">
+                                                <input type="radio" name="land_amount_type" id="borgo"
+                                                    {{ old('land_amount_type') == 1 ? 'checked' : '' }} value="1"
+                                                    class="form-radio"> <label for="borgo"> বর্গফুট</label>
+                                                <input type="radio" name="land_amount_type" id="satak"
+                                                    {{ old('land_amount_type') == 2 ? 'checked' : '' }} value="1"
+                                                    class="form-radio"> <label for="satak"> শতাংশ</label>
+                                                @error('land_amount_type')
                                                     <div class="help-block text-danger">{{ $message }} </div>
                                                 @enderror
                                             </div>

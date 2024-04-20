@@ -7,8 +7,10 @@ use App\Http\Controllers\DistrictController;
 use App\Http\Controllers\EjaraRateController;
 use App\Http\Controllers\frontend\CommonController;
 use App\Http\Controllers\frontend\HomeController;
+use App\Http\Controllers\GlobalConfigController;
 use App\Http\Controllers\KhatianListController;
 use App\Http\Controllers\KhatianTypeController;
+use App\Http\Controllers\LandLeaseOrderController;
 use App\Http\Controllers\MouzaController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SettingController;
@@ -119,6 +121,16 @@ Route::group(['prefix' => 'admin'], function () {
             Route::get('/edit/{id}', [EjaraRateController::class, 'edit'])->name('admin.ejara-rate.edit');
             Route::post('/edit/{id}', [EjaraRateController::class, 'update'])->name('admin.ejara-rate.update');
         });
+        Route::group(['prefix' => 'land-lease'], function () {
+            Route::get('/', [LandLeaseOrderController::class, 'index'])->name('admin.land-lease.index');
+            Route::get('/create', [LandLeaseOrderController::class, 'create'])->name('admin.land-lease.create');
+            Route::post('/create', [LandLeaseOrderController::class, 'store'])->name('admin.land-lease.store');
+            Route::get('/edit/{id}', [LandLeaseOrderController::class, 'edit'])->name('admin.land-lease.edit');
+            Route::post('/edit/{id}', [LandLeaseOrderController::class, 'update'])->name('admin.land-lease.update');
+        });
+
+        Route::get('/global-config', [GlobalConfigController::class, 'index'])->name('admin.global-config.index');
+        Route::post('/global-config', [GlobalConfigController::class, 'store'])->name('admin.global-config.store');
 
         Route::get('/kendro/report', [KendroController::class, 'report'])->name('admin.report.kendro');
         Route::get('get-unions', [UnionPourashavaController::class, 'getUnionBySubDistrict'])->name('get.unions');

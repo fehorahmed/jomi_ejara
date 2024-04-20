@@ -2,7 +2,7 @@
 
 @section('content')
     <!--slider-area-start-->
-    @include('frontend.common.slider')
+    {{-- @include('frontend.common.slider') --}}
     <!--slider-area-end-->
     <!-- marquee-area-start-->
     @include('frontend.common.marquee')
@@ -11,35 +11,36 @@
     <div class="container user_panel">
         <div class="home-chairman-sesction">
             <div class="row">
-                <div class="col-md-6">
-                    <div class="google-map-title section-title">
-                        <h2>
-                            চেয়ারম্যান
-                        </h2>
+                @foreach ($people as $item)
+                    <div class="col-md-6">
+                        <div class="google-map-title section-title">
+                            <h2>
+                                {{ $item->designation }}
+                            </h2>
+                        </div>
+                        <div class="charman_wp ">
+                            <div>
+                                @if ($item->image)
+                                    <img src="{{ asset('storage/' . $item->image) }}" alt="">
+                                @else
+                                    <img src="storage/uploads/fullsize/2021-06/chairman-faridpur.jpg" alt="">
+                                @endif
+                            </div>
+                            <div><br></div>
+                            <div>
+                                <p><b>{{ $item->name }}</b></p>
+                            </div>
+                            <div>
+                                <p>{{ $item->designation }},{{ $item->address }} <br></p>
+                            </div>
+                            <div style="text-align: justify;">
+                                <p>{{ $item->text }}
+                                </p>
+                            </div>
+                        </div>
                     </div>
-                    <div class="charman_wp ">
-                        <div><img src="storage/uploads/fullsize/2021-06/chairman-faridpur.jpg" alt=""></div>
-                        <div><br></div>
-                        <div>
-                            <p><b>জনাব বীর মুক্তিযোদ্ধা মোঃ শামসুল হক</b></p>
-                        </div>
-                        <div>
-                            <p>চেয়ারম্যান, জেলা পরিষদ, ফরিদপুর <br></p>
-                        </div>
-                        <div style="text-align: justify;">
-                            <p>যার মাঝে আছে অনেক কিছু। হ্যাঁ, এই লেখার মাঝেই আছে অনেক কিছু। যদি তুমি মনে করো,
-                                এটা
-                                তোমার কাজে লাগবে, তাহলে তা লাগবে কাজে। নিজের ভাষায় লেখা দেখতে অভ্যস্ত হও। মনে
-                                রাখবে
-                                লেখা অর্থহীন হয়, যখন তুমি তাকে অর্থহীন মনে করো; আর লেখা অর্থবোধকতা তৈরি করে, যখন
-                                তুমি তাতে অর্থ ঢালো। যার মাঝে আছে অনেক কিছু। হ্যাঁ, এই লেখার মাঝেই আছে অনেক
-                                কিছু।
-                                যদি তুমি মনে করো, এটা তোমার কাজে লাগবে, তাহলে তা লাগবে কাজে।?&nbsp; বিস্তারিত
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
+                @endforeach
+                {{-- <div class="col-md-6">
                     <div class="google-map-title section-title">
                         <h2>
                             প্রধান নির্বাহী কর্মকর্তা
@@ -64,7 +65,7 @@
                             করতে পারে, যদি তুমি সেখানে অর্থদ্যোতনা দেখতে পাও। …ছিদ্রান্বেষণ? না, তা হবে কেন?
                             বিস্তারিত&nbsp; </p>
                     </div>
-                </div>
+                </div> --}}
             </div>
         </div>
         {{-- <div class="bs-example bs-example-tabs" data-example-id="togglable-tabs">

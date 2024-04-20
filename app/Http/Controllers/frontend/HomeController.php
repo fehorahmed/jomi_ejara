@@ -3,12 +3,16 @@
 namespace App\Http\Controllers\frontend;
 
 use App\Http\Controllers\Controller;
+use App\Models\HomePerson;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
-    public function index(){
+    public function index()
+    {
 
-        return view('frontend.home');
+        $people = HomePerson::limit(2)->get();
+        // dd($people);
+        return view('frontend.home', compact('people'));
     }
 }

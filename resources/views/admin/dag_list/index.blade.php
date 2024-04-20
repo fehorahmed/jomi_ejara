@@ -22,7 +22,7 @@
                         <li class="breadcrumb-item"><a href="{{route('admin.admin.index')}}">Admin</a>
                         </li> --}}
                         <li class="breadcrumb-item">
-                            <a class="btn btn-primary" href="{{ route('admin.home-setting.person.create') }}">Dag No
+                            <a class="btn btn-primary" href="{{ route('admin.dag-list.create') }}">Dag No
                                 Create</a>
                         </li>
                     </ul>
