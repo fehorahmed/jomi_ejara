@@ -1,13 +1,4 @@
-@php
-    $tenders = [];
-
-    // dump($tenders);
-    $data_count = 0;
-    $sl = 0;
-
-@endphp
-
-@if ($data_count > 0)
+@if (count($leaseOrders) > 0)
 
 
 
@@ -24,38 +15,22 @@
             </tr>
 
             <tbody>
-                @foreach ($tenders as $tender)
-                    @php
-                        $land = App\Land::Where(['id' => $tender->land_id])
-                            ->get()
-                            ->first();
-                        $lease_req = App\LandLease::Where([
-                            'tender_id' => $tender->id,
-                            'user_id' => $user['user_id'],
-                            'application_status' => 'New',
-                        ])
-                            ->get()
-                            ->first();
-                        //dump($lease_req);
-                        //dump($tender);
-                        $sl++;
-
-                    @endphp
+                @foreach ($leaseOrders as $leaseOrder)
                     <tr>
-                        <td>{{ e_to_b($sl) }}</td>
+                        <td>{{ $loop->iteration }}</td>
                         <td>
-                            <b title="মার্কেটের নাম"> আই ডিঃ LAND-{{ $land->id }} </b> <br>
-                            <b title="জমির পরিমান">জমির পরিমানঃ </b> {{ e_to_b($land->area_of_land) }} শতাংশ<br>
-                            <b title="জমির অবস্থা">জমির অবস্থাঃ </b> {{ $land->current_status_of_land }}<br>
+                            <b title="মার্কেটের নাম"> Dag no- {{ $leaseOrder->dagList->bn_name }} </b> <br>
+                            <b title="জমির পরিমান">জমির পরিমানঃ </b> {{ $leaseOrder->dagList->bn_name }} শতাংশ<br>
+                            <b title="জমির অবস্থা">জমির অবস্থাঃ </b> {{ $leaseOrder->dagList->bn_name }}<br>
 
 
                         </td>
                         <td>
-                            <b title="উপজেলা">উপজেলাঃ </b> {{ e_to_b($land->upazila) }}<br>
-                            <b title="মৌজা">মৌজাঃ </b> {{ $land->mouza }}<br>
-                            <b title="জে. এল. নং">জে. এল. নং </b> {{ e_to_b($land->jl_no) }}<br>
-                            <b title="খতিয়ান">খতিয়ানঃ </b> {{ e_to_b($land->khotian) }}<br>
-                            <b title="দাগ">দাগঃ </b> {{ e_to_b($land->dhag) }}<br>
+                            <b title="উপজেলা">উপজেলাঃ </b> {{ $leaseOrder->dagList->bn_name }}<br>
+                            <b title="মৌজা">মৌজাঃ </b> {{ $leaseOrder->dagList->bn_name }}<br>
+                            <b title="জে. এল. নং">জে. এল. নং </b> {{ $leaseOrder->dagList->bn_name }}<br>
+                            <b title="খতিয়ান">খতিয়ানঃ </b> {{ $leaseOrder->dagList->bn_name }}<br>
+                            <b title="দাগ">দাগঃ </b> {{ $leaseOrder->dagList->bn_name }}<br>
                         </td>
                         <td>
                             <b title="উপজেলা">ইজারাঃ </b> {{ e_to_b($tender->rent) }} টাকা<br>

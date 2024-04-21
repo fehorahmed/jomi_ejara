@@ -4,6 +4,7 @@ namespace App\Http\Controllers\frontend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Division;
+use App\Models\LandLeaseOrder;
 use App\Models\Setting;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -21,12 +22,13 @@ class CommonController extends Controller
 
         $settings = Setting::first();
         //$orders_details = $this->ordersdetail->getProductBySecretKey(['user_id' => $user->id]);
+        $leaseOrders = LandLeaseOrder::where('status', 'PUBLISHED')->get();
 
         return view('frontend.common.my_account')
             ->with([
                 'user' => $user,
                 'settings' => $settings,
-                // 'posts' => $posts,
+                'leaseOrders' => $leaseOrders,
                 // 'widgets' => $widgets
             ]);
     }

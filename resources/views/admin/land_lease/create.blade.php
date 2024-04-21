@@ -120,8 +120,8 @@
 
                                         </div>
                                         <div class="text-center mb-3">
-                                            <a href="{{ route('admin.ejara-rate.index') }}" class="btn btn-danger">Back</a>
-                                            <input type="submit" class="btn btn-primary  " value="Add Ejara Rate">
+                                            <a href="{{ route('admin.land-lease.index') }}" class="btn btn-danger">Back</a>
+                                            <input type="submit" class="btn btn-primary  " value="Add Lease Order">
                                         </div>
                                     </form>
                                 </div>
