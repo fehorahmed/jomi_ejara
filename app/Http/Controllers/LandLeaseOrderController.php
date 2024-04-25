@@ -31,8 +31,10 @@ class LandLeaseOrderController extends Controller
      */
     public function store(Request $request)
     {
+        dd($request->all());
         $request->validate([
             "dag_no" => 'required|numeric',
+            "application_start_date" => "required|date",
             "application_end_date" => "required|date",
             "status" => "required"
         ]);
@@ -46,6 +48,7 @@ class LandLeaseOrderController extends Controller
         $data = new LandLeaseOrder();
         $data->dag_list_id = $request->dag_no;
         $data->publish_date = now();
+        $data->application_start_date = $request->application_start_date;
         $data->application_end_date = $request->application_end_date;
         $data->status =  $request->status;
         $data->created_by = auth()->id();

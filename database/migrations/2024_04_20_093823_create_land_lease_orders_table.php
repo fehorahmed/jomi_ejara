@@ -17,6 +17,7 @@ return new class extends Migration
             $table->float('form_fee')->default(0);
             $table->float('application_fee')->default(0);
             $table->date('publish_date');
+            $table->date('application_start_date');
             $table->date('application_end_date');
             $table->enum('status', ['PUBLISHED', 'APPLIED', 'ACCEPT', 'CANCEL'])->default('PUBLISHED');
             $table->foreignId('created_by');

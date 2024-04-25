@@ -59,7 +59,8 @@
                                                     id="dag_no">
                                                     <option value="">Select one</option>
                                                     @foreach ($dags as $dag)
-                                                        <option value="{{ old('dag_no', $dag->id) }}">{{ $dag->bn_name }},
+                                                        <option value="{{ old('dag_no') }}"
+                                                            {{ old('dag_no') == $dag->id ? 'selected' : '' }}>{{ $dag->bn_name }},
                                                             {{ $dag->upazila->bn_name }},
                                                             {{ $dag->unionPourashava->bn_name }},
                                                             {{ $dag->khatianType->bn_name }},
@@ -69,8 +70,8 @@
                                                     @endforeach
                                                 </select>
 
-                                                @error('bn_name')
-                                                    <div class="help-block text-danger">{{ $message }} </div>
+                                                @error('dag_no')
+                                                    <div class="help-block text-danger mt-3">{{ $message }} </div>
                                                 @enderror
                                             </div>
 
@@ -87,6 +88,21 @@
                                             </div>
 
                                         </div> --}}
+                                        <div class="row mb-3">
+                                            <label for="application_start_date"
+                                                class="col-12 col-md-3 col-form-label">Application Start
+                                                Date
+                                            </label>
+                                            <div class="col-12 col-md-9">
+                                                <input type="date" name="application_start_date"
+                                                    value="{{ old('application_start_date') }}" id="application_start_date"
+                                                    class="form-control">
+                                                @error('application_start_date')
+                                                    <div class="help-block text-danger">{{ $message }} </div>
+                                                @enderror
+                                            </div>
+
+                                        </div>
                                         <div class="row mb-3">
                                             <label for="application_end_date"
                                                 class="col-12 col-md-3 col-form-label">Application End
