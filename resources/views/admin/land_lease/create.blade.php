@@ -59,8 +59,9 @@
                                                     id="dag_no">
                                                     <option value="">Select one</option>
                                                     @foreach ($dags as $dag)
-                                                        <option value="{{ old('dag_no') }}"
-                                                            {{ old('dag_no') == $dag->id ? 'selected' : '' }}>{{ $dag->bn_name }},
+                                                        <option value="{{ old('dag_no', $dag->id) }}"
+                                                            {{ old('dag_no') == $dag->id ? 'selected' : '' }}>
+                                                            {{ $dag->bn_name }},
                                                             {{ $dag->upazila->bn_name }},
                                                             {{ $dag->unionPourashava->bn_name }},
                                                             {{ $dag->khatianType->bn_name }},

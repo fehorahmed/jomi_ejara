@@ -17,17 +17,18 @@
                     <tr>
                         <td>{{ $loop->iteration }}</td>
                         <td>
-                            <b title="মার্কেটের নাম"> Dag no- {{ $leaseOrder->dagList->bn_name }} </b> <br>
-                            <b title="জমির পরিমান">জমির পরিমানঃ </b> {{ $leaseOrder->dagList->bn_name }} শতাংশ<br>
-                            <b title="জমির অবস্থা">জমির অবস্থাঃ </b> {{ $leaseOrder->dagList->bn_name }}<br>
+                            <b title="dag no"> Dag no- {{ $leaseOrder->dagList->bn_name }} </b> <br>
+                            <b title="জমির পরিমান">জমির পরিমানঃ </b> {{ $leaseOrder->dagList->land_amount }}
+                            {{ $leaseOrder->dagList->land_amount_type == 1 ? 'AKOR' : 'SATAK' }}<br>
+                            <b title="জমির অবস্থা">জমির অবস্থাঃ </b> {{ $leaseOrder->dagList->land_condition }}<br>
 
 
                         </td>
                         <td>
-                            <b title="উপজেলা">উপজেলাঃ </b> {{ $leaseOrder->dagList->bn_name }}<br>
-                            <b title="মৌজা">মৌজাঃ </b> {{ $leaseOrder->dagList->bn_name }}<br>
-                            <b title="জে. এল. নং">জে. এল. নং </b> {{ $leaseOrder->dagList->bn_name }}<br>
-                            <b title="খতিয়ান">খতিয়ানঃ </b> {{ $leaseOrder->dagList->bn_name }}<br>
+                            <b title="উপজেলা">উপজেলাঃ </b> {{ $leaseOrder->dagList->upazila->bn_name }}<br>
+                            <b title="মৌজা">মৌজাঃ </b> {{ $leaseOrder->dagList->mouza->bn_name }}<br>
+                            <b title="জে. এল. নং">জে. এল. নং </b> {{ $leaseOrder->dagList->mouza->j_l_no }}<br>
+                            <b title="খতিয়ান">খতিয়ানঃ </b> {{ $leaseOrder->dagList->khatianNo->bn_name }}<br>
                             <b title="দাগ">দাগঃ </b> {{ $leaseOrder->dagList->bn_name }}<br>
                         </td>
                         <td>
@@ -45,9 +46,9 @@
                         <td>
 
                             <b title=" আবেদনের শুরু">
-                                শুরুঃ </b> <br>
+                                শুরুঃ {{ $leaseOrder->application_start_date ?? '' }}</b> <br>
                             <b title=" আবেদনের শেষ">
-                                শেষঃ </b> <br>
+                                শেষঃ {{ $leaseOrder->application_end_date ?? '' }}</b> <br>
 
 
                         </td>
@@ -58,183 +59,208 @@
                                 </button>
                             @else --}}
                             <!-- Button trigger modal -->
-                            <button type="button" class="btn btn-success btn-sm" data-toggle="modal"
-                                data-target="#tender_land_model_{{ $leaseOrder->id }}">
-                                আবেদন
-                            </button>
+                            @if (App\Models\LandLeaseApplication::LandLeaseApplicationUser($leaseOrder->id))
+                                <button type="button" class="btn btn-info btn-sm">
+                                    আবেদন করা হয়েছে
+                                </button>
+                            @else
+                                <button type="button" class="btn btn-success btn-sm" data-toggle="modal"
+                                    data-target="#tender_land_model_{{ $leaseOrder->id }}">
+                                    আবেদন
+                                </button>
+                            @endif
+
 
                             <div class="modal fade" id="tender_land_model_{{ $leaseOrder->id }}" tabindex="-1"
                                 role="dialog" aria-labelledby="myModalLabel">
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">
                                         {{-- {{ Form::open(['url' => 'land_tender_aply', 'method' => 'post', 'autocomplete' => 'off']) }} --}}
-
-                                        <div class="modal-header">
-                                            <button type="button" class="close" data-dismiss="modal"
-                                                aria-label="Close">
-                                                <span aria-hidden="true">&times;</span></button>
-                                            <h4 class="modal-title" id="myModalLabel">আবেদন পত্র </h4>
-                                        </div>
-                                        <div class="modal-body">
-                                            <div class="form-group">
-                                                <div class="radio">
-                                                    <label>
-                                                        <input type="radio" name="payment_info[payment_method]"
-                                                            id="pm_bankdraft" value="Bank draft"
-                                                            onchange="payment_option(this);"
-                                                            data-id="{{ $leaseOrder->id }}" checked>
-                                                        পে অর্ডার / ব্যাংক ড্রাফট
-                                                    </label>
-                                                </div>
-
-                                                <div class="radio">
-                                                    <label>
-                                                        <input type="radio" name="payment_info[payment_method]"
-                                                            id="pm_bkash" value="Bkash"
-                                                            onchange="payment_option(this);"
-                                                            data-id="{{ $leaseOrder->id }}">
-                                                        বিকাশ
-                                                    </label>
-                                                </div>
-                                                <div class="radio">
-                                                    <label>
-                                                        <input type="radio" name="payment_info[payment_method]"
-                                                            id="pm_nagot" value="Nagat"
-                                                            onchange="payment_option(this);"
-                                                            data-id="{{ $leaseOrder->id }}">
-                                                        নগদ
-                                                    </label>
-                                                </div>
+                                        <form
+                                            action="{{ route('user.land_lease_order_application', $leaseOrder->id) }}"
+                                            method="POST" enctype="multipart/form-data">
+                                            @csrf
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                    aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span></button>
+                                                <h4 class="modal-title" id="myModalLabel">আবেদন পত্র </h4>
                                             </div>
-                                            <div class="form-group">
-                                                <div class="input-group" style="margin-bottom: 5px">
-                                                    <div class="input-group-addon" style="min-width: 165px">
-                                                        <div class="input-group-text" id="rent_amount_co">টাকার
-                                                            পরিমাণ
-                                                        </div>
-                                                    </div>
-                                                    {{-- {{ Form::number('payment_info[amount]', 100, ['required', 'class' => 'form-control', 'placeholder' => 'টাকার পরিমাণ..', 'readonly']) }} --}}
-
-                                                    <div class="input-group-addon">
-                                                        <div class="input-group-text">টাকা</div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div id="bank-draft-{{ $leaseOrder->id }}">
+                                            <div class="modal-body">
                                                 <div class="form-group">
+                                                    <div class="radio">
+                                                        <label>
+                                                            <input type="radio" name="payment_method"
+                                                                id="pm_bankdraft" value="Bank draft"
+                                                                onchange="payment_option(this);"
+                                                                data-id="{{ $leaseOrder->id }}" checked>
+                                                            পে অর্ডার / ব্যাংক ড্রাফট
+                                                        </label>
+                                                    </div>
 
-
+                                                    <div class="radio">
+                                                        <label>
+                                                            <input type="radio" name="payment_method" id="pm_bkash"
+                                                                value="Bkash" onchange="payment_option(this);"
+                                                                data-id="{{ $leaseOrder->id }}">
+                                                            বিকাশ
+                                                        </label>
+                                                    </div>
+                                                    <div class="radio">
+                                                        <label>
+                                                            <input type="radio" name="payment_method" id="pm_nagot"
+                                                                value="Nagad" onchange="payment_option(this);"
+                                                                data-id="{{ $leaseOrder->id }}">
+                                                            নগদ
+                                                        </label>
+                                                    </div>
+                                                    <div class="radio">
+                                                        <label>
+                                                            <input type="radio" name="payment_method" id="pm_cash"
+                                                                value="Cash" onchange="payment_option(this);"
+                                                                data-id="{{ $leaseOrder->id }}">
+                                                            ক্যাশ
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
                                                     <div class="input-group" style="margin-bottom: 5px">
                                                         <div class="input-group-addon" style="min-width: 165px">
-                                                            <div class="input-group-text" id="rent_amount_co">পে
-                                                                অর্ডার
-                                                                / ব্যাংক ড্রাফট নং
+                                                            <div class="input-group-text" id="rent_amount_co">টাকার
+                                                                পরিমাণ
                                                             </div>
                                                         </div>
-                                                        {{-- {{ Form::number('payment_info[payorder]', null, ['class' => 'form-control', 'placeholder' => 'পে অর্ডার / ব্যাংক ড্রাফট নং..']) }} --}}
+                                                        <input type="text" class="form-control" name="amount"
+                                                            value="{{ Helper::get_config('new_form_fee') }}" readonly
+                                                            id="amount">
+                                                        {{-- {{ Form::number('payment_info[amount]', 100, ['required', 'class' => 'form-control', 'placeholder' => 'টাকার পরিমাণ..', 'readonly']) }} --}}
 
+                                                        <div class="input-group-addon">
+                                                            <div class="input-group-text">টাকা</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div id="bank-draft-{{ $leaseOrder->id }}">
+                                                    <div class="form-group">
+
+
+                                                        <div class="input-group" style="margin-bottom: 5px">
+                                                            <div class="input-group-addon" style="min-width: 165px">
+                                                                <div class="input-group-text" id="rent_amount_co">পে
+                                                                    অর্ডার
+                                                                    / ব্যাংক ড্রাফট নং
+                                                                </div>
+                                                            </div>
+                                                            <input type="text" class="form-control" name="payorder"
+                                                                id="payorder">
+                                                            {{-- {{ Form::number('payment_info[payorder]', null, ['class' => 'form-control', 'placeholder' => 'পে অর্ডার / ব্যাংক ড্রাফট নং..']) }} --}}
+
+
+                                                        </div>
+
+                                                        <div class="input-group" style="margin-bottom: 5px">
+                                                            <div class="input-group-addon" style="min-width: 165px">
+                                                                <div class="input-group-text" id="rent_amount_co">
+                                                                    ব্যাংকের
+                                                                    নাম
+                                                                </div>
+                                                            </div>
+                                                            <input type="text" class="form-control" name="bank"
+                                                                id="bank">
+                                                        </div>
+                                                        <div class="input-group" style="margin-bottom: 5px">
+                                                            <div class="input-group-addon" style="min-width: 165px">
+                                                                <div class="input-group-text" id="rent_amount_co">শাখা
+                                                                </div>
+                                                            </div>
+                                                            <input type="text" class="form-control" name="branch"
+                                                                id="branch">
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div id="bkash-nogot-{{ $leaseOrder->id }}" class="hidden">
+                                                    <div class="form-group">
+
+
+                                                        <div class="input-group" style="margin-bottom: 5px">
+                                                            <div class="input-group-addon" style="min-width: 165px">
+                                                                <div class="input-group-text" id="rent_amount_co">
+                                                                    লেনদেন
+                                                                    নম্বর লিখুন
+                                                                </div>
+                                                            </div>
+                                                            <input type="text" class="form-control" name="number"
+                                                                id="number">
+                                                            {{-- {{ Form::number('payment_info[number]', null, ['class' => 'form-control', 'placeholder' => ' লেনদেন নম্বর লিখুন...']) }} --}}
+
+
+                                                        </div>
+
+                                                        <div class="input-group" style="margin-bottom: 5px">
+                                                            <div class="input-group-addon" style="min-width: 165px">
+                                                                <div class="input-group-text" id="rent_amount_co">
+                                                                    ট্রানস্যাকশন আইডি
+                                                                </div>
+                                                            </div>
+                                                            <input type="text" class="form-control"
+                                                                name="transaction_id" id="transaction_id">
+                                                            {{-- {{ Form::text('payment_info[tid]', null, ['class' => 'form-control', 'placeholder' => 'ট্রানস্যাকশন আইডি..']) }} --}}
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div id="cash-area-{{ $leaseOrder->id }}" class="hidden">
+                                                    <div class="form-group">
+                                                        <div class="input-group" style="margin-bottom: 5px">
+                                                            <div class="input-group-addon" style="min-width: 165px">
+                                                                <div class="input-group-text" id="receipt">
+                                                                    রিসিট
+                                                                    নম্বর লিখুন
+                                                                </div>
+                                                            </div>
+                                                            <input type="text" class="form-control"
+                                                                name="receipt_no" id="receipt_no">
+                                                        </div>
 
                                                     </div>
+                                                </div>
+                                                <div class="form-group">
                                                     <div class="input-group" style="margin-bottom: 5px">
                                                         <div class="input-group-addon" style="min-width: 165px">
                                                             <div class="input-group-text" id="rent_amount_co">তারিখ
                                                             </div>
                                                         </div>
+                                                        <input type="date" class="form-control" name="date"
+                                                            id="date">
                                                         {{-- {{ Form::text('payment_info[date]', null, ['class' => 'form-control date-pick', 'placeholder' => 'তারিখ..', 'autocomplete' => 'off']) }} --}}
 
 
                                                     </div>
-                                                    <div class="input-group" style="margin-bottom: 5px">
-                                                        <div class="input-group-addon" style="min-width: 165px">
-                                                            <div class="input-group-text" id="rent_amount_co">
-                                                                ব্যাংকের
-                                                                নাম
-                                                            </div>
-                                                        </div>
-                                                        {{-- {{ Form::text('payment_info[bank]', null, ['class' => 'form-control', 'placeholder' => 'ব্যাংকের নাম..']) }} --}}
-
-                                                    </div>
-                                                    <div class="input-group" style="margin-bottom: 5px">
-                                                        <div class="input-group-addon" style="min-width: 165px">
-                                                            <div class="input-group-text" id="rent_amount_co">শাখা
-                                                            </div>
-                                                        </div>
-                                                        {{-- {{ Form::text('payment_info[branch]', null, ['class' => 'form-control', 'placeholder' => 'শাখা..']) }} --}}
-
-                                                    </div>
-
                                                 </div>
-                                            </div>
 
-                                            <div id="bkash-nogot-{{ $leaseOrder->id }}" class="hidden">
                                                 <div class="form-group">
+                                                    {{-- {{ Form::label('notes', 'কি কারণে ইজারা নেয়া প্রয়োজন?', ['class' => 'notes']) }} --}}
+                                                    {{-- {{ Form::textarea('lease_reason', null, ['id' => null, 'rows' => 2, 'class' => 'form-control', 'placeholder' => 'কি কারণে ইজারা নেয়া প্রয়োজন?...']) }} --}}
+
+                                                    {{-- {{ Form::hidden('tender_id', $leaseOrder->id, ['required']) }} --}}
+                                                    {{-- {{ Form::hidden('land_id', $leaseOrder->land_id, ['required']) }} --}}
+                                                    {{-- {{ Form::hidden('user_id', $user['user_id'], ['required']) }} --}}
 
 
-                                                    <div class="input-group" style="margin-bottom: 5px">
-                                                        <div class="input-group-addon" style="min-width: 165px">
-                                                            <div class="input-group-text" id="rent_amount_co">
-                                                                লেনদেন
-                                                                নম্বর লিখুন
-                                                            </div>
-                                                        </div>
-                                                        {{-- {{ Form::number('payment_info[number]', null, ['class' => 'form-control', 'placeholder' => ' লেনদেন নম্বর লিখুন...']) }} --}}
-
-
-                                                    </div>
-                                                    <div class="input-group" style="margin-bottom: 5px">
-                                                        <div class="input-group-addon" style="min-width: 165px">
-                                                            <div class="input-group-text" id="rent_amount_co">
-                                                                তারিখ
-                                                            </div>
-                                                        </div>
-                                                        {{-- {{ Form::text('payment_info[date]', null, ['class' => 'form-control date-pick', 'placeholder' => 'তারিখ..']) }} --}}
-
-
-                                                    </div>
-                                                    <div class="input-group" style="margin-bottom: 5px">
-                                                        <div class="input-group-addon" style="min-width: 165px">
-                                                            <div class="input-group-text" id="rent_amount_co">
-                                                                ট্রানস্যাকশন আইডি
-                                                            </div>
-                                                        </div>
-                                                        {{-- {{ Form::text('payment_info[tid]', null, ['class' => 'form-control', 'placeholder' => 'ট্রানস্যাকশন আইডি..']) }} --}}
-
-                                                    </div>
                                                 </div>
                                             </div>
-                                            <div class="form-group">
-                                                {{-- {{ Form::label('is_land_possession', 'জমি দখল আছে কি না?', ['class' => 'is_under_ground']) }} --}}
-                                                {{-- {{ Form::select(
-                                                    'is_land_possession',
-                                                    [
-                                                        'Yes' => 'হ্যাঁ',
-                                                        'No' => 'না',
-                                                    ],
-                                                    null,
-                                                    ['class' => 'form-control', 'placeholder' => 'একটি বাছাই করুন...'],
-                                                ) }} --}}
+
+
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-danger"
+                                                    data-dismiss="modal">বাতিল
+                                                </button>
+                                                <button type="submit" class="btn btn-success">জমা দিন</button>
                                             </div>
-
-                                            <div class="form-group">
-                                                {{-- {{ Form::label('notes', 'কি কারণে ইজারা নেয়া প্রয়োজন?', ['class' => 'notes']) }} --}}
-                                                {{-- {{ Form::textarea('lease_reason', null, ['id' => null, 'rows' => 2, 'class' => 'form-control', 'placeholder' => 'কি কারণে ইজারা নেয়া প্রয়োজন?...']) }} --}}
-
-                                                {{-- {{ Form::hidden('tender_id', $leaseOrder->id, ['required']) }} --}}
-                                                {{-- {{ Form::hidden('land_id', $leaseOrder->land_id, ['required']) }} --}}
-                                                {{-- {{ Form::hidden('user_id', $user['user_id'], ['required']) }} --}}
-
-
-                                            </div>
-                                        </div>
-
-
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-danger" data-dismiss="modal">বাতিল
-                                            </button>
-                                            <button type="submit" class="btn btn-success">জমা দিন</button>
-                                        </div>
-                                        {{-- {{ Form::close() }} --}}
+                                            {{-- {{ Form::close() }} --}}
+                                        </form>
                                     </div>
                                 </div>
                             </div>

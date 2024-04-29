@@ -63,6 +63,30 @@
                 @php
                     $auth = auth()->user();
                 @endphp
+
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+                @if (session('error'))
+                    <div class="alert alert-danger">
+                        <ul>
+                            <li>{{ session('error') }}</li>
+                        </ul>
+                    </div>
+                @endif
+                @if (session('success'))
+                    <div class="alert alert-success">
+                        <ul>
+                            <li>{{ session('success') }}</li>
+                        </ul>
+                    </div>
+                @endif
                 <div class="card ">
                     <div class="">
                         @if ($auth->photo)
@@ -368,4 +392,107 @@
             border-radius: 50%;
         }
     </style>
+    <script>
+        $(document).ready(function() {
+
+            // show active tab on reload
+            if (location.hash !== '') $('a[href="' + location.hash + '"]').tab('show');
+
+            // remember the hash in the URL without jumping
+            $('a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
+                if (history.pushState) {
+                    var main = "{{ url('my_shop') }}";
+                    var has = '#' + $(e.target).attr('href').substr(1);
+
+                    $('#market_f_searche').attr('action', main + has);
+                    history.pushState(null, null, '#' + $(e.target).attr('href').substr(1));
+                } else {
+                    location.hash = '#' + $(e.target).attr('href').substr(1);
+                }
+            });
+
+
+            master_function();
+            $(function() {
+                $(".date-pick").datepicker({
+                    format: 'dd-mm-yyyy'
+                }).val();
+            });
+
+            $(document).on('keyup', '#searche_user', function(e) {
+                let src = $(this).val();
+                find_land_transfer_user(src);
+            });
+            $(document).on('click', '#submit_transfer_user', function(e) {
+                let user = $(this).data('user');
+                let land = $(this).data('land');
+                let url = baseurl + '/land_transfer_user?user=' + user + '&land=' + land;
+                window.location.replace(url);
+
+            });
+
+            function find_land_transfer_user(src) {
+                let type = $('#searche_type').val();
+                let user_id = $('#t_user').val();
+                let land_id = $('#t_land').val();
+                $.ajax({
+                    url: baseurl + '/find_land_transfer_user',
+                    method: 'get',
+                    data: {
+                        search: src,
+                        type: type,
+                        user_id: user_id,
+                        land_id: land_id,
+                    },
+                    success: function(data) {
+
+
+                        $('#searche_view').html(data);
+
+                    },
+                    error: function() {}
+                });
+            }
+
+
+            function master_function() {
+
+
+            }
+
+
+
+
+            window.payment_option = function(self) {
+
+                var id = $(self).data('id')
+                var valu = $(self).val();
+                var charge = $(self).data('charge');
+                var total = $(self).data('total');
+                var g_total = charge + total;
+                $('#payment-charge' + id).val(charge);
+                $('#payment-total' + id).val(g_total);
+                // alert(charge + '--' + total)
+                if (valu == 'Bkash' || valu == 'Nagad') {
+
+                    $('#bkash-nogot-' + id).removeClass("hidden");
+                    $('#bank-draft-' + id).addClass("hidden");
+                    $('#cash-area-' + id).addClass("hidden");
+
+                } else if (valu == 'Cash') {
+                    $('#bkash-nogot-' + id).addClass("hidden");
+                    $('#bank-draft-' + id).addClass("hidden");
+                    $('#cash-area-' + id).removeClass("hidden");
+                } else {
+                    $('#bkash-nogot-' + id).addClass("hidden");
+                    $('#bank-draft-' + id).removeClass("hidden");
+                    $('#cash-area-' + id).addClass("hidden");
+                }
+
+                //alert('bkash-nogot-'+id);
+
+            }
+
+        });
+    </script>
 @endsection

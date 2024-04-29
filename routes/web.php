@@ -10,6 +10,7 @@ use App\Http\Controllers\frontend\HomeController;
 use App\Http\Controllers\GlobalConfigController;
 use App\Http\Controllers\KhatianListController;
 use App\Http\Controllers\KhatianTypeController;
+use App\Http\Controllers\LandLeaseApplicationController;
 use App\Http\Controllers\LandLeaseOrderController;
 use App\Http\Controllers\MouzaController;
 use App\Http\Controllers\ProfileController;
@@ -128,6 +129,9 @@ Route::group(['prefix' => 'admin'], function () {
             Route::get('/edit/{id}', [LandLeaseOrderController::class, 'edit'])->name('admin.land-lease.edit');
             Route::post('/edit/{id}', [LandLeaseOrderController::class, 'update'])->name('admin.land-lease.update');
         });
+        Route::group(['prefix' => 'land-lease-application'], function () {
+            Route::get('/', [LandLeaseApplicationController::class, 'index'])->name('admin.land-lease-application.index');
+        });
 
         Route::get('/global-config', [GlobalConfigController::class, 'index'])->name('admin.global-config.index');
         Route::post('/global-config', [GlobalConfigController::class, 'store'])->name('admin.global-config.store');
@@ -151,6 +155,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/my_account', [CommonController::class, 'my_account'])->name('user.my_account');
     Route::get('/profile_edit', [CommonController::class, 'profile_edit'])->name('user.profile_edit');
     Route::post('/profile_edit_update', [CommonController::class, 'profile_edit_update'])->name('user.profile_edit_update');
+
+
+    Route::post('/land_lease_order_application/{land_lease_order_id}', [LandLeaseApplicationController::class, 'landLeaseApplicationStore'])->name('user.land_lease_order_application');
 
 
 

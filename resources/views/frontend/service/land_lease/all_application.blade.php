@@ -1,15 +1,4 @@
-@php
-    $tenders = [];
-
-    // dump($tenders);
-    $data_count = 0;
-    $sl = 0;
-
-@endphp
-
-@if ($data_count > 0)
-
-
+@if (count($leaseApplications) > 0)
 
     <div class="panel-body">
         <table class="table table-striped table-bordered styled-table_o">
@@ -24,100 +13,66 @@
             </tr>
 
             <tbody>
-                @foreach ($tenders as $list)
-                    @php
-                        $sl++;
-
-                        $tender = App\LandSession::Where(['id' => $list->tender_id])
-                            ->get()
-                            ->first();
-
-                        $tp_info = json_decode($list->tender_payment_info, true);
-                        // dump($tender);
-                        $land = App\Land::Where(['id' => $list->land_id])
-                            ->get()
-                            ->first();
-
-                    @endphp
+                @foreach ($leaseApplications as $leaseApplication)
                     <tr>
-                        <td>{{ $sl }}</td>
+                        <td>{{ $loop->iteration }}</td>
                         <td>
-                            <b title="মার্কেটের নাম"> LAND-{{ $land->id }} </b><br>
-                            <b title="জমির পরিমান">জমির পরিমানঃ </b> {{ e_to_b($land->area_of_land) }} শতাংশ<br>
-                            <b title="জমির অবস্থা">জমির অবস্থাঃ </b> {{ $land->current_status_of_land }}<br>
-                            <b title=" চুক্তি শুরু"> চুক্তি
-                                শুরুঃ </b> {{ e_to_b(date('d-F-Y', strtotime(@$tender->lease_start_date))) }}<br>
-                            <b title=" চুক্তি শেষ"> চুক্তি
-                                শেষঃ </b> {{ e_to_b(date('d-F-Y', strtotime(@$tender->lease_end_date))) }}
+                            <b title="dag no"> Dag no- {{ $leaseApplication->dagList->bn_name }} </b> <br>
+                            <b title="জমির পরিমান">জমির পরিমানঃ </b> {{ $leaseApplication->dagList->land_amount }}
+                            {{ $leaseApplication->dagList->land_amount_type == 1 ? 'AKOR' : 'SATAK' }}<br>
+                            <b title="জমির অবস্থা">জমির অবস্থাঃ </b>
+                            {{ $leaseApplication->dagList->land_condition }}<br>
+
+                        </td>
+                        <td>
+                            <b title="উপজেলা">উপজেলাঃ </b> {{ $leaseApplication->dagList->upazila->bn_name }}<br>
+                            <b title="মৌজা">মৌজাঃ </b> {{ $leaseApplication->dagList->mouza->bn_name }}<br>
+                            <b title="জে. এল. নং">জে. এল. নং </b> {{ $leaseApplication->dagList->mouza->j_l_no }}<br>
+                            <b title="খতিয়ান">খতিয়ানঃ </b> {{ $leaseApplication->dagList->khatianNo->bn_name }}<br>
+                            <b title="দাগ">দাগঃ </b> {{ $leaseApplication->dagList->bn_name }}<br>
+                        </td>
+                        <td>
+
+                            <b title="মোট"> মোটঃ </b> {{ $leaseApplication->amount }}টাকা<br>
+                            <b title="মোট"> তারিখঃ </b> {{ $leaseApplication->payment_date }}টাকা<br>
 
 
                         </td>
                         <td>
-                            <b title="উপজেলা">উপজেলাঃ </b> {{ e_to_b($land->upazila) }}<br>
-                            <b title="মৌজা">মৌজাঃ </b> {{ $land->mouza }}<br>
-                            <b title="জে. এল. নং">জে. এল. নং </b> {{ e_to_b($land->jl_no) }}<br>
-                            <b title="খতিয়ান">খতিয়ানঃ </b> {{ e_to_b($land->khotian) }}<br>
-                            <b title="দাগ">দাগঃ </b> {{ e_to_b($land->dhag) }}<br>
-                        </td>
-                        <td>
-                            @php
-                                $lease_amount = $tender ? $tender->rent : $land->lease_amount;
-                                $lease_tax = $tender ? $tender->tax : $land->lease_tax;
-                                $lease_vat = $tender ? $tender->vat : $land->lease_vat;
-                                $lease_total_vat = ($lease_vat * $lease_amount) / 100;
-                                $lease_total_tax = ($lease_tax * $lease_amount) / 100;
-                                $lease_start_date = $tender ? $tender->lease_start_date : $land->lease_start;
-                                $lease_end_date = $tender ? $tender->lease_end_date : $land->lease_end;
-
-                            @endphp
-
-                            <b title="উপজেলা">ইজারাঃ </b> {{ e_to_b(@$tender->rent) }} টাকা<br>
-                            <b title="ভ্যাট"> বকেয়াঃ </b> {{ e_to_b(@$tender->due) }} টাকা <br>
-                            <b title="ট্যাক্স"> বকেয়া জরিমানাঃ </b> {{ e_to_b(@$tender->fine) }}টাকা<br>
-                            <b title="ট্যাক্স"> মোটঃ </b> {{ e_to_b(@$tender->total_amount) }}টাকা<br>
-                            @if (@$tender->due_info)
-                                @php
-                                    $due_info = json_decode(@$tender->due_info, true);
-                                    //dump($due_info);
-                                @endphp
-                                <b title="ভ্যাট"> বকেয়ার সময়ঃ </b> <br>
-                                {{ e_to_b(date('d-F-y', strtotime($due_info['from']))) }} থেকে
-                                {{ e_to_b(date('d-F-y', strtotime($due_info['to']))) }}
-                                ({{ e_to_b($due_info['year']) }} বছর)
-                                <br>
-                            @endif
+                            {{ $leaseApplication->status }}
 
                         </td>
                         <td>
-                            {{ e_to_b($list->application_status) }}
-
-
-                        </td>
-                        <td>
-                            <b title=" আবেদনের শুরু">তারিখঃ </b>
-                            {{ e_to_b(date('d-F-Y', strtotime($list->created_at ?? ''))) }}<br>
+                            <b title=" আবেদনের তারিখ">তারিখঃ </b>
+                            {{ $leaseApplication->date ?? '' }}<br>
                             <b title=" পেমেন্ট মেথডঃ ">পেমেন্ট মেথডঃ </b>
-                            {{ e_to_b($tp_info['payment_method'] ?? '') }}<br>
-                            <b title=" টাকার পরিমাণঃ ">টাকার পরিমাণঃ </b> {{ e_to_b($tp_info['amount'] ?? '') }}
+                            {{ $leaseApplication->payment_method }}<br>
+                            <b title=" টাকার পরিমাণঃ ">টাকার পরিমাণঃ </b>
+                            {{ $leaseApplication->transaction_number ?? '' }}
                             টাকা<br>
-                            @if (!isset($tp_info['bank']))
-                                <b title=" মোবাইল নম্বর ">মোঃ নং </b> {{ e_to_b($tp_info['number'] ?? '') }}<br>
-                                <b title=" ট্যাক্স আইডি">ট্যাক্স আইডিঃ </b> {{ $tp_info['tid'] ?? '' }}<br>
-                            @else
+                            @if ($leaseApplication->payment_method == 'BANK')
                                 <b title=" পে অর্ডার নং ">পে অর্ডার নং </b>
-                                {{ e_to_b($tp_info['payorder'] ?? '') }}<br>
-                                <b title="ব্যাংকঃ ">ব্যাংকঃ </b> {{ e_to_b($tp_info['bank'] ?? '') }}<br>
-                                <b title=" শাখা ">শাখাঃ </b> {{ e_to_b($tp_info['branch'] ?? '') }}<br>
+                                {{ $leaseApplication->payorder ?? '' }}<br>
+                                <b title="ব্যাংকঃ ">ব্যাংকঃ </b> {{ $leaseApplication->bank ?? '' }}<br>
+                                <b title=" শাখা ">শাখাঃ </b> {{ $leaseApplication->branch ?? '' }}<br>
+                            @elseif ($leaseApplication->payment_method == 'CASH')
+                                <b title=" receipt nuber ">রশিদ নং </b>
+                                {{ $leaseApplication->receipt_no ?? '' }}<br>
+                            @else
+                                <b title=" মোবাইল নম্বর ">মোঃ নং </b>
+                                {{ $leaseApplication->transaction_number ?? '' }}<br>
+                                <b title=" ট্যাক্স আইডি">ট্যাক্স আইডিঃ </b>
+                                {{ $leaseApplication->transaction_id ?? '' }}<br>
                             @endif
                         </td>
                         <td>
 
 
                             <button type="button" class="btn btn-default btn-sm" disabled>
-                                {{ e_to_b($list->request_status) }}
+                                {{ $leaseApplication->status }}
                             </button>
 
-                            <div class="btn-group disabled " role="group" disabled="disabled">
+                            {{-- <div class="btn-group disabled " role="group" disabled="disabled">
 
                                 <button type="button" class="btn btn-xs btn-danger dropdown-toggle"
                                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -126,12 +81,14 @@
                                     <span class="caret"></span>
                                 </button>
                                 <ul class="dropdown-menu" style="right: 0; left: inherit">
-                                    <li><a href="lease_aplication_print/{{ $list->id }}" target="_blank">আবেদন</a>
+                                    <li><a href="lease_aplication_print/{{ $leaseApplication->id }}"
+                                            target="_blank">আবেদন</a>
                                     </li>
-                                    <li><a href="lease_request_money_reicept/{{ $list->id }}" target="_blank">মানি
+                                    <li><a href="lease_request_money_reicept/{{ $leaseApplication->id }}"
+                                            target="_blank">মানি
                                             রিসিপ্ট</a></li>
                                 </ul>
-                            </div>
+                            </div> --}}
 
 
                         </td>

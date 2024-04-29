@@ -154,14 +154,14 @@
                         <span class="pcoded-mtext">Lease Order</span>
                     </a>
                 </li>
-                {{-- <li class="{{ Route::is('admin.union-pourashava.*') ? 'active' : '' }}">
-                    <a href="{{ route('admin.union-pourashava.index') }}" class="waves-effect waves-dark">
+                <li class="{{ Route::is('admin.land-lease-application.*') ? 'active' : '' }}">
+                    <a href="{{ route('admin.land-lease-application.index') }}" class="waves-effect waves-dark">
                         <span class="pcoded-micon">
                             <i class="feather icon-box"></i>
                         </span>
-                        <span class="pcoded-mtext">Union/Pourashava</span>
+                        <span class="pcoded-mtext">Lease Applications</span>
                     </a>
-                </li> --}}
+                </li>
 
             </ul>
 
