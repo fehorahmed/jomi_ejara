@@ -171,7 +171,7 @@
                                             <div class="col-8 col-md-3 mt-2">
                                                 <input type="radio" name="land_amount_type"
                                                     {{ old('land_amount_type') == 1 ? 'checked' : '' }} value="1"
-                                                    id="Akor"> <label for="Akor"> Akor</label>
+                                                    id="Borgofoot"> <label for="Borgofoot"> Borgofoot</label>
                                                 <input type="radio" name="land_amount_type"
                                                     {{ old('land_amount_type') == 2 ? 'checked' : '' }} value="2"
                                                     id="Sotok"> <label for="Sotok"> Sotok</label>

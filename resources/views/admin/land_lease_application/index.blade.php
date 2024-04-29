@@ -110,8 +110,23 @@
 
                                                         </td>
                                                         <td>
+                                                            @if ($data->status == 'APPLIED')
+                                                                <div class="btn-group dropdown-split-primary">
+                                                                    <button type="button" class="btn btn-primary"><i
+                                                                            class="icofont icofont-user-alt-3"></i>Primary</button>
+                                                                    <button type="button"
+                                                                        class="btn btn-primary dropdown-toggle dropdown-toggle-split waves-effect waves-light"
+                                                                        data-toggle="dropdown" aria-haspopup="true"
+                                                                        aria-expanded="false">
+                                                                        <span class="sr-only">Toggle primary</span>
+                                                                    </button>
+                                                                    <div class="dropdown-menu">
+                                                                        <button data-id="{{ $data->id }}"
+                                                                            class="dropdown-item waves-effect waves-light btn-accept">Accept</button>
 
-                                                            <a href="" class="btn btn-primary">Action</a>
+                                                                    </div>
+                                                                </div>
+                                                            @endif
 
                                                         </td>
 
@@ -159,10 +174,10 @@
     @push('scripts')
         <script>
             $(function() {
-                var districtSelected = '{{ request()->district }}';
-                $('#division').on('change', function() {
-                    var division_id = $(this).val();
-                    $('#district').html('<option value="">Select district</option>');
+                $('.btn-accept').click(function() {
+                    var id = $(this).attr('data-id');
+                    alert(id);
+
                     $.ajax({
                         method: "GET",
                         url: "{{ route('get.district') }}",
@@ -170,53 +185,13 @@
                             division_id: division_id
                         }
                     }).done(function(data) {
-                        $.each(data, function(index, item) {
-                            if (districtSelected == item.id) {
-                                $('#district').append('<option selected value="' + item.id +
-                                    '" selected>' + item.bn_name +
-                                    '</option>');
-                            } else {
-                                $('#district').append('<option value="' + item.id + '">' + item
-                                    .bn_name + '</option>');
-                            }
-                        });
 
-                        $('#district').trigger('change');
+
+
                     });
-
-                });
-                $('#division').trigger('change');
-                //     // personal address
-
-                //     var subDistrictSelected = '{{ old('sub_district') }}';
-                //     $('#district').on('change', function() {
-                //         var district_id = $(this).val();
-                //         $('#sub_district').html('<option value="">Select sub district</option>');
-                //         if (district_id != '' && district_id != null) {
-                //             $.ajax({
-                //                 method: "GET",
-                //                 url: ' route('get.sub_district') ',
-                //                 data: {
-                //                     district_id: district_id
-                //                 }
-                //             }).done(function(data) {
-                //                 $.each(data, function(index, item) {
-                //                     if (subDistrictSelected == item.id) {
-                //                         $('#sub_district').append('<option selected value="' + item
-                //                             .id +
-                //                             '" selected>' + item.name + '</option>');
-                //                     } else {
-                //                         $('#sub_district').append('<option value="' + item.id +
-                //                             '">' +
-                //                             item.name + '</option>');
-                //                     }
-                //                 });
-                //                 $('#sub_district').trigger('change');
-                //             });
-                //         }
-                //     });
-                //     $('#district').trigger('change');
+                })
             });
+
         </script>
     @endpush
 @endpush

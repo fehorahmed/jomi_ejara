@@ -16,9 +16,11 @@ return new class extends Migration
             $table->foreignId('user_id');
             $table->foreignId('dag_list_id');
             $table->foreignId('land_lease_application_id')->nullable();
+            $table->foreignId('created_by');
 
             $table->enum('status', ['ACTIVE', 'INACTIVE'])->default('ACTIVE');
             $table->foreign('user_id')->on('users')->references('id');
+            $table->foreign('created_by')->on('users')->references('id');
             $table->foreign('dag_list_id')->on('dag_lists')->references('id');
             $table->foreign('land_lease_application_id')->on('land_lease_applications')->references('id');
             $table->timestamps();
