@@ -19,9 +19,9 @@ return new class extends Migration
             $table->float('amount', 8, 2)->default(0);
             $table->float('vat', 8, 2)->default(0);
             $table->float('tax', 8, 2)->default(0);
-
-
-            $table->enum('status', ['PAID', 'DUE', 'PENDING'])->default('ACTIVE');
+            $table->float('total_amount', 8, 2)->default(0);
+            $table->float('paid_amount', 8, 2)->default(0);
+            $table->enum('status', ['PAID', 'DUE', 'PENDING'])->default('DUE');
 
             $table->foreignId('created_by');
             $table->foreign('user_id')->on('users')->references('id');
