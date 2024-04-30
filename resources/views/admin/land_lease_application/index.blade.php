@@ -105,15 +105,21 @@
 
                                                         </td>
                                                         <td>
-                                                            <span
-                                                                class="label label-md label-info">{{ $data->status }}</span>
+                                                            @if ($data->status == 'ACCEPT')
+                                                                <span
+                                                                    class="label label-md label-success">{{ $data->status }}</span>
+                                                            @else
+                                                                <span
+                                                                    class="label label-md label-info">{{ $data->status }}</span>
+                                                            @endif
+
 
                                                         </td>
                                                         <td>
-                                                            @if ($data->status == 'APPLIED')
+                                                            @if ($data->status == 'APPLIED' && $data->landLeaseOrder->status == 'PUBLISHED')
                                                                 <div class="btn-group dropdown-split-primary">
                                                                     <button type="button" class="btn btn-primary"><i
-                                                                            class="icofont icofont-user-alt-3"></i>Primary</button>
+                                                                            class="icofont icofont-user-alt-3"></i>Actions</button>
                                                                     <button type="button"
                                                                         class="btn btn-primary dropdown-toggle dropdown-toggle-split waves-effect waves-light"
                                                                         data-toggle="dropdown" aria-haspopup="true"
@@ -176,22 +182,25 @@
             $(function() {
                 $('.btn-accept').click(function() {
                     var id = $(this).attr('data-id');
-                    alert(id);
 
                     $.ajax({
                         method: "GET",
-                        url: "{{ route('get.district') }}",
+                        url: "{{ route('admin.lease_application_accept') }}",
                         data: {
-                            division_id: division_id
+                            lease_application_id: id
                         }
                     }).done(function(data) {
 
-
+                        if (data.status) {
+                            alert(data.message)
+                            location.reload()
+                        } else {
+                            alert(data.message)
+                        }
 
                     });
                 })
             });
-
         </script>
     @endpush
 @endpush

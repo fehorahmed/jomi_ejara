@@ -90,11 +90,11 @@
                                                         <td>
 
                                                             @if ($data->status == 'PUBLISHED')
-                                                                <span class="label label-md label-success">PUBLISHED</span>
+                                                                <span class="label label-md label-info">PUBLISHED</span>
                                                             @elseif ($data->status == 'APPLIED')
                                                                 <span class="label label-md label-info">APPLIED</span>
                                                             @elseif ($data->status == 'ACCEPT')
-                                                                <span class="label label-md label-secondary">ACCEPT</span>
+                                                                <span class="label label-md label-success">ACCEPT</span>
                                                             @elseif ($data->status == 'CANCEL')
                                                                 <span class="label label-md label-danger">CANCEL</span>
                                                             @endif

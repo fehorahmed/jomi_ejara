@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\LandLease;
 use App\Models\LandLeaseApplication;
 use App\Models\LandLeaseOrder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 class LandLeaseApplicationController extends Controller
 {
@@ -74,12 +77,68 @@ class LandLeaseApplicationController extends Controller
         return view('admin.land_lease_application.index', compact('datas'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+
+    public function leaseApplicationAccept(Request $request)
     {
-        //
+        // dd($request->all());
+        $rules = [
+            'lease_application_id' => 'required|numeric',
+        ];
+
+        $validation = Validator::make($request->all(), $rules);
+        if ($validation->fails()) {
+            return response()->json([
+                'status' => false,
+                'message' => $validation->errors()->first()
+            ]);
+        }
+
+        $transactionFail = false;
+        DB::beginTransaction();
+        try {
+            $data = LandLeaseApplication::find($request->lease_application_id);
+            $data->accept_by = auth()->id();
+            $data->status = 'ACCEPT';
+            if ($data->save()) {
+                $lease_order = LandLeaseOrder::find($data->land_lease_order_id);
+                $lease_order->status = 'ACCEPT';
+                if ($lease_order->save()) {
+                    $land_lease = new LandLease();
+                    $land_lease->user_id = $data->user_id;
+                    $land_lease->dag_list_id = $lease_order->dag_list_id;
+                    $land_lease->land_lease_application_id = $data->id;
+                    $land_lease->created_by = auth()->id();
+                    $land_lease->status = 'ACTIVE';
+                    if (!$land_lease->save()) {
+                        $transactionFail = true;
+                    }
+                } else {
+                    $transactionFail = true;
+                }
+            } else {
+                $transactionFail = true;
+            }
+
+            if ($transactionFail == true) {
+                DB::rollBack();
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Something went wrong',
+                ]);
+            } else {
+                DB::commit();
+                return response()->json([
+                    'status' => true,
+                    'message' => 'Successfully added.',
+                ]);
+            }
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return response()->json([
+                'status' => false,
+                'message' => $th->getMessage(),
+            ]);
+        }
     }
 
     /**

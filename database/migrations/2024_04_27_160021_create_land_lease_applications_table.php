@@ -27,9 +27,11 @@ return new class extends Migration
             $table->text('transaction_id')->nullable();
             $table->text('receipt_no')->nullable();
             $table->enum('status', ['APPLIED', 'ACCEPT', 'CANCEL'])->default('APPLIED');
+            $table->foreignId('accept_by')->nullable();
 
             $table->foreign('dag_list_id')->on('dag_lists')->references('id');
             $table->foreign('user_id')->on('users')->references('id');
+            $table->foreign('accept_by')->on('users')->references('id');
             $table->foreign('land_lease_order_id')->on('land_lease_orders')->references('id');
             $table->timestamps();
         });

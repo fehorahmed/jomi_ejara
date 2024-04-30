@@ -133,6 +133,8 @@ Route::group(['prefix' => 'admin'], function () {
             Route::get('/', [LandLeaseApplicationController::class, 'index'])->name('admin.land-lease-application.index');
         });
 
+        Route::get('/lease_application_accept', [LandLeaseApplicationController::class, 'leaseApplicationAccept'])->name('admin.lease_application_accept');
+
         Route::get('/global-config', [GlobalConfigController::class, 'index'])->name('admin.global-config.index');
         Route::post('/global-config', [GlobalConfigController::class, 'store'])->name('admin.global-config.store');
 

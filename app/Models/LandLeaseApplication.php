@@ -13,7 +13,6 @@ class LandLeaseApplication extends Model
     {
         $data = LandLeaseApplication::where(['land_lease_order_id' => $landLeaseOrder, 'user_id' => auth()->id()])->first();
         return $data ? true : false;
-        // return $this->belongsTo(DagList::class, 'dag_list_id', 'id');
     }
     public function dagList()
     {
@@ -22,5 +21,9 @@ class LandLeaseApplication extends Model
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
+    }
+    public function landLeaseOrder()
+    {
+        return $this->belongsTo(LandLeaseOrder::class, 'land_lease_order_id', 'id');
     }
 }
