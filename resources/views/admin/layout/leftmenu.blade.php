@@ -162,6 +162,36 @@
                         <span class="pcoded-mtext">Lease Applications</span>
                     </a>
                 </li>
+                <li class="{{ Route::is('admin.lease-session.*') ? 'active' : '' }}">
+                    <a href="{{ route('admin.lease-session.index') }}" class="waves-effect waves-dark">
+                        <span class="pcoded-micon">
+                            <i class="feather icon-box"></i>
+                        </span>
+                        <span class="pcoded-mtext">Lease Sessions</span>
+                    </a>
+                </li>
+                <li class="pcoded-hasmenu {{ Route::is('admin.payments.*') ? 'active pcoded-trigger' : '' }}">
+                    <a href="javascript:void(0)" class="waves-effect waves-dark">
+                        <span class="pcoded-micon">
+                            <i class="feather icon-layers"></i>
+                        </span>
+                        <span class="pcoded-mtext">Payments</span>
+                        {{-- <span class="pcoded-badge label label-danger">100+</span> --}}
+                    </a>
+                    <ul class="pcoded-submenu">
+                        <li class="{{ Route::is('admin.payments.lease-application') ? 'active' : '' }}">
+                            <a href="{{ route('admin.payments.lease-application') }}" class="waves-effect waves-dark">
+                                <span class="pcoded-mtext">Application Payments </span>
+                            </a>
+                        </li>
+                        <li class="{{ Route::is('admin.payments.lease-payments') ? 'active' : '' }}">
+                            <a href="{{ route('admin.payments.lease-payments') }}" class="waves-effect waves-dark">
+                                <span class="pcoded-mtext">Lease Payments</span>
+                            </a>
+                        </li>
+
+                    </ul>
+                </li>
 
             </ul>
 

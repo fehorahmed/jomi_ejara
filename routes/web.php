@@ -12,6 +12,7 @@ use App\Http\Controllers\KhatianListController;
 use App\Http\Controllers\KhatianTypeController;
 use App\Http\Controllers\LandLeaseApplicationController;
 use App\Http\Controllers\LandLeaseOrderController;
+use App\Http\Controllers\LandLeaseSessionController;
 use App\Http\Controllers\MouzaController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SettingController;
@@ -132,8 +133,20 @@ Route::group(['prefix' => 'admin'], function () {
         Route::group(['prefix' => 'land-lease-application'], function () {
             Route::get('/', [LandLeaseApplicationController::class, 'index'])->name('admin.land-lease-application.index');
         });
+        Route::group(['prefix' => 'lease-session'], function () {
+            Route::get('/', [LandLeaseSessionController::class, 'index'])->name('admin.lease-session.index');
+            Route::get('/{land_lease_session}/payment', [LandLeaseSessionController::class, 'leaseSessionPayment'])->name('admin.lease_session_payment');
+            Route::post('/{land_lease_session}/payment', [LandLeaseSessionController::class, 'leaseSessionPaymentStore']);
+        });
+        Route::group(['prefix' => 'payments'], function () {
+            Route::get('/application-payments', [LandLeaseApplicationController::class, 'allApplicationPayment'])->name('admin.payments.lease-application');
+            Route::get('/lease-payments', [LandLeaseSessionController::class, 'allLeasePayment'])->name('admin.payments.lease-payments');
+            //For All Accept
+            Route::get('/application-payment/accept', [LandLeaseApplicationController::class, 'applicationPaymentAccept'])->name('admin.payments.lease-application.accept');
+        });
 
         Route::get('/lease_application_accept', [LandLeaseApplicationController::class, 'leaseApplicationAccept'])->name('admin.lease_application_accept');
+        Route::get('/lease_session_create', [LandLeaseSessionController::class, 'leaseSessionCreate'])->name('admin.lease_session_create');
 
         Route::get('/global-config', [GlobalConfigController::class, 'index'])->name('admin.global-config.index');
         Route::post('/global-config', [GlobalConfigController::class, 'store'])->name('admin.global-config.store');

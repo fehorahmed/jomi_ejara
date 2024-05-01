@@ -8,8 +8,8 @@
                 <div class="page-header-title">
                     <i class="feather icon-home bg-c-blue"></i>
                     <div class="d-inline">
-                        <h5>Land Lease Application List</h5>
-                        <span>Here is the list of Land Lease Application.</span>
+                        <h5>Lease Session List</h5>
+                        <span>Here is the list of Lease Session.</span>
                     </div>
                 </div>
             </div>
@@ -21,10 +21,9 @@
                         </li>
                         <li class="breadcrumb-item"><a href="{{route('admin.admin.index')}}">Admin</a>
                         </li> --}}
-                        {{-- <li class="breadcrumb-item">
-                            <a class="btn btn-primary" href="{{ route('admin.land-lease.create') }}">Land Lease
-                                Application</a>
-                        </li> --}}
+                        <li class="breadcrumb-item">
+                            <button class="btn btn-primary" id="create_lease_session">Create Lease Session</button>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -71,7 +70,6 @@
                                                     <th> Dag No</th>
                                                     <th> User Details</th>
                                                     <th> Payment Details</th>
-                                                    <th> Payment Status</th>
                                                     <th>Status</th>
                                                     <th>Action</th>
                                                 </tr>
@@ -91,59 +89,28 @@
                                                             <b>Email : </b> {{ $data->user->email }} <br>
                                                         </td>
                                                         <td>
-                                                            <b>Method : </b> {{ $data->payment_method }} <br>
-                                                            @if ($data->payment_method == 'BANK')
-                                                                <b>Bank : </b> {{ $data->bank }} <br>
-                                                                <b>Branch : </b> {{ $data->branch }} <br>
-                                                                <b>Pay-Order : </b> {{ $data->payorder }} <br>
-                                                            @elseif ($data->payment_method == 'CASH')
-                                                                <b>Money Receipt : </b> {{ $data->receipt_no }} <br>
-                                                            @else
-                                                                <b>Account No : </b> {{ $data->transaction_number }} <br>
-                                                                <b>Transaction No : </b> {{ $data->transaction_id }} <br>
-                                                            @endif
                                                             <b>Amount : </b> {{ $data->amount }} <br>
+                                                            <b>Vat : </b> {{ $data->vat }} <br>
+                                                            <b>Tax : </b> {{ $data->tax }} <br>
+                                                            <b>Total Amount : </b> {{ $data->total_amount }} <br>
+                                                            <b>Paid Amount : </b> {{ $data->paid_amount }} <br>
 
                                                         </td>
                                                         <td>
-                                                            @if ($data->transactionLog->status == 'CONFIRM')
-                                                                <span
-                                                                    class="label label-md label-success">{{ $data->transactionLog->status }}</span>
+                                                            @if ($data->total_amount > $data->paid_amount)
+                                                                <span class="label label-md label-danger">DUE</span>
                                                             @else
-                                                                <span
-                                                                    class="label label-md label-info">{{ $data->transactionLog->status }}</span>
+                                                                <span class="label label-md label-success">PAID</span>
                                                             @endif
 
 
                                                         </td>
                                                         <td>
-                                                            @if ($data->status == 'ACCEPT')
-                                                                <span
-                                                                    class="label label-md label-success">{{ $data->status }}</span>
+                                                            @if ($data->total_amount > $data->paid_amount)
+                                                                <a href="{{ route('admin.lease_session_payment', $data->id) }}"
+                                                                    class="btn btn-primary">Make Payment</a>
                                                             @else
-                                                                <span
-                                                                    class="label label-md label-info">{{ $data->status }}</span>
-                                                            @endif
-
-
-                                                        </td>
-                                                        <td>
-                                                            @if ($data->status == 'APPLIED' && $data->landLeaseOrder->status == 'PUBLISHED')
-                                                                <div class="btn-group dropdown-split-primary">
-                                                                    <button type="button" class="btn btn-primary"><i
-                                                                            class="icofont icofont-user-alt-3"></i>Actions</button>
-                                                                    <button type="button"
-                                                                        class="btn btn-primary dropdown-toggle dropdown-toggle-split waves-effect waves-light"
-                                                                        data-toggle="dropdown" aria-haspopup="true"
-                                                                        aria-expanded="false">
-                                                                        <span class="sr-only">Toggle primary</span>
-                                                                    </button>
-                                                                    <div class="dropdown-menu">
-                                                                        <button data-id="{{ $data->id }}"
-                                                                            class="dropdown-item waves-effect waves-light btn-accept">Accept</button>
-
-                                                                    </div>
-                                                                </div>
+                                                                <span class="label label-md label-success">PAID</span>
                                                             @endif
 
                                                         </td>
@@ -192,26 +159,52 @@
     @push('scripts')
         <script>
             $(function() {
-                $('.btn-accept').click(function() {
-                    var id = $(this).attr('data-id');
+                $('#create_lease_session').click(function() {
 
-                    $.ajax({
-                        method: "GET",
-                        url: "{{ route('admin.lease_application_accept') }}",
-                        data: {
-                            lease_application_id: id
+
+                    Swal.fire({
+                        title: "Are you sure?",
+                        text: "You won't be able to revert this!",
+                        icon: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: "#3085d6",
+                        cancelButtonColor: "#d33",
+                        confirmButtonText: "Yes, do it!"
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+
+                            $.ajax({
+                                method: "GET",
+                                url: "{{ route('admin.lease_session_create') }}",
+
+                            }).done(function(data) {
+
+                                if (data.status) {
+                                    Swal.fire({
+                                        title: "Success",
+                                        text: data.message,
+                                        icon: "success"
+                                    });
+
+                                    location.reload()
+                                } else {
+                                    Swal.fire({
+                                        title: "Oops...",
+                                        text: "Something went wrong!",
+                                        icon: "error"
+                                    });
+
+                                }
+
+                            });
+
                         }
-                    }).done(function(data) {
-
-                        if (data.status) {
-                            alert(data.message)
-                            location.reload()
-                        } else {
-                            alert(data.message)
-                        }
-
                     });
+
+
+
                 })
+
             });
         </script>
     @endpush

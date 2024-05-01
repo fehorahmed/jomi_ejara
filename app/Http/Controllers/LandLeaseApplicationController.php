@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\LandLease;
 use App\Models\LandLeaseApplication;
 use App\Models\LandLeaseOrder;
+use App\Models\TransactionLog;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
@@ -35,36 +36,76 @@ class LandLeaseApplicationController extends Controller
         if ($ck_land_app) {
             return redirect()->back()->with('error', 'All ready applied.');
         }
+        $transactionFail = false;
+        DB::beginTransaction();
+        try {
+            $new_application = new LandLeaseApplication();
+            $new_application->land_lease_order_id = $ck_lease_order->id;
+            $new_application->dag_list_id = $ck_lease_order->dag_list_id;
+            $new_application->user_id = auth()->id();
+            $new_application->date = now();
+            $new_application->payment_date = $request->date;
+            $new_application->amount = $request->amount;
+            if ($request->payment_method == 'Bank draft') {
+                $new_application->payment_method = 'BANK';
+                $new_application->payorder = $request->payorder;
+                $new_application->bank = $request->bank;
+                $new_application->branch = $request->branch;
+            } elseif ($request->payment_method == 'Bkash') {
+                $new_application->payment_method = 'BKASH';
+                $new_application->transaction_number = $request->number;
+                $new_application->transaction_id = $request->transaction_id;
+            } elseif ($request->payment_method == 'Nagad') {
+                $new_application->payment_method = 'NAGAD';
+                $new_application->transaction_number = $request->number;
+                $new_application->transaction_id = $request->transaction_id;
+            } elseif ($request->payment_method == 'Cash') {
+                $new_application->payment_method = 'CASH';
+                $new_application->receipt_no = $request->receipt_no;
+            }
+            $new_application->status = 'APPLIED';
+            if ($new_application->save()) {
 
-        $new_application = new LandLeaseApplication();
-        $new_application->land_lease_order_id = $ck_lease_order->id;
-        $new_application->dag_list_id = $ck_lease_order->dag_list_id;
-        $new_application->user_id = auth()->id();
-        $new_application->date = now();
-        $new_application->payment_date = $request->date;
-        $new_application->amount = $request->amount;
-        if ($request->payment_method == 'Bank draft') {
-            $new_application->payment_method = 'BANK';
-            $new_application->payorder = $request->payorder;
-            $new_application->bank = $request->bank;
-            $new_application->branch = $request->branch;
-        } elseif ($request->payment_method == 'Bkash') {
-            $new_application->payment_method = 'BKASH';
-            $new_application->transaction_number = $request->number;
-            $new_application->transaction_id = $request->transaction_id;
-        } elseif ($request->payment_method == 'Nagad') {
-            $new_application->payment_method = 'NAGAD';
-            $new_application->transaction_number = $request->number;
-            $new_application->transaction_id = $request->transaction_id;
-        } elseif ($request->payment_method == 'Cash') {
-            $new_application->payment_method = 'CASH';
-            $new_application->receipt_no = $request->receipt_no;
-        }
-        $new_application->status = 'APPLIED';
-        if ($new_application->save()) {
-            return redirect()->back()->with('success', 'Application successfully added.');
-        } else {
-            return redirect()->back()->with('error', 'Something went wrong.');
+                $tr_log = new TransactionLog();
+                $tr_log->transaction_type = 'INCOME';
+                $tr_log->payment_method = $new_application->payment_method;
+                $tr_log->amount = $new_application->amount;
+                if ($new_application->payment_method == 'BANK') {
+                    $tr_log->payment_method = 'BANK';
+                    $tr_log->payorder = $new_application->payorder;
+                    $tr_log->bank = $new_application->bank;
+                    $tr_log->branch = $new_application->branch;
+                } elseif ($new_application->payment_method == 'BKASH') {
+                    $tr_log->payment_method = 'BKASH';
+                    $tr_log->transaction_number = $new_application->number;
+                    $tr_log->transaction_id = $new_application->transaction_id;
+                } elseif ($new_application->payment_method == 'NAGAD') {
+                    $tr_log->payment_method = 'NAGAD';
+                    $tr_log->transaction_number = $new_application->number;
+                    $tr_log->transaction_id = $new_application->transaction_id;
+                } elseif ($new_application->payment_method == 'CASH') {
+                    $tr_log->payment_method = 'CASH';
+                    $tr_log->receipt_no = $new_application->receipt_no;
+                }
+                $tr_log->land_lease_application_id = $new_application->id;
+                $tr_log->status = 'PENDING';
+                if (!$tr_log->save()) {
+                    $transactionFail = true;
+                }
+            } else {
+                $transactionFail = true;
+            }
+            if ($transactionFail) {
+                DB::rollBack();
+                return redirect()->back()->with('error', 'Something went wrong.');
+            } else {
+                DB::commit();
+                return redirect()->back()->with('success', 'Application successfully added.');
+            }
+        } catch (\Throwable $th) {
+            //throw $th;
+            DB::rollBack();
+            return redirect()->back()->with('error', $th->getMessage());
         }
     }
 
@@ -93,6 +134,14 @@ class LandLeaseApplicationController extends Controller
             ]);
         }
 
+        $ck_data = LandLeaseApplication::find($request->lease_application_id);
+        $ck_lease = LandLease::where('dag_list_id', $ck_data->dag_list_id)->where('status', 'ACTIVE')->first();
+        if ($ck_lease) {
+            return response()->json([
+                'status' => false,
+                'message' => 'This land allready on lease list.'
+            ]);
+        }
         $transactionFail = false;
         DB::beginTransaction();
         try {
@@ -141,12 +190,41 @@ class LandLeaseApplicationController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(LandLeaseApplication $landLeaseApplication)
+
+    public function allApplicationPayment(Request $request)
     {
-        //
+        $datas = TransactionLog::where('land_lease_application_id', '!=', null)->orderBy('id', 'DESC')->paginate(15);
+        return view('admin.payments.application_payments', compact('datas'));
+    }
+    public function applicationPaymentAccept(Request $request)
+    {
+        $rules = [
+            'id' => 'required|numeric',
+        ];
+        $validation = Validator::make($request->all(), $rules);
+
+        if ($validation->fails()) {
+            return response([
+                'status' => false,
+                'message' => $validation->errors()->first(),
+            ]);
+        }
+        //  dd($request->all());
+
+        $data = TransactionLog::find($request->id);
+        $data->status = 'CONFIRM';
+        $data->accept_by = auth()->id();
+        if ($data->save()) {
+            return response([
+                'status' => true,
+                'message' => 'Payment update successfully.',
+            ]);
+        } else {
+            return response([
+                'status' => false,
+                'message' => 'Something went wrong.',
+            ]);
+        }
     }
 
     /**

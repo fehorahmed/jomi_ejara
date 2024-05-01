@@ -29,4 +29,8 @@ class DagList extends Model
     {
         return $this->belongsTo(KhatianList::class, 'khatian_list_id', 'id');
     }
+    public function ejaraRate()
+    {
+        return $this->belongsTo(EjaraRate::class, 'ejara_rate_id', 'id');
+    }
 }

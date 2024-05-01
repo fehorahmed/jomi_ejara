@@ -26,4 +26,8 @@ class LandLeaseApplication extends Model
     {
         return $this->belongsTo(LandLeaseOrder::class, 'land_lease_order_id', 'id');
     }
+    public function transactionLog()
+    {
+        return $this->belongsTo(TransactionLog::class, 'id', 'land_lease_application_id');
+    }
 }

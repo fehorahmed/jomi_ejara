@@ -1,5 +1,5 @@
 @extends('admin.layout.master')
-@section('title', 'Land Lease Application')
+@section('title', 'Land Lease Payments')
 
 @section('content')
     <div class="page-header card">
@@ -8,8 +8,8 @@
                 <div class="page-header-title">
                     <i class="feather icon-home bg-c-blue"></i>
                     <div class="d-inline">
-                        <h5>Land Lease Application List</h5>
-                        <span>Here is the list of Land Lease Application.</span>
+                        <h5>Land Lease Payments</h5>
+                        <span>Here is the list of Land Lease Payments.</span>
                     </div>
                 </div>
             </div>
@@ -72,7 +72,7 @@
                                                     <th> User Details</th>
                                                     <th> Payment Details</th>
                                                     <th> Payment Status</th>
-                                                    <th>Status</th>
+
                                                     <th>Action</th>
                                                 </tr>
                                             </thead>
@@ -80,15 +80,20 @@
                                                 @foreach ($datas as $data)
                                                     <tr>
                                                         <td>{{ $loop->iteration }}</td>
-                                                        <td>{{ $data->dagList->bn_name }},{{ $data->dagList->upazila->bn_name }},
-                                                            {{ $data->dagList->unionPourashava->bn_name }}, <br>
-                                                            {{ $data->dagList->khatianType->bn_name }},
-                                                            {{ $data->dagList->mouza->bn_name }},
-                                                            {{ $data->dagList->khatianNo->bn_name }}</td>
+                                                        <td>{{ $data->landLeaseSession->dagList->bn_name }},{{ $data->landLeaseSession->dagList->upazila->bn_name }},
+                                                            {{ $data->landLeaseSession->dagList->unionPourashava->bn_name }},
+                                                            <br>
+                                                            {{ $data->landLeaseSession->dagList->khatianType->bn_name }},
+                                                            {{ $data->landLeaseSession->dagList->mouza->bn_name }},
+                                                            {{ $data->landLeaseSession->dagList->khatianNo->bn_name }}
+                                                        </td>
                                                         <td>
-                                                            <b>Name : </b> {{ $data->user->name }} <br>
-                                                            <b>Phone : </b> {{ $data->user->phone }} <br>
-                                                            <b>Email : </b> {{ $data->user->email }} <br>
+                                                            <b>Name : </b> {{ $data->landLeaseSession->user->name }}
+                                                            <br>
+                                                            <b>Phone : </b> {{ $data->landLeaseSession->user->phone }}
+                                                            <br>
+                                                            <b>Email : </b> {{ $data->landLeaseSession->user->email }}
+                                                            <br>
                                                         </td>
                                                         <td>
                                                             <b>Method : </b> {{ $data->payment_method }} <br>
@@ -106,47 +111,23 @@
 
                                                         </td>
                                                         <td>
-                                                            @if ($data->transactionLog->status == 'CONFIRM')
-                                                                <span
-                                                                    class="label label-md label-success">{{ $data->transactionLog->status }}</span>
-                                                            @else
-                                                                <span
-                                                                    class="label label-md label-info">{{ $data->transactionLog->status }}</span>
-                                                            @endif
-
-
-                                                        </td>
-                                                        <td>
-                                                            @if ($data->status == 'ACCEPT')
+                                                            @if ($data->status == 'CONFIRM')
                                                                 <span
                                                                     class="label label-md label-success">{{ $data->status }}</span>
                                                             @else
                                                                 <span
                                                                     class="label label-md label-info">{{ $data->status }}</span>
                                                             @endif
-
-
                                                         </td>
                                                         <td>
-                                                            @if ($data->status == 'APPLIED' && $data->landLeaseOrder->status == 'PUBLISHED')
-                                                                <div class="btn-group dropdown-split-primary">
-                                                                    <button type="button" class="btn btn-primary"><i
-                                                                            class="icofont icofont-user-alt-3"></i>Actions</button>
-                                                                    <button type="button"
-                                                                        class="btn btn-primary dropdown-toggle dropdown-toggle-split waves-effect waves-light"
-                                                                        data-toggle="dropdown" aria-haspopup="true"
-                                                                        aria-expanded="false">
-                                                                        <span class="sr-only">Toggle primary</span>
-                                                                    </button>
-                                                                    <div class="dropdown-menu">
-                                                                        <button data-id="{{ $data->id }}"
-                                                                            class="dropdown-item waves-effect waves-light btn-accept">Accept</button>
-
-                                                                    </div>
-                                                                </div>
+                                                            @if ($data->status == 'PENDING')
+                                                                <button data-id="{{ $data->id }}"
+                                                                    class="btn btn-primary change-status">Change
+                                                                    status</button>
                                                             @endif
 
                                                         </td>
+
 
                                                     </tr>
                                                 @endforeach
@@ -192,24 +173,48 @@
     @push('scripts')
         <script>
             $(function() {
-                $('.btn-accept').click(function() {
+                $('.change-status').click(function() {
                     var id = $(this).attr('data-id');
 
-                    $.ajax({
-                        method: "GET",
-                        url: "{{ route('admin.lease_application_accept') }}",
-                        data: {
-                            lease_application_id: id
-                        }
-                    }).done(function(data) {
+                    Swal.fire({
+                        title: "Are you sure to Confirm?",
+                        text: "You won't be able to revert this!",
+                        icon: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: "#3085d6",
+                        cancelButtonColor: "#d33",
+                        confirmButtonText: "Yes, do it!"
+                    }).then((result) => {
+                        if (result.isConfirmed) {
 
-                        if (data.status) {
-                            alert(data.message)
-                            location.reload()
-                        } else {
-                            alert(data.message)
-                        }
+                            $.ajax({
+                                method: "GET",
+                                url: "{{ route('admin.payments.lease-application.accept') }}",
+                                data: {
+                                    id: id
+                                }
+                            }).done(function(data) {
 
+                                if (data.status) {
+                                    Swal.fire({
+                                        title: "Success",
+                                        text: data.message,
+                                        icon: "success"
+                                    });
+
+                                    location.reload()
+                                } else {
+                                    Swal.fire({
+                                        title: "Oops...",
+                                        text: "Something went wrong!",
+                                        icon: "error"
+                                    });
+
+                                }
+
+                            });
+
+                        }
                     });
                 })
             });

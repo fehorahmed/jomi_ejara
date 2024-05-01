@@ -43,7 +43,14 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('') }}files/assets/css/widget.css">
 
     {{-- multiple select --}}
-
+    <style>
+        .custom-redio {
+            background: rgb(23 229 229);
+            padding: 7px;
+            padding-left: 33px;
+            /* padding-bottom: 10px; */
+        }
+    </style>
 
     @stack('styles')
 </head>
@@ -312,8 +319,8 @@
     {{-- <script type="text/javascript" src="{{ asset('') }}files/assets/pages/dashboard/custom-dashboard.min.js"></script> --}}
     <script type="text/javascript" src="{{ asset('') }}files/assets/js/script.min.js"></script>
 
-    {{-- Multiple Select --}}
-
+    {{-- SweetAlert2 Select --}}
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 
     @stack('scripts')

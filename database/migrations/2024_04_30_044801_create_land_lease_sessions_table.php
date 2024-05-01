@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id');
             $table->foreignId('dag_list_id');
+            $table->string('session')->index();
             $table->foreignId('land_lease_application_id')->nullable();
             $table->float('amount', 8, 2)->default(0);
             $table->float('vat', 8, 2)->default(0);
