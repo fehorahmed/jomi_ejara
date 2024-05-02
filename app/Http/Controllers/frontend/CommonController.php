@@ -4,6 +4,7 @@ namespace App\Http\Controllers\frontend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Division;
+use App\Models\LandLease;
 use App\Models\LandLeaseApplication;
 use App\Models\LandLeaseOrder;
 use App\Models\Setting;
@@ -25,14 +26,14 @@ class CommonController extends Controller
         //$orders_details = $this->ordersdetail->getProductBySecretKey(['user_id' => $user->id]);
         $leaseOrders = LandLeaseOrder::where('status', 'PUBLISHED')->orderBy('id', 'DESC')->get();
         $leaseApplications = LandLeaseApplication::where('user_id', auth()->id())->orderBy('id', 'DESC')->get();
-
+        $my_lands = LandLease::where('user_id',auth()->id())->get();
         return view('frontend.common.my_account')
             ->with([
                 'user' => $user,
                 'settings' => $settings,
                 'leaseOrders' => $leaseOrders,
                 'leaseApplications' => $leaseApplications,
-                // 'widgets' => $widgets
+                 'my_lands' => $my_lands
             ]);
     }
     public function profile_edit()

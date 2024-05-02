@@ -48,7 +48,7 @@
                             <b title=" পেমেন্ট মেথডঃ ">পেমেন্ট মেথডঃ </b>
                             {{ $leaseApplication->payment_method }}<br>
                             <b title=" টাকার পরিমাণঃ ">টাকার পরিমাণঃ </b>
-                            {{ $leaseApplication->transaction_number ?? '' }}
+                            {{ $leaseApplication->amount ?? '' }}
                             টাকা<br>
                             @if ($leaseApplication->payment_method == 'BANK')
                                 <b title=" পে অর্ডার নং ">পে অর্ডার নং </b>
