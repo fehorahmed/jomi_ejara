@@ -103,6 +103,8 @@ Route::group(['prefix' => 'admin'], function () {
             Route::get('/edit/{id}', [DagListController::class, 'edit'])->name('admin.dag-list.edit');
             Route::post('/edit/{id}', [DagListController::class, 'update'])->name('admin.dag-list.update');
             Route::get('/view/{id}', [DagListController::class, 'view'])->name('admin.dag-list.view');
+            Route::get('{id}/add-user', [DagListController::class, 'addUser'])->name('admin.dag-list.add-user');
+            Route::post('{id}/add-user', [DagListController::class, 'addUserPost']);
         });
         Route::group(['prefix' => 'setting'], function () {
             Route::get('/', [SettingController::class, 'index'])->name('admin.setting.index');
@@ -185,7 +187,10 @@ Route::middleware(['auth'])->group(function () {
 
 
 
-
+Route::get('/link-storage', function () {
+    Artisan::call('storage:link');
+    return 'success';
+});
 
 
 Route::get('/clear', function () {

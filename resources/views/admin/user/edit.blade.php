@@ -46,7 +46,7 @@
                                 </div>
                                 <div class="card-block">
                                     <form id="campaign-form" class="form-horizontal" method="post"
-                                        action="{{ route('admin.admin.update', $user->id) }}" enctype="multipart/form-data">
+                                        action="{{ route('admin.user.update', $user->id) }}" enctype="multipart/form-data">
                                         @csrf
                                         <div class="row mb-3">
                                             <label for="name" class="col-12 col-md-3 col-form-label">Name</label>

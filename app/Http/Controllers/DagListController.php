@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\DagList;
 use App\Models\EjaraRate;
 use App\Models\KhatianType;
+use App\Models\LandLease;
 use App\Models\Mouza;
 use App\Models\Upazila;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class DagListController extends Controller
@@ -359,5 +361,33 @@ class DagListController extends Controller
     {
         $dag = DagList::findOrFail($id);
         return view('admin.dag_list.view', compact('dag'));
+    }
+    public function addUser($id)
+    {
+        $data = LandLease::where(['dag_list_id' => $id, 'status' => 'ACTIVE'])->first();
+        if ($data) {
+            return redirect()->back()->with('error', 'Dag no already on the lease list.');
+        }
+        $dag = DagList::findOrFail($id);
+        $users = User::where('is_admin', null)->get();
+        return view('admin.dag_list.add_user', compact('dag', 'users'));
+    }
+    public function addUserPost(Request $request, $id)
+    {
+        $request->validate([
+            'user' => 'required|numeric',
+        ]);
+        $dag = DagList::findOrFail($id);
+
+        $landLease = new LandLease();
+        $landLease->user_id = $request->user;
+        $landLease->dag_list_id = $id;
+        $landLease->created_by = auth()->id();
+        $landLease->status = 'ACTIVE';
+        if ($landLease->save()) {
+            return redirect()->route('admin.dag-list.index')->with('success', 'Lease Added successfully.');
+        } else {
+            return redirect()->back()->with('error', 'Something went wrong.');
+        }
     }
 }

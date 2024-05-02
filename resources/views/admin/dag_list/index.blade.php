@@ -153,7 +153,12 @@
                                                             @endif
                                                         </td>
                                                         <td>
-
+                                                            @if (Helper::isLease($data->id))
+                                                                <a href="" class="btn btn-danger">Remove Lease</a>
+                                                            @else
+                                                                <a href="{{ route('admin.dag-list.add-user', $data->id) }}"
+                                                                    class="btn btn-info">Add Lease</a>
+                                                            @endif
                                                             <a href="{{ route('admin.dag-list.edit', $data->id) }}"
                                                                 class="btn btn-primary">Edit</a>
                                                             <a href="{{ route('admin.dag-list.view', $data->id) }}"

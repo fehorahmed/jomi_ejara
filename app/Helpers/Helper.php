@@ -3,6 +3,7 @@
 namespace App\Helpers;
 
 use App\Models\GlobalConfig;
+use App\Models\LandLease;
 
 class Helper
 {
@@ -34,5 +35,12 @@ class Helper
         }
 
         return $value;
+    }
+    public static function isLease($dag_list_id)
+    {
+
+        $data = LandLease::where(['dag_list_id' => $dag_list_id, 'status' => 'ACTIVE'])->first();
+
+        return $data ? true : false;
     }
 }
