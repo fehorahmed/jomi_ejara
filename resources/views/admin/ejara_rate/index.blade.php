@@ -79,8 +79,10 @@
                                                     <tr>
                                                         <td>{{ $loop->iteration }}</td>
                                                         <td>{{ $data->bn_name }}</td>
-                                                        <td>{{ $data->amount }}/-
-                                                            {{ $data->land_amount_type == 1 ? 'বর্গফুট' : 'শতাংশ' }}</td>
+                                                        <td>{{ $data->land_amount_type == 1 ? 'প্রতি বর্গফুট' : 'প্রতি শতাংশ' }}
+                                                            -
+                                                            {{ $data->amount }}/-
+                                                        </td>
                                                         <td>
                                                             @if ($data->status == 1)
                                                                 <span class="label label-md label-success">Active</span>

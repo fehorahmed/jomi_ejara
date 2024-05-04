@@ -77,7 +77,7 @@ class LandLeaseApplicationController extends Controller
                     $tr_log->branch = $new_application->branch;
                 } elseif ($new_application->payment_method == 'BKASH') {
                     $tr_log->payment_method = 'BKASH';
-                    $tr_log->transaction_number = $new_application->number;
+                    $tr_log->transaction_number = $new_application->transaction_number;
                     $tr_log->transaction_id = $new_application->transaction_id;
                 } elseif ($new_application->payment_method == 'NAGAD') {
                     $tr_log->payment_method = 'NAGAD';

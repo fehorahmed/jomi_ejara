@@ -77,7 +77,7 @@
                                 <a href="index.html">হোম</a>
                             <li>
                                 <a href="page/44/about-local-%20government.html">স্থানীয় সরকার সম্পর্কিত</a>
-                                <ul>
+                                {{-- <ul>
                                     <li>
                                         <a href="page/45/branch-info.html">শাখার পরিচিতি</a>
                                     </li>
@@ -87,20 +87,20 @@
                                     <li>
                                         <a href="page/47/activities.html">কার্যক্রম</a>
                                     </li>
-                                </ul>
+                                </ul> --}}
                             <li>
                                 <a href="page/48/manpower.html">জনবল</a>
-                                <ul>
+                                {{-- <ul>
                                     <li>
                                         <a href="page/49/officers.html">কর্মকর্তাবৃন্দ</a>
                                     </li>
                                     <li>
                                         <a href="page/50/staffs.html">কর্মচারীবৃন্দ</a>
                                     </li>
-                                </ul>
+                                </ul> --}}
                             <li>
                                 <a href="page/60/citizen-charter.html">নাগরিক সেবা</a>
-                            <li>
+                                {{-- <li>
                                 <a href="page/51/projects.html">প্রকল্পসমূহ</a>
                                 <ul>
                                     <li>
@@ -115,7 +115,7 @@
                                     <li>
                                         <a href="page/55/relief-program.html">ত্রাণ কর্মসুচী</a>
                                     </li>
-                                </ul>
+                                </ul> --}}
                             <li>
                                 <a href="page/57/photo-gallery.html">ফটো গ্যালারী</a>
                             <li>

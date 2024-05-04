@@ -78,7 +78,7 @@
                                                     {{ old('land_amount_type') == 1 ? 'checked' : '' }} value="1"
                                                     class="form-radio"> <label for="borgo"> বর্গফুট</label>
                                                 <input type="radio" name="land_amount_type" id="satak"
-                                                    {{ old('land_amount_type') == 2 ? 'checked' : '' }} value="1"
+                                                    {{ old('land_amount_type') == 2 ? 'checked' : '' }} value="2"
                                                     class="form-radio"> <label for="satak"> শতাংশ</label>
                                                 @error('land_amount_type')
                                                     <div class="help-block text-danger">{{ $message }} </div>

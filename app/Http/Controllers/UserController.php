@@ -222,7 +222,7 @@ class UserController extends Controller
             return redirect()->back()->withInput()->withErrors($validate);
         }
 
-
+        // dd($request->all());
         $data = new User();
         $data->name = $request->name;
         $data->email = $request->email;
@@ -233,7 +233,6 @@ class UserController extends Controller
         // $data->district_id = $request->district;
         // $data->sub_district_id = $request->sub_district;
         $data->status = $request->status;
-
         $data->save();
 
         return redirect()->route('admin.user.index')->with('success', 'User Successfully added.');

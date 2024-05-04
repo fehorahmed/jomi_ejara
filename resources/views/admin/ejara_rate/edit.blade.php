@@ -59,9 +59,28 @@
                                         <div class="row mb-3">
                                             <label for="amount" class="col-12 col-md-3 col-form-label">Amount </label>
                                             <div class="col-12 col-md-9">
-                                                <input type="number" name="amount" value="{{ old('amount', $ejara_rate->amount) }}"
-                                                    id="amount" class="form-control" placeholder="Enter Amount">
+                                                <input type="number" name="amount"
+                                                    value="{{ old('amount', $ejara_rate->amount) }}" id="amount"
+                                                    class="form-control" placeholder="Enter Amount">
                                                 @error('amount')
+                                                    <div class="help-block text-danger">{{ $message }} </div>
+                                                @enderror
+                                            </div>
+
+                                        </div>
+                                        <div class="row mb-3">
+                                            <label for="land_amount_type" class="col-12 col-md-3 col-form-label">Land Amount
+                                                Type
+                                            </label>
+                                            <div class="col-12 col-md-9">
+                                                <input type="radio" name="land_amount_type" id="borgo"
+                                                    {{ old('land_amount_type', $ejara_rate->land_amount_type) == 1 ? 'checked' : '' }}
+                                                    value="1" class="form-radio"> <label for="borgo">
+                                                    বর্গফুট</label>
+                                                <input type="radio" name="land_amount_type" id="satak"
+                                                    {{ old('land_amount_type', $ejara_rate->land_amount_type) == 2 ? 'checked' : '' }}
+                                                    value="2" class="form-radio"> <label for="satak"> শতাংশ</label>
+                                                @error('land_amount_type')
                                                     <div class="help-block text-danger">{{ $message }} </div>
                                                 @enderror
                                             </div>

@@ -8,4 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class KhatianType extends Model
 {
     use HasFactory;
+    protected $fillable = ['bn_name', 'status'];
 }

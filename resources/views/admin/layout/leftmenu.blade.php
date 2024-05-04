@@ -247,6 +247,11 @@
                         <span class="pcoded-mtext">Dag No List</span>
                     </a>
                 </li>
+
+            </ul>
+
+            <div class="pcoded-navigation-label">Application Setting</div>
+            <ul class="pcoded-item pcoded-left-item">
                 <li class="{{ Route::is('admin.global-config.*') ? 'active' : '' }}">
                     <a href="{{ route('admin.global-config.index') }}" class="waves-effect waves-dark">
                         <span class="pcoded-micon">
@@ -256,8 +261,6 @@
                     </a>
                 </li>
             </ul>
-
-            <div class="pcoded-navigation-label">Application Setting</div>
             <ul class="pcoded-item pcoded-left-item">
                 <li class="{{ Route::is('admin.setting.*') ? 'active' : '' }}">
                     <a href="{{ route('admin.setting.index') }}" class="waves-effect waves-dark">
@@ -304,6 +307,7 @@
                     </a>
                 </li>
             </ul>
+
         </div>
     </div>
 </nav>

@@ -27,7 +27,7 @@
                         <div class="col-md-8 m-auto">
                             <div class="card">
                                 <div class="card-header bg-info">
-                                    <h5 class="text-white"> Ejara Rate Create Form</h5>
+                                    <h5 class="text-white"> Global Configuration Form</h5>
                                     <span>Add class of <code>.form-control</code> with
                                         <code>&lt;input&gt;</code> tag</span>
                                 </div>
@@ -62,24 +62,25 @@
 
                                         </div>
                                         <div class="row mb-3">
-                                            <label for="new_form_fee" class="col-12 col-md-3 col-form-label">New Form
+                                            <label for="new_form_fee" class="col-12 col-md-3 col-form-label">New Application
                                                 Fee</label>
                                             <div class="col-12 col-md-9">
                                                 <input type="number" name="new_form_fee"
                                                     value="{{ Helper::get_config('new_form_fee') }}" id="new_form_fee"
-                                                    class="form-control" placeholder="New Form Fee">
+                                                    class="form-control" placeholder="New Application Fee">
                                                 @error('new_form_fee')
                                                     <div class="help-block text-danger">{{ $message }} </div>
                                                 @enderror
                                             </div>
                                         </div>
                                         <div class="row mb-3">
-                                            <label for="renew_form_fee" class="col-12 col-md-3 col-form-label">Renew Form
+                                            <label for="renew_form_fee" class="col-12 col-md-3 col-form-label">Renew
+                                                Application
                                                 Fee</label>
                                             <div class="col-12 col-md-9">
                                                 <input type="number" name="renew_form_fee"
                                                     value="{{ Helper::get_config('renew_form_fee') }}" id="renew_form_fee"
-                                                    class="form-control" placeholder="Renew Form Fee">
+                                                    class="form-control" placeholder="Renew Application Fee">
                                                 @error('renew_form_fee')
                                                     <div class="help-block text-danger">{{ $message }} </div>
                                                 @enderror
