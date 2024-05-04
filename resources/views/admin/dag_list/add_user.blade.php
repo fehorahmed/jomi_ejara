@@ -83,7 +83,7 @@
                                                     </b> <br>
                                                     <b title="জমির পরিমান">জমির পরিমানঃ </b>
                                                     {{ $dag->land_amount }}
-                                                    {{ $dag->land_amount_type == 1 ? 'AKOR' : 'SATAK' }}<br>
+                                                    {{ $dag->land_amount_type == 1 ? 'Borgofoot' : 'SATAK' }}<br>
                                                     <b title="জমির অবস্থা">জমির অবস্থাঃ </b>
                                                     {{ $dag->land_condition }}<br>
 
