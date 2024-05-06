@@ -38,11 +38,17 @@
 
     <link rel="stylesheet" href="{{ asset('') }}files/bower_components/chartist/css/chartist.css" type="text/css"
         media="all">
+    {{-- multiple Select2 --}}
+    <link rel="stylesheet" href="{{ asset('') }}files/bower_components/select2/css/select2.min.css" />
 
+    <link rel="stylesheet" type="text/css"
+        href="{{ asset('') }}files/bower_components/bootstrap-multiselect/css/bootstrap-multiselect.css" />
+    <link rel="stylesheet" type="text/css"
+        href="{{ asset('') }}files/bower_components/multiselect/css/multi-select.css" />
+    {{-- multiple Select --}}
     <link rel="stylesheet" type="text/css" href="{{ asset('') }}files/assets/css/style.css">
     <link rel="stylesheet" type="text/css" href="{{ asset('') }}files/assets/css/widget.css">
 
-    {{-- multiple select --}}
     <style>
         .custom-redio {
             background: rgb(23 229 229);
@@ -318,6 +324,18 @@
     <script src="{{ asset('') }}files/assets/js/vertical/vertical-layout.min.js"></script>
     {{-- <script type="text/javascript" src="{{ asset('') }}files/assets/pages/dashboard/custom-dashboard.min.js"></script> --}}
     <script type="text/javascript" src="{{ asset('') }}files/assets/js/script.min.js"></script>
+
+    {{-- Select2 --}}
+    <script type="text/javascript" src="{{ asset('') }}files/bower_components/select2/js/select2.full.min.js"></script>
+
+    <script type="text/javascript"
+        src="{{ asset('') }}files/bower_components/bootstrap-multiselect/js/bootstrap-multiselect.js"></script>
+    <script type="text/javascript" src="{{ asset('') }}files/bower_components/multiselect/js/jquery.multi-select.js">
+    </script>
+    <script type="text/javascript" src="{{ asset('') }}files/assets/js/jquery.quicksearch.js"></script>
+
+    <script type="text/javascript" src="{{ asset('') }}files/assets/pages/advance-elements/select2-custom.js"></script>
+    {{-- Select2 --}}
 
     {{-- SweetAlert2 Select --}}
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

@@ -16,6 +16,11 @@ return new class extends Migration
             $table->foreignId('user_id');
             $table->foreignId('dag_list_id');
             $table->foreignId('land_lease_application_id')->nullable();
+            $table->date('first_issue_date');
+            $table->string('first_issue_session');
+            $table->date('last_payment_date')->nullable();
+            $table->string('last_payment_session')->nullable();
+
             $table->foreignId('created_by');
 
             $table->enum('status', ['ACTIVE', 'INACTIVE'])->default('ACTIVE');

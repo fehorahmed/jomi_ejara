@@ -374,13 +374,25 @@ class DagListController extends Controller
     }
     public function addUserPost(Request $request, $id)
     {
+
         $request->validate([
             'user' => 'required|numeric',
+            "first_issue_date" => 'required|date',
+            "first_issue_session" => 'required|string',
+            "last_payment_date" => 'required|date',
+            "last_payment_session" => 'required|string'
         ]);
         $dag = DagList::findOrFail($id);
-
+        $data = LandLease::where(['dag_list_id' => $id, 'status' => 'ACTIVE'])->first();
+        if ($data) {
+            return redirect()->back()->with('error', 'Dag no already on the lease list.');
+        }
         $landLease = new LandLease();
         $landLease->user_id = $request->user;
+        $landLease->first_issue_date = $request->first_issue_date;
+        $landLease->first_issue_session = $request->first_issue_session;
+        $landLease->last_payment_date = $request->last_payment_date;
+        $landLease->last_payment_session = $request->last_payment_session;
         $landLease->dag_list_id = $id;
         $landLease->created_by = auth()->id();
         $landLease->status = 'ACTIVE';

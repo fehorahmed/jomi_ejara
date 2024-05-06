@@ -43,4 +43,14 @@ class Helper
 
         return $data ? true : false;
     }
+    public static function getSession()
+    {
+        $data = [];
+        $c_date = now()->year;
+        for ($i = 2010; $i <= $c_date; $i++) {
+            $data[] = $i . '-' . $i + 1;
+        }
+
+        return $data;
+    }
 }

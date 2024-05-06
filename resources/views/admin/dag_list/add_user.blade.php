@@ -37,7 +37,7 @@
                         <div class="col-md-8 m-auto">
                             <div class="card">
                                 <div class="card-header bg-info">
-                                    <h5 class="text-white"> Dag No Create Form</h5>
+                                    <h5 class="text-white"> Add Lease Form</h5>
                                     <span>Add class of <code>.form-control</code> with
                                         <code>&lt;input&gt;</code> tag</span>
                                 </div>
@@ -45,35 +45,6 @@
                                     <form id="campaign-form" class="form-horizontal" method="post" action=""
                                         enctype="multipart/form-data">
                                         @csrf
-                                        <div class="row mb-3">
-                                            <label for="union_pourashava" class="col-12 col-md-3 col-form-label">Lease
-                                                User</label>
-                                            <div class="col-12 col-md-9">
-                                                <select name="user" id="user"
-                                                    class="form-control form-control-inverse fill">
-                                                    <option value="">Select User</option>
-                                                    @foreach ($users as $user)
-                                                        <option value="{{ $user->id }}">{{ $user->name }} -
-                                                            {{ $user->phone }}</option>
-                                                    @endforeach
-
-
-                                                </select>
-                                                @error('user')
-                                                    <div class="help-block text-danger">{{ $message }} </div>
-                                                @enderror
-                                            </div>
-                                        </div>
-
-                                        <div class="row mb-3">
-                                            <label for="owner_hisar_part" class="col-12 col-md-3 col-form-label">Dag
-                                                No</label>
-                                            <div class="col-12 col-md-9">
-                                                <input type="text" name="" value="{{ $dag->bn_name }}" readonly
-                                                    id="" class="form-control" placeholder="">
-
-                                            </div>
-                                        </div>
 
                                         <table class="table table-bordered">
                                             <tr>
@@ -102,11 +73,94 @@
 
                                             </tr>
                                         </table>
+                                        <div class="row mb-3">
+                                            <label for="union_pourashava" class="col-12 col-md-3 col-form-label">Lease
+                                                User</label>
+                                            <div class="col-12 col-md-9">
+                                                <select name="user" id="user"
+                                                    class="form-control js-example-basic-single">
+                                                    <option value="">Select User</option>
+                                                    @foreach ($users as $user)
+                                                        <option value="{{ $user->id }}">{{ $user->name }} -
+                                                            {{ $user->phone }}</option>
+                                                    @endforeach
 
+
+                                                </select>
+                                                @error('user')
+                                                    <div class="help-block text-danger">{{ $message }} </div>
+                                                @enderror
+                                            </div>
+                                        </div>
+
+                                        <div class="row mb-3">
+                                            <label for="first_issue_date" class="col-12 col-md-3 col-form-label">First Issue
+                                                Date</label>
+                                            <div class="col-12 col-md-9">
+                                                <input type="date" name="first_issue_date"
+                                                    value="{{ old('first_issue_date') }}" id=""
+                                                    class="form-control" placeholder="">
+                                                @error('first_issue_date')
+                                                    <div class="help-block text-danger">{{ $message }} </div>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <label for="first_issue_session" class="col-12 col-md-3 col-form-label">First
+                                                Issue
+                                                Session</label>
+
+                                            <div class="col-12 col-md-9">
+                                                <select name="first_issue_session" id="first_issue_session"
+                                                    class="form-control js-example-basic-single">
+                                                    <option value="">Select One</option>
+                                                    @foreach (Helper::getSession() as $session)
+                                                        <option value="{{ $session }}">
+                                                            {{ $session }}
+                                                        </option>
+                                                    @endforeach
+
+                                                </select>
+                                                @error('first_issue_session')
+                                                    <div class="help-block text-danger">{{ $message }} </div>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <label for="last_payment_date" class="col-12 col-md-3 col-form-label">Last
+                                                Payment Date</label>
+                                            <div class="col-12 col-md-9">
+                                                <input type="date" name="last_payment_date"
+                                                    value="{{ old('last_payment_date') }}" id=""
+                                                    class="form-control" placeholder="">
+                                                @error('last_payment_date')
+                                                    <div class="help-block text-danger">{{ $message }} </div>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <label for="last_payment_session" class="col-12 col-md-3 col-form-label">Last
+                                                Payment Session</label>
+                                            <div class="col-12 col-md-9">
+                                                <select name="last_payment_session" id="last_payment_session"
+                                                    class="form-control js-example-basic-single">
+                                                    <option value="">Select One</option>
+                                                    @foreach (Helper::getSession() as $session)
+                                                        <option value="{{ $session }}">
+                                                            {{ $session }}
+                                                        </option>
+                                                    @endforeach
+
+                                                </select>
+                                                @error('last_payment_session')
+                                                    <div class="help-block text-danger">{{ $message }} </div>
+                                                @enderror
+                                            </div>
+                                        </div>
 
                                         <div class="text-center mb-3">
                                             <a href="{{ route('admin.dag-list.index') }}" class="btn btn-danger">Back</a>
-                                            <input type="submit" class="btn btn-primary  " value="Add Dag No">
+                                            <input type="submit" class="btn btn-primary  " value="Submit">
                                         </div>
                                     </form>
                                 </div>
