@@ -61,7 +61,7 @@
                                             <div class="col-12 col-md-9">
                                                 <input type="number" name="amount"
                                                     value="{{ old('amount', $ejara_rate->amount) }}" id="amount"
-                                                    class="form-control" placeholder="Enter Amount">
+                                                    step=".01" class="form-control" placeholder="Enter Amount">
                                                 @error('amount')
                                                     <div class="help-block text-danger">{{ $message }} </div>
                                                 @enderror

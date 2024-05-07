@@ -139,6 +139,7 @@ Route::group(['prefix' => 'admin'], function () {
             Route::get('/', [LandLeaseSessionController::class, 'index'])->name('admin.lease-session.index');
             Route::get('/{land_lease_session}/payment', [LandLeaseSessionController::class, 'leaseSessionPayment'])->name('admin.lease_session_payment');
             Route::post('/{land_lease_session}/payment', [LandLeaseSessionController::class, 'leaseSessionPaymentStore']);
+            Route::get('/{land_lease_session}/details', [LandLeaseSessionController::class, 'leaseSessionPaymentDetails'])->name('admin.lease_session_payment_details');
         });
         Route::group(['prefix' => 'payments'], function () {
             Route::get('/application-payments', [LandLeaseApplicationController::class, 'allApplicationPayment'])->name('admin.payments.lease-application');
@@ -170,6 +171,7 @@ Route::group(['prefix' => 'admin'], function () {
 Route::middleware(['auth'])->group(function () {
 
     Route::get('/my_account', [CommonController::class, 'my_account'])->name('user.my_account');
+    Route::get('/land/{land_lease_id}/details', [CommonController::class, 'landDetails'])->name('user.land_details');
     Route::get('/profile_edit', [CommonController::class, 'profile_edit'])->name('user.profile_edit');
     Route::post('/profile_edit_update', [CommonController::class, 'profile_edit_update'])->name('user.profile_edit_update');
 

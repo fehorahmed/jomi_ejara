@@ -17,4 +17,8 @@ class LandLeaseSession extends Model
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
+    public function payments()
+    {
+        return $this->hasMany(TransactionLog::class, 'land_lease_session_id');
+    }
 }

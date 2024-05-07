@@ -160,7 +160,8 @@
                                                 </tr>
                                                 <tr>
                                                     <th class="py-1">Tax</th>
-                                                    <td class="py-1"> {{ number_format($landLeaseSession->tax, 2) }} /-Tk
+                                                    <td class="py-1"> {{ number_format($landLeaseSession->tax, 2) }}
+                                                        /-Tk
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -169,9 +170,15 @@
                                                         {{ number_format($landLeaseSession->total_amount, 2) }} /-Tk</td>
                                                 </tr>
                                                 <tr>
-                                                    <th class="py-1">Total Paid</th>
+                                                    <th class="py-1">Total PAID</th>
                                                     <td class="py-1">
                                                         {{ number_format($landLeaseSession->paid_amount, 2) }} /-Tk</td>
+                                                </tr>
+                                                <tr>
+                                                    <th class="py-1">Total DUE</th>
+                                                    <td class="py-1">
+                                                        {{ number_format($landLeaseSession->total_amount - $landLeaseSession->paid_amount, 2) }}
+                                                        /-Tk</td>
                                                 </tr>
 
                                             </table>
@@ -186,7 +193,7 @@
                                                         <input type="number" class="form-control" name="amount"
                                                             value="{{ old('amount') }}" required
                                                             max="{{ $landLeaseSession->total_amount - $landLeaseSession->paid_amount }}"
-                                                            placeholder="Enter Amount">
+                                                            placeholder="Enter Amount" step=".01">
                                                         <span class="input-group-append">
                                                             <label class="input-group-text">Taka</label>
                                                         </span>

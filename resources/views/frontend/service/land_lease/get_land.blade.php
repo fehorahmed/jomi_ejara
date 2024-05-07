@@ -21,8 +21,7 @@
 
                             <!-- Button trigger modal -->
                             <!--{{ url('land_renew_aplication') }}-->
-                            <a href="javascript:void(0)" data-toggle="modal" data-target="#exampleModalLong"
-                                class="btn btn-danger pull-right">
+                            <a href="{{ route('user.land_details', $my_land->id) }}" class="btn btn-danger pull-right">
                                 নবায়ন
                             </a>
                         </div>

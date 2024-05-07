@@ -29,6 +29,11 @@ class LandLeaseSessionController extends Controller
         $datas = TransactionLog::where('land_lease_session_id', '!=', null)->orderBy('id', 'DESC')->paginate(15);
         return view('admin.payments.lease_payments', compact('datas'));
     }
+    public function leaseSessionPaymentDetails($land_lease_session)
+    {
+        $data = LandLeaseSession::findOrFail($land_lease_session);
+        return view('admin.payments.lease_payment_details', compact('data'));
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -89,36 +94,86 @@ class LandLeaseSessionController extends Controller
         $tax_rate = Helper::get_config('tax') ?? 0;
 
         foreach ($land_leases as  $land_lease) {
-            $ck_session = LandLeaseSession::where('user_id', $land_lease->user_id)
-                ->where('dag_list_id', $land_lease->dag_list_id)
-                ->where('session', $session)
-                ->first();
 
-            if (!$ck_session) {
+            if ($land_lease->last_payment_session) {
+                $year = explode('-', $land_lease->last_payment_session);
+                if (isset($year[1])) {
+                    for ($i = $year[1]; $i <= Carbon::now()->year; $i++) {
+                        if ($currentDate->lessThan($julyFirst)) {
+                            if ($i == Carbon::now()->year) {
+                                break;
+                            }
+                        }
 
-                $new_session = new LandLeaseSession();
-                $new_session->user_id = $land_lease->user_id;
-                $new_session->dag_list_id = $land_lease->dag_list_id;
-                $new_session->session = $session;
-                $new_session->land_lease_application_id = $land_lease->land_lease_application_id;
+                        $s_new = $i . '-' . $i + 1;
+                        $ck_session = LandLeaseSession::where('user_id', $land_lease->user_id)
+                            ->where('dag_list_id', $land_lease->dag_list_id)
+                            ->where('session', $s_new)
+                            ->first();
 
-                //Amount Calculation
-                $dag_list = DagList::find($land_lease->dag_list_id);
-                $rate = $dag_list->ejaraRate->amount ?? 0;
-                $landAmount = $dag_list->land_amount ?? 0;
-                $total = $landAmount * $rate;
-                $vat = $total * ($vat_rate / 100);
-                $tax = $total * ($tax_rate / 100);
-                $totalAmount = $total + $vat + $tax;
-                //Amount Calculation
-                $new_session->amount = $total;
-                $new_session->vat = $vat;
-                $new_session->tax = $tax;
-                $new_session->total_amount = $totalAmount;
-                $new_session->paid_amount = 0;
-                $new_session->status = 'DUE';
-                $new_session->created_by = auth()->id();
-                $new_session->save();
+                        if (!$ck_session) {
+
+                            $new_session = new LandLeaseSession();
+                            $new_session->user_id = $land_lease->user_id;
+                            $new_session->dag_list_id = $land_lease->dag_list_id;
+                            $new_session->session = $s_new;
+                            $new_session->land_lease_application_id = $land_lease->land_lease_application_id;
+
+                            //Amount Calculation
+                            $dag_list = DagList::find($land_lease->dag_list_id);
+                            $rate = $dag_list->ejaraRate->amount ?? 0;
+                            $landAmount = $dag_list->land_amount ?? 0;
+                            $total = $landAmount * $rate;
+                            $vat = $total * ($vat_rate / 100);
+                            $tax = $total * ($tax_rate / 100);
+                            $totalAmount = $total + $vat + $tax;
+                            //Amount Calculation
+                            $new_session->amount = $total;
+                            $new_session->vat = $vat;
+                            $new_session->tax = $tax;
+                            $new_session->total_amount = $totalAmount;
+                            $new_session->paid_amount = 0;
+                            $new_session->status = 'DUE';
+                            $new_session->created_by = auth()->id();
+                            $new_session->save();
+                        }
+                        if ($s_new == $session) {
+                            break;
+                        }
+                    }
+                }
+            } else {
+                $ck_session = LandLeaseSession::where('user_id', $land_lease->user_id)
+                    ->where('dag_list_id', $land_lease->dag_list_id)
+                    ->where('session', $session)
+                    ->first();
+
+                if (!$ck_session) {
+
+                    $new_session = new LandLeaseSession();
+                    $new_session->user_id = $land_lease->user_id;
+                    $new_session->dag_list_id = $land_lease->dag_list_id;
+                    $new_session->session = $session;
+                    $new_session->land_lease_application_id = $land_lease->land_lease_application_id;
+
+                    //Amount Calculation
+                    $dag_list = DagList::find($land_lease->dag_list_id);
+                    $rate = $dag_list->ejaraRate->amount ?? 0;
+                    $landAmount = $dag_list->land_amount ?? 0;
+                    $total = $landAmount * $rate;
+                    $vat = $total * ($vat_rate / 100);
+                    $tax = $total * ($tax_rate / 100);
+                    $totalAmount = $total + $vat + $tax;
+                    //Amount Calculation
+                    $new_session->amount = $total;
+                    $new_session->vat = $vat;
+                    $new_session->tax = $tax;
+                    $new_session->total_amount = $totalAmount;
+                    $new_session->paid_amount = 0;
+                    $new_session->status = 'DUE';
+                    $new_session->created_by = auth()->id();
+                    $new_session->save();
+                }
             }
         }
 

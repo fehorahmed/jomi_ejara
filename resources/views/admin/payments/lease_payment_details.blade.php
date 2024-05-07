@@ -1,5 +1,5 @@
 @extends('admin.layout.master')
-@section('title', 'Land Lease Application')
+@section('title', 'Land Lease Payments')
 
 @section('content')
     <div class="page-header card">
@@ -8,8 +8,8 @@
                 <div class="page-header-title">
                     <i class="feather icon-home bg-c-blue"></i>
                     <div class="d-inline">
-                        <h5>Lease Session List</h5>
-                        <span>Here is the list of Lease Session.</span>
+                        <h5>Land Lease Payment Details</h5>
+                        <span>Here is the list of Land Lease Payment Details.</span>
                     </div>
                 </div>
             </div>
@@ -21,9 +21,10 @@
                         </li>
                         <li class="breadcrumb-item"><a href="{{route('admin.admin.index')}}">Admin</a>
                         </li> --}}
-                        <li class="breadcrumb-item">
-                            <button class="btn btn-primary" id="create_lease_session">Create Lease Session</button>
-                        </li>
+                        {{-- <li class="breadcrumb-item">
+                            <a class="btn btn-primary" href="{{ route('admin.land-lease.create') }}">Land Lease
+                                Application</a>
+                        </li> --}}
                     </ul>
                 </div>
             </div>
@@ -62,6 +63,7 @@
                                             </div>
                                         </div>
                                     </form>
+
                                     <div class="dt-responsive table-responsive">
                                         <table id="order-table" class="table table-striped table-bordered nowrap">
                                             <thead>
@@ -70,59 +72,66 @@
                                                     <th> Dag No</th>
                                                     <th> User Details</th>
                                                     <th> Payment Details</th>
-                                                    <th>Status</th>
+                                                    <th> Payment Status</th>
+
                                                     <th>Action</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @foreach ($datas as $data)
+
+                                                @foreach ($data->payments as $item)
                                                     <tr>
                                                         <td>{{ $loop->iteration }}</td>
                                                         <td>{{ $data->dagList->bn_name }},{{ $data->dagList->upazila->bn_name }},
-                                                            {{ $data->dagList->unionPourashava->bn_name }}, <br>
+                                                            {{ $data->dagList->unionPourashava->bn_name }},
+                                                            <br>
                                                             {{ $data->dagList->khatianType->bn_name }},
                                                             {{ $data->dagList->mouza->bn_name }},
-                                                            {{ $data->dagList->khatianNo->bn_name }}</td>
-                                                        <td>
-                                                            <b>Name : </b> {{ $data->user->name }} <br>
-                                                            <b>Phone : </b> {{ $data->user->phone }} <br>
-                                                            <b>Email : </b> {{ $data->user->email }} <br>
-                                                            <hr>
-                                                            <b>Session : </b> {{ $data->session }} <br>
+                                                            {{ $data->dagList->khatianNo->bn_name }}
                                                         </td>
                                                         <td>
-                                                            <b>Amount : </b> {{ number_format($data->amount, 2) }}/- Tk<br>
-                                                            <b>Vat : </b> {{ number_format($data->vat, 2) }}/- Tk<br>
-                                                            <b>Tax : </b> {{ number_format($data->tax, 2) }}/- Tk <br>
-                                                            <b>Total Amount : </b>
-                                                            {{ number_format($data->total_amount, 2) }}/- Tk <br>
-                                                            <b>PAID Amount : </b>
-                                                            {{ number_format($data->paid_amount, 2) }}/- Tk <br>
-                                                            <b>DUE Amount : </b>
-                                                            {{ number_format($data->total_amount - $data->paid_amount, 2) }}/-
-                                                            Tk <br>
+                                                            <b>Name : </b> {{ $data->user->name }}
+                                                            <br>
+                                                            <b>Phone : </b> {{ $data->user->phone }}
+                                                            <br>
+                                                            <b>Email : </b> {{ $data->user->email }}
+                                                            <br>
+                                                        </td>
+                                                        <td>
+                                                            <b>Date : </b> {{ $item->created_at->format('Y-m-d') }} <br>
+                                                            <b>Method : </b> {{ $item->payment_method }} <br>
+                                                            @if ($item->payment_method == 'BANK')
+                                                                <b>Bank : </b> {{ $item->bank }} <br>
+                                                                <b>Branch : </b> {{ $item->branch }} <br>
+                                                                <b>Pay-Order : </b> {{ $item->payorder }} <br>
+                                                            @elseif ($item->payment_method == 'CASH')
+                                                                <b>Money Receipt : </b> {{ $item->receipt_no }} <br>
+                                                            @else
+                                                                <b>Account No : </b> {{ $item->transaction_number }} <br>
+                                                                <b>Transaction No : </b> {{ $item->transaction_id }} <br>
+                                                            @endif
+                                                            <b>Amount : </b> {{ number_format($item->amount, 2) }} /-Tk
+                                                            <br>
 
                                                         </td>
                                                         <td>
-                                                            @if ($data->total_amount > $data->paid_amount)
-                                                                <span class="label label-md label-danger">DUE</span>
+                                                            @if ($item->status == 'CONFIRM')
+                                                                <span
+                                                                    class="label label-md label-success">{{ $item->status }}</span>
                                                             @else
-                                                                <span class="label label-md label-success">PAID</span>
+                                                                <span
+                                                                    class="label label-md label-info">{{ $item->status }}</span>
+                                                            @endif
+                                                        </td>
+                                                        <td>
+                                                            @if ($data->status == 'PENDING')
+                                                                <button data-id="{{ $data->id }}"
+                                                                    class="btn btn-primary change-status">Change
+                                                                    status</button>
                                                             @endif
 
-
                                                         </td>
-                                                        <td>
-                                                            @if ($data->total_amount > $data->paid_amount)
-                                                                <a href="{{ route('admin.lease_session_payment', $data->id) }}"
-                                                                    class="btn btn-primary">Make Payment</a>
-                                                            @else
-                                                                <span class="label label-md label-success">PAID</span>
-                                                            @endif
-                                                            <a href="{{ route('admin.lease_session_payment_details', $data->id) }}"
-                                                                class="btn btn-info">Payment Details</a>
 
-                                                        </td>
 
                                                     </tr>
                                                 @endforeach
@@ -140,7 +149,7 @@
                                             </tfoot> --}}
 
                                         </table>
-                                        {{ $datas->links('pagination::bootstrap-5') }}
+                                        {{-- {{ $datas->links('pagination::bootstrap-5') }} --}}
                                     </div>
                                 </div>
                             </div>
@@ -168,11 +177,11 @@
     @push('scripts')
         <script>
             $(function() {
-                $('#create_lease_session').click(function() {
-
+                $('.change-status').click(function() {
+                    var id = $(this).attr('data-id');
 
                     Swal.fire({
-                        title: "Are you sure?",
+                        title: "Are you sure to Confirm?",
                         text: "You won't be able to revert this!",
                         icon: "warning",
                         showCancelButton: true,
@@ -184,8 +193,10 @@
 
                             $.ajax({
                                 method: "GET",
-                                url: "{{ route('admin.lease_session_create') }}",
-
+                                url: "{{ route('admin.payments.lease-application.accept') }}",
+                                data: {
+                                    id: id
+                                }
                             }).done(function(data) {
 
                                 if (data.status) {
@@ -209,11 +220,7 @@
 
                         }
                     });
-
-
-
                 })
-
             });
         </script>
     @endpush

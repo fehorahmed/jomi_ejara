@@ -26,14 +26,36 @@ class CommonController extends Controller
         //$orders_details = $this->ordersdetail->getProductBySecretKey(['user_id' => $user->id]);
         $leaseOrders = LandLeaseOrder::where('status', 'PUBLISHED')->orderBy('id', 'DESC')->get();
         $leaseApplications = LandLeaseApplication::where('user_id', auth()->id())->orderBy('id', 'DESC')->get();
-        $my_lands = LandLease::where('user_id',auth()->id())->get();
+        $my_lands = LandLease::where('user_id', auth()->id())->get();
         return view('frontend.common.my_account')
             ->with([
                 'user' => $user,
                 'settings' => $settings,
                 'leaseOrders' => $leaseOrders,
                 'leaseApplications' => $leaseApplications,
-                 'my_lands' => $my_lands
+                'my_lands' => $my_lands
+            ]);
+    }
+    public function landDetails($land_lease_id)
+    {
+        $land_lease = LandLease::where(['id' => $land_lease_id, 'user_id' => auth()->id()])->first();
+        if (!$land_lease) {
+            return redirect()->back('error', 'You are not authorized.');
+        }
+        $user = Auth::user();
+        $settings = Setting::first();
+
+        $leaseOrders = LandLeaseOrder::where('status', 'PUBLISHED')->orderBy('id', 'DESC')->get();
+        $leaseApplications = LandLeaseApplication::where('user_id', auth()->id())->orderBy('id', 'DESC')->get();
+        $my_lands = LandLease::where('user_id', auth()->id())->get();
+        return view('frontend.service.land_lease.my_land')
+            ->with([
+                'user' => $user,
+                'settings' => $settings,
+                'leaseOrders' => $leaseOrders,
+                'leaseApplications' => $leaseApplications,
+                'my_lands' => $my_lands
+
             ]);
     }
     public function profile_edit()

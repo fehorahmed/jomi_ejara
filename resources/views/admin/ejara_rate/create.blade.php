@@ -62,7 +62,8 @@
                                             <label for="amount" class="col-12 col-md-3 col-form-label">Amount </label>
                                             <div class="col-12 col-md-9">
                                                 <input type="number" name="amount" value="{{ old('amount') }}"
-                                                    id="amount" class="form-control" placeholder="Enter Amount">
+                                                    id="amount" class="form-control" placeholder="Enter Amount"
+                                                    step=".01">
                                                 @error('amount')
                                                     <div class="help-block text-danger">{{ $message }} </div>
                                                 @enderror

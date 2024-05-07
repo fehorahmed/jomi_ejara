@@ -81,7 +81,8 @@
                                                     class="form-control js-example-basic-single">
                                                     <option value="">Select User</option>
                                                     @foreach ($users as $user)
-                                                        <option value="{{ $user->id }}">{{ $user->name }} -
+                                                        <option {{ old('user') == $user->id ? 'selected' : '' }}
+                                                            value="{{ $user->id }}">{{ $user->name }} -
                                                             {{ $user->phone }}</option>
                                                     @endforeach
 
@@ -115,7 +116,9 @@
                                                     class="form-control js-example-basic-single">
                                                     <option value="">Select One</option>
                                                     @foreach (Helper::getSession() as $session)
-                                                        <option value="{{ $session }}">
+                                                        <option
+                                                            {{ old('first_issue_session') == $session ? 'selected' : '' }}
+                                                            value="{{ $session }}">
                                                             {{ $session }}
                                                         </option>
                                                     @endforeach
@@ -146,7 +149,9 @@
                                                     class="form-control js-example-basic-single">
                                                     <option value="">Select One</option>
                                                     @foreach (Helper::getSession() as $session)
-                                                        <option value="{{ $session }}">
+                                                        <option
+                                                            {{ old('last_payment_session') == $session ? 'selected' : '' }}
+                                                            value="{{ $session }}">
                                                             {{ $session }}
                                                         </option>
                                                     @endforeach
