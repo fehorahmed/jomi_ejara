@@ -7,6 +7,7 @@ use App\Models\Division;
 use App\Models\LandLease;
 use App\Models\LandLeaseApplication;
 use App\Models\LandLeaseOrder;
+use App\Models\LandLeaseSession;
 use App\Models\Setting;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -43,6 +44,8 @@ class CommonController extends Controller
             return redirect()->back('error', 'You are not authorized.');
         }
         $user = Auth::user();
+        $lease_sessions = LandLeaseSession::where(['dag_list_id' => $land_lease->dag_list_id, 'user_id' => $user->id])->get();
+        // dd($lease_sessions);
         $settings = Setting::first();
 
         $leaseOrders = LandLeaseOrder::where('status', 'PUBLISHED')->orderBy('id', 'DESC')->get();
@@ -54,7 +57,9 @@ class CommonController extends Controller
                 'settings' => $settings,
                 'leaseOrders' => $leaseOrders,
                 'leaseApplications' => $leaseApplications,
-                'my_lands' => $my_lands
+                'my_lands' => $my_lands,
+                'land_lease' => $land_lease,
+                'lease_sessions' => $lease_sessions
 
             ]);
     }

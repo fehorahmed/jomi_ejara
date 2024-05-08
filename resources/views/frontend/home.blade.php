@@ -539,12 +539,20 @@
                                 যোগাযোগ
                             </h2>
                         </div>
+                        @php
+                            $setting = \App\Models\Setting::first();
+                            $app_name = null;
+                            if ($setting) {
+                                $app_name = $setting->name;
+                                $website = $setting->website;
+                            }
+                        @endphp
                         <table class="table">
                             <tbody style="font-size: 16px;">
                                 <tr>
                                     <td>
                                         <b>চেয়ারম্যান
-                                        </b><br>জেলা পরিষদ কার্যালয়, ফরিদপুর ।
+                                        </b><br>{{ isset($app_name) ? $app_name : 'জেলা পরিষদ কার্যালয়, ফরিদপুর ।' }}
                                         <br>মোবাইল : ০১৭১১১৮২৩৬২<br>ই-মেইল:&nbsp;<a title="comillazp@gmail.com"
                                             href="mailto:comillazp@gmail.com"
                                             style="background-color: rgb(255, 255, 255); font-family: kalpurush, "
@@ -553,7 +561,7 @@
                                     </td>
                                     <td>
                                         <b>প্রধান নির্বাহী কর্মকর্তা
-                                        </b><br>জেলা পরিষদ কার্যালয়, ফরিদপুর ।
+                                        </b><br>{{ isset($app_name) ? $app_name : 'জেলা পরিষদ কার্যালয়, ফরিদপুর ।' }}
                                         <br>মোবাইল : ০১৯১১৭৬৭৩৫৩<br>ই-মেইল:&nbsp;<a title="comillazp@gmail.com"
                                             href="mailto:comillazp@gmail.com"
                                             style="background-color: rgb(255, 255, 255); font-family: kalpurush, "
@@ -561,7 +569,7 @@
                                             justify;"="">ceo@zpfaridpur.org</a>
                                     </td>
                                     <td><b>সহকারী প্রকৌশলী</b>
-                                        <br>জেলা পরিষদ কার্যালয়, ফরিদপুর ।
+                                        <br>{{ isset($app_name) ? $app_name : 'জেলা পরিষদ কার্যালয়, ফরিদপুর ।' }}
                                         <br>মোবাইল : <a href="tel:+8801600000000"
                                             title="Click here to call">০১৭১২২২০৩৭০</a><br>ই-মেইল:&nbsp;<a
                                             title="comillazp@gmail.com" href="mailto:comillazp@gmail.com"

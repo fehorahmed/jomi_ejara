@@ -7,7 +7,7 @@
                     <div class="row wid-title-sec">
                         <div class="col-xs-7">
                             <h2 class="wid-titel">LAND-{{ $my_land->id }}</h2>
-                            <p class="wid-sub-title">(date থেকে date)</p>
+                            {{-- <p class="wid-sub-title">(date থেকে date)</p> --}}
                         </div>
                         <div class="col-xs-5">
                             {{-- @if (true)
@@ -21,8 +21,9 @@
 
                             <!-- Button trigger modal -->
                             <!--{{ url('land_renew_aplication') }}-->
-                            <a href="{{ route('user.land_details', $my_land->id) }}" class="btn btn-danger pull-right">
-                                নবায়ন
+                            <a href="{{ route('user.land_details', $my_land->id) }}" class="btn btn-info pull-right">
+                                {{-- নবায়ন --}}
+                                Details
                             </a>
                         </div>
                     </div>

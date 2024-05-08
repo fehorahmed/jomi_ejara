@@ -1,24 +1,37 @@
 <header class="top-area">
     <div class="container">
         <div class="row">
+            @php
+                $setting = \App\Models\Setting::first();
+                $app_name = null;
+                if ($setting) {
+                    $app_name = $setting->name;
+                    $website = $setting->website;
+                }
+            @endphp
             <div class="headertop">
                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
                     <div class="topLogoName">
                         <div class="textwidget">
-                            <?php if(url()->current() == 'http://freelanceritbd.com/shariatpur') { ?>
-
-                            <a target="_blank" href="http://www.bangladesh.gov.bd/">
-                                জাতীয় তথ্য বাতায়ন
-                            </a>
-
-                            <?php } else { ?>
-                            <a target="_blank" href="http://www.zpfaridpur.org/">
-
-                                <!--উপ পরিচালকের কার্যালয়-->
-                                জেলা পরিষদ, ফরিদপুর ।
-
-                            </a>
-                            <?php } ?>
+                            @if (isset($website))
+                                <a target="_blank" href="{{ $website }}">
+                                    <!--উপ পরিচালকের কার্যালয়-->
+                                    @if (isset($app_name))
+                                        {{ $app_name }}
+                                    @else
+                                        জেলা পরিষদ, ফরিদপুর ।
+                                    @endif
+                                </a>
+                            @else
+                                <a target="_blank" href="http://www.facebook.com">
+                                    <!--উপ পরিচালকের কার্যালয়-->
+                                    @if (isset($app_name))
+                                        {{ $app_name }}
+                                    @else
+                                        জেলা পরিষদ, ফরিদপুর ।
+                                    @endif
+                                </a>
+                            @endif
 
 
                         </div>
@@ -64,13 +77,13 @@
                                 <li>
 
                                     <?php
-
+                                    
                                     $d = date('D F j, Y');
                                     // $d = en2bnSomeCommonString($d);
                                     // $d = bn2enNumber($d);
-
+                                    
                                     echo $d;
-
+                                    
                                     ?>
 
                                 </li>
