@@ -53,4 +53,9 @@ class Helper
 
         return $data;
     }
+    public static function get_user_by_dag_list($dag_list_id)
+    {
+        $result = LandLease::where(['dag_list_id' => $dag_list_id, 'status' => 'ACTIVE'])->first();
+        return $result ?? null;
+    }
 }

@@ -339,7 +339,11 @@
 
     {{-- SweetAlert2 Select --}}
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
+    <script>
+        $('.datepicker').datepicker({
+            dateFormat: 'dd-mm-yy'
+        })
+    </script>
 
     @stack('scripts')
 

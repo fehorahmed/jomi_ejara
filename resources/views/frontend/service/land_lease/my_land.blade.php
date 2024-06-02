@@ -65,6 +65,7 @@
                     <th>#</th>
                     <th>Session</th>
                     <th>Amount</th>
+                    <th>Amount</th>
                     <th>Status</th>
                     <th>Action</th>
                 </tr>
@@ -87,9 +88,11 @@
                         <td>{{ $lease_session->status }}</td>
                         <td>
                             @if ($lease_session->total_amount > $lease_session->paid_amount)
-                                <a href="" class="btn btn-primary">Payment</a> <br>
+                                <a href="{{ route('user.land_session_payment', $lease_session->id) }}"
+                                    class="btn btn-primary">Payment</a> <br>
                             @endif
-                            <a href="" class="btn btn-info">Details</a>
+                            <a href="{{ route('user.land_session_payment_details', $lease_session->id) }}"
+                                class="btn btn-info" style="margin-top: 6px;">Details</a>
                         </td>
                     </tr>
                 @endforeach

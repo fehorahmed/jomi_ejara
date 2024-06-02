@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('user_id');
             $table->foreignId('dag_list_id');
             $table->string('session')->index();
-            $table->foreignId('land_lease_application_id')->nullable();
+            $table->foreignId('land_lease_id')->nullable();
             $table->float('amount', 8, 2)->default(0);
             $table->float('vat', 8, 2)->default(0);
             $table->float('tax', 8, 2)->default(0);
@@ -28,7 +28,7 @@ return new class extends Migration
             $table->foreign('user_id')->on('users')->references('id');
             $table->foreign('created_by')->on('users')->references('id');
             $table->foreign('dag_list_id')->on('dag_lists')->references('id');
-            $table->foreign('land_lease_application_id')->on('land_lease_applications')->references('id');
+            $table->foreign('land_lease_id')->on('land_leases')->references('id');
             $table->timestamps();
         });
     }

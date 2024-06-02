@@ -174,7 +174,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/land/{land_lease_id}/details', [CommonController::class, 'landDetails'])->name('user.land_details');
     Route::get('/profile_edit', [CommonController::class, 'profile_edit'])->name('user.profile_edit');
     Route::post('/profile_edit_update', [CommonController::class, 'profile_edit_update'])->name('user.profile_edit_update');
-
+    Route::get('/land/{land_lease_session_id}/payment', [CommonController::class, 'landSessionPayment'])->name('user.land_session_payment');
+    Route::post('/land/{land_lease_session_id}/payment', [CommonController::class, 'landSessionPaymentStore']);
+    Route::get('/land/{land_lease_session_id}/payment_details', [CommonController::class, 'landSessionPaymentDetails'])->name('user.land_session_payment_details');
 
     Route::post('/land_lease_order_application/{land_lease_order_id}', [LandLeaseApplicationController::class, 'landLeaseApplicationStore'])->name('user.land_lease_order_application');
 

@@ -80,19 +80,22 @@
                                                 @foreach ($datas as $data)
                                                     <tr>
                                                         <td>{{ $loop->iteration }}</td>
-                                                        <td>{{ $data->landLeaseSession->dagList->bn_name }},{{ $data->landLeaseSession->dagList->upazila->bn_name }},
-                                                            {{ $data->landLeaseSession->dagList->unionPourashava->bn_name }},
+                                                        <td>{{ isset($data->landLeaseSession->dagList->bn_name) ? $data->landLeaseSession->dagList->bn_name : '' }},{{ isset($data->landLeaseSession->dagList->upazila->bn_name) ? $data->landLeaseSession->dagList->upazila->bn_name : '' }},
+                                                            {{ isset($data->landLeaseSession->dagList->unionPourashava->bn_name) ? $data->landLeaseSession->dagList->unionPourashava->bn_name : '' }},
                                                             <br>
-                                                            {{ $data->landLeaseSession->dagList->khatianType->bn_name }},
-                                                            {{ $data->landLeaseSession->dagList->mouza->bn_name }},
-                                                            {{ $data->landLeaseSession->dagList->khatianNo->bn_name }}
+                                                            {{ isset($data->landLeaseSession->dagList->khatianType->bn_name) ? $data->landLeaseSession->dagList->khatianType->bn_name : '' }},
+                                                            {{ isset($data->landLeaseSession->dagList->mouza->bn_name) ? $data->landLeaseSession->dagList->mouza->bn_name : '' }},
+                                                            {{ isset($data->landLeaseSession->dagList->khatianNo->bn_name) ? $data->landLeaseSession->dagList->khatianNo->bn_name : '' }}
                                                         </td>
                                                         <td>
-                                                            <b>Name : </b> {{ $data->landLeaseSession->user->name }}
+                                                            <b>Name : </b>
+                                                            {{ isset($data->landLeaseSession->user->name) ? $data->landLeaseSession->user->name : '' }}
                                                             <br>
-                                                            <b>Phone : </b> {{ $data->landLeaseSession->user->phone }}
+                                                            <b>Phone : </b>
+                                                            {{ isset($data->landLeaseSession->user->phone) ? $data->landLeaseSession->user->phone : '' }}
                                                             <br>
-                                                            <b>Email : </b> {{ $data->landLeaseSession->user->email }}
+                                                            <b>Email : </b>
+                                                            {{ isset($data->landLeaseSession->user->email) ? $data->landLeaseSession->user->email : '' }}
                                                             <br>
                                                         </td>
                                                         <td>

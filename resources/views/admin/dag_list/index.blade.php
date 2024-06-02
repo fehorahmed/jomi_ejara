@@ -130,6 +130,7 @@
                                                     <th>Khatian Type</th>
                                                     <th>Mouza</th>
                                                     <th>Khatian No</th>
+                                                    <th>User</th>
                                                     <th>Status</th>
                                                     <th>Action</th>
                                                 </tr>
@@ -145,6 +146,15 @@
                                                         <td>{{ $data->khatianType->bn_name ?? '' }}</td>
                                                         <td>{{ $data->mouza->bn_name ?? '' }}</td>
                                                         <td>{{ $data->khatianNo->bn_name ?? '' }}</td>
+                                                        @php
+                                                            $land_leases = Helper::get_user_by_dag_list($data->id);
+                                                        @endphp
+                                                        <td>
+                                                            @if ($land_leases)
+                                                                Name : {{ $land_leases->user->name }} <br>
+                                                                Phone : {{ $land_leases->user->phone }} <br>
+                                                            @endif
+                                                        </td>
                                                         <td>
                                                             @if ($data->status == 1)
                                                                 <span class="label label-md label-success">Active</span>

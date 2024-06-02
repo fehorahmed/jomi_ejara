@@ -117,7 +117,7 @@ class LandLeaseSessionController extends Controller
                             $new_session->user_id = $land_lease->user_id;
                             $new_session->dag_list_id = $land_lease->dag_list_id;
                             $new_session->session = $s_new;
-                            $new_session->land_lease_application_id = $land_lease->land_lease_application_id;
+                            $new_session->land_lease_id = $land_lease->id;
 
                             //Amount Calculation
                             $dag_list = DagList::find($land_lease->dag_list_id);
@@ -154,7 +154,7 @@ class LandLeaseSessionController extends Controller
                     $new_session->user_id = $land_lease->user_id;
                     $new_session->dag_list_id = $land_lease->dag_list_id;
                     $new_session->session = $session;
-                    $new_session->land_lease_application_id = $land_lease->land_lease_application_id;
+                    $new_session->land_lease_id = $land_lease->id;
 
                     //Amount Calculation
                     $dag_list = DagList::find($land_lease->dag_list_id);

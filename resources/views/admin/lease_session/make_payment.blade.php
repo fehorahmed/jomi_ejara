@@ -344,6 +344,9 @@
                                                         class="text-danger">*</span></label>
                                                 <div class="col-sm-8 col-lg-10">
                                                     <div class="input-group">
+                                                        {{-- <input type="text" name="date" id="date"
+                                                            class="form-control datepicker" value="{{ old('date') }}"
+                                                            required> --}}
                                                         <input type="date" id="date" class="form-control"
                                                             required value="{{ old('date') }}" name="date">
                                                     </div>

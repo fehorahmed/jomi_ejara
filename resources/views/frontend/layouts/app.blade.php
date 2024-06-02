@@ -16,7 +16,25 @@
     <script type="text/javascript">
         var baseurl = "<?php echo url('/'); ?>";
     </script>
+
     @include('frontend.layouts.css')
+    <style>
+        .custom-redio {
+            background: rgb(23 229 229);
+            padding: 7px;
+            padding-left: 33px;
+            /* padding-bottom: 10px; */
+        }
+
+        .payment_image {
+            height: 50px;
+            width: 135px;
+        }
+
+        .mb-1 {
+            margin-bottom: 8px;
+        }
+    </style>
     @include('frontend.layouts.js_head')
 </head>
 

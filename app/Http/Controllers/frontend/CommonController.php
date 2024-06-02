@@ -9,9 +9,11 @@ use App\Models\LandLeaseApplication;
 use App\Models\LandLeaseOrder;
 use App\Models\LandLeaseSession;
 use App\Models\Setting;
+use App\Models\TransactionLog;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
 
@@ -63,6 +65,7 @@ class CommonController extends Controller
 
             ]);
     }
+
     public function profile_edit()
     {
 
@@ -175,5 +178,116 @@ class CommonController extends Controller
         //$orders_details = $this->ordersdetail->getProductBySecretKey(['user_id' => $user->id]);
 
 
+    }
+
+
+    public function landSessionPayment($land_lease_session_id)
+    {
+        $lease_session = LandLeaseSession::where(['id' => $land_lease_session_id, 'user_id' => auth()->id()])->first();
+        if (!$lease_session) {
+            return redirect()->back('error', 'You are not authorized.');
+        }
+        $user = Auth::user();
+        $settings = Setting::first();
+        return view('frontend.service.land_lease.land_session_payment')
+            ->with([
+                'user' => $user,
+                'settings' => $settings,
+                'lease_session' => $lease_session
+
+            ]);
+    }
+    public function landSessionPaymentStore(Request $request, $land_lease_session_id)
+    {
+        $request->validate([
+            "payment_option" => 'required|string',
+            "amount" => 'required|numeric|min:1',
+            "nagad_fee" => 'nullable|required_if:payment_option,NAGAD',
+            "bank_name" => 'nullable|required_if:payment_option,BANK',
+            "branch_name" => 'nullable|required_if:payment_option,BANK',
+            "account_no" => 'nullable|required_if:payment_option,BANK',
+            "pay_order_no" => 'nullable|required_if:payment_option,BANK',
+            "transaction_number" => 'nullable|required_if:payment_option,NAGAD|required_if:payment_option,BKASH',
+            "transaction_id" => 'nullable|required_if:payment_option,NAGAD|required_if:payment_option,BKASH',
+            "reference" => 'nullable|string',
+            "receipt_no" => 'nullable|required_if:payment_option,CASH',
+            "date" => 'required|date'
+        ]);
+        $landLeaseSession = LandLeaseSession::findOrFail($land_lease_session_id);
+
+        $need_amount =  $landLeaseSession->total_amount - $landLeaseSession->total_paid;
+        if ($request->amount > $need_amount) {
+            return redirect()->back()->with('error', 'Amount is greater then due.');
+        }
+        $transactionFail = false;
+        DB::beginTransaction();
+        try {
+            $landLeaseSession->paid_amount = $landLeaseSession->paid_amount + $request->amount;
+            if ($landLeaseSession->paid_amount >= $landLeaseSession->total_amount) {
+                $landLeaseSession->status = 'PAID';
+            }
+            if ($landLeaseSession->save()) {
+                $tr_log = new TransactionLog();
+                $tr_log->transaction_type = 'INCOME';
+                $tr_log->amount = $request->amount;
+
+                if ($request->payment_option == 'BANK') {
+                    $tr_log->payment_method = 'BANK';
+                    $tr_log->payorder = $request->pay_order_no;
+                    $tr_log->bank = $request->bank_name;
+                    $tr_log->branch = $request->branch_name;
+                    $tr_log->account_no = $request->account_no;
+                } elseif ($request->payment_option == 'BKASH') {
+                    $tr_log->payment_method = 'BKASH';
+                    $tr_log->transaction_number = $request->transaction_number;
+                    $tr_log->transaction_id = $request->transaction_id;
+                    $tr_log->reference = $request->reference;
+                } elseif ($request->payment_option == 'NAGAD') {
+                    $tr_log->payment_method = 'NAGAD';
+                    $tr_log->transaction_number = $request->transaction_number;
+                    $tr_log->transaction_id = $request->transaction_id;
+                    $tr_log->reference = $request->reference;
+                } elseif ($request->payment_option == 'CASH') {
+                    $tr_log->payment_method = 'CASH';
+                    $tr_log->receipt_no = $request->receipt_no;
+                }
+                $tr_log->status = 'PENDING';
+                $tr_log->land_lease_session_id = $landLeaseSession->id;
+                $tr_log->created_by = auth()->id();
+                if (!$tr_log->save()) {
+                    $transactionFail = true;
+                }
+            } else {
+                $transactionFail = true;
+            }
+
+            if ($transactionFail) {
+                DB::rollBack();
+                return redirect()->back()->with('error', 'Something went wrong');
+            } else {
+                DB::commit();
+                return redirect()->back()->with('success', 'Payment successfully submited.');
+            }
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return redirect()->back()->with('error', $th->getMessage());
+        }
+
+
+        // return view('admin.lease_session.make_payment', compact('landLeaseSession'));
+    }
+
+    public function landSessionPaymentDetails($land_lease_session_id)
+    {
+        $land_session = LandLeaseSession::where(['id' => $land_lease_session_id, 'user_id' => auth()->id()])->first();
+        if (!$land_session) {
+            return redirect()->back()->with('error', 'You are not authorized.');
+        }
+        $tr_logs = TransactionLog::where('land_lease_session_id', $land_session->id)->orderBy('id', 'DESC')->get();
+        return view('frontend.service.land_lease.land_session_payment_details')
+            ->with([
+                'tr_logs' => $tr_logs,
+                'lease_session' => $land_session
+            ]);
     }
 }
