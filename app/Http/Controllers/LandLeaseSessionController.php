@@ -35,6 +35,13 @@ class LandLeaseSessionController extends Controller
         return view('admin.payments.lease_payment_details', compact('data'));
     }
 
+    public function leasePaymentDetailPrint($transaction_log)
+    {
+        $data = TransactionLog::findOrFail($transaction_log);
+
+        return view('admin.pdf.payment_detail', compact('data'));
+    }
+
     /**
      * Store a newly created resource in storage.
      */

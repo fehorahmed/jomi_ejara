@@ -124,11 +124,13 @@
                                                             @endif
                                                         </td>
                                                         <td>
-                                                            @if ($data->status == 'PENDING')
-                                                                <button data-id="{{ $data->id }}"
+                                                            {{-- @if ($item->status == 'PENDING')
+                                                                <button data-id="{{ $item->id }}"
                                                                     class="btn btn-primary change-status">Change
                                                                     status</button>
-                                                            @endif
+                                                            @endif --}}
+                                                            <a href="{{route('admin.lease_payment_detail_print',$item->id)}}"
+                                                                class="btn btn-primary">Print</a>
 
                                                         </td>
 

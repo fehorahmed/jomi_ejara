@@ -139,7 +139,8 @@ Route::group(['prefix' => 'admin'], function () {
             Route::get('/', [LandLeaseSessionController::class, 'index'])->name('admin.lease-session.index');
             Route::get('/{land_lease_session}/payment', [LandLeaseSessionController::class, 'leaseSessionPayment'])->name('admin.lease_session_payment');
             Route::post('/{land_lease_session}/payment', [LandLeaseSessionController::class, 'leaseSessionPaymentStore']);
-            Route::get('/{land_lease_session}/details', [LandLeaseSessionController::class, 'leaseSessionPaymentDetails'])->name('admin.lease_session_payment_details');
+            Route::get('/{land_lease_session}/payment_details', [LandLeaseSessionController::class, 'leaseSessionPaymentDetails'])->name('admin.lease_session_payment_details');
+            Route::get('/{transaction_log}/payment_detail_print', [LandLeaseSessionController::class, 'leasePaymentDetailPrint'])->name('admin.lease_payment_detail_print');
         });
         Route::group(['prefix' => 'payments'], function () {
             Route::get('/application-payments', [LandLeaseApplicationController::class, 'allApplicationPayment'])->name('admin.payments.lease-application');
