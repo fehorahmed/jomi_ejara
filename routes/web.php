@@ -15,6 +15,7 @@ use App\Http\Controllers\LandLeaseOrderController;
 use App\Http\Controllers\LandLeaseSessionController;
 use App\Http\Controllers\MouzaController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\UnionPourashavaController;
 use App\Http\Controllers\UpazilaController;
@@ -147,6 +148,10 @@ Route::group(['prefix' => 'admin'], function () {
             Route::get('/lease-payments', [LandLeaseSessionController::class, 'allLeasePayment'])->name('admin.payments.lease-payments');
             //For All Accept
             Route::get('/application-payment/accept', [LandLeaseApplicationController::class, 'applicationPaymentAccept'])->name('admin.payments.lease-application.accept');
+        });
+        Route::group(['prefix' => 'reports'], function () {
+            Route::get('/lease-session-payments', [ReportController::class, 'leasePayment'])->name('admin.reports.lease-payment');
+            // Route::get('/lease-session-payments', [ReportController::class, 'leasePayment'])->name('admin.reports.lease-payment');
         });
 
         Route::get('/lease_application_accept', [LandLeaseApplicationController::class, 'leaseApplicationAccept'])->name('admin.lease_application_accept');

@@ -106,12 +106,14 @@
 
                                                         </td>
                                                         <td>
-                                                            @if ($data->transactionLog->status == 'CONFIRM')
+                                                            @if (isset($data->transactionLog->status) && $data->transactionLog->status == 'CONFIRM')
                                                                 <span
                                                                     class="label label-md label-success">{{ $data->transactionLog->status }}</span>
                                                             @else
-                                                                <span
-                                                                    class="label label-md label-info">{{ $data->transactionLog->status }}</span>
+                                                                @if (isset($data->transactionLog->status))
+                                                                    <span
+                                                                        class="label label-md label-info">{{ $data->transactionLog->status }}</span>
+                                                                @endif
                                                             @endif
 
 

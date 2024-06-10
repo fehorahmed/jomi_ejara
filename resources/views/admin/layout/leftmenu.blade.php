@@ -192,6 +192,28 @@
 
                     </ul>
                 </li>
+                <li class="pcoded-hasmenu {{ Route::is('admin.reports.*') ? 'active pcoded-trigger' : '' }}">
+                    <a href="javascript:void(0)" class="waves-effect waves-dark">
+                        <span class="pcoded-micon">
+                            <i class="feather icon-layers"></i>
+                        </span>
+                        <span class="pcoded-mtext">Reports</span>
+                        {{-- <span class="pcoded-badge label label-danger">100+</span> --}}
+                    </a>
+                    <ul class="pcoded-submenu">
+                        <li class="{{ Route::is('admin.reports.lease-payment') ? 'active' : '' }}">
+                            <a href="{{ route('admin.reports.lease-payment') }}" class="waves-effect waves-dark">
+                                <span class="pcoded-mtext">Payments Reports</span>
+                            </a>
+                        </li>
+                        {{-- <li class="{{ Route::is('admin.payments.lease-payments') ? 'active' : '' }}">
+                            <a href="{{ route('admin.payments.lease-payments') }}" class="waves-effect waves-dark">
+                                <span class="pcoded-mtext">Lease Payments</span>
+                            </a>
+                        </li> --}}
+
+                    </ul>
+                </li>
 
             </ul>
 

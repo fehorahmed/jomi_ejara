@@ -17,9 +17,19 @@ class LandLeaseSessionController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $datas = LandLeaseSession::orderBy('id', 'DESC')->paginate(15);
+        $request->validate([
+            'search' => 'nullable|string|max:255',
+        ]);
+        $query = LandLeaseSession::query();
+        if ($request->search) {
+            $search = $request->search;
+            $query->whereHas('user', function ($q) use ($search) {
+                $q->where('name', 'LIKE', "%{$search}%");
+            });
+        }
+        $datas =  $query->orderBy('id', 'DESC')->paginate(15);
         return view('admin.lease_session.index', compact('datas'));
     }
 
