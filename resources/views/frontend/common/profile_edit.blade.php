@@ -76,7 +76,8 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="birthcertificateno" class="birthcertificateno cmmone-class">Passport No
+                                    <label for="birthcertificateno" class="birthcertificateno cmmone-class">Birth
+                                        Certificate No
                                     </label>
                                     <input type="text" class="form-control" name="birthcertificateno"
                                         id="birthcertificateno" placeholder="Birth Certificate No "
